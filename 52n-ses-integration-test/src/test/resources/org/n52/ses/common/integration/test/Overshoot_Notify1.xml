@@ -1,0 +1,74 @@
+<om:Observation xmlns:om="http://www.opengis.net/om/1.0"
+	xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:swe="http://www.opengis.net/swe/1.0.1"
+	xmlns:sa="http://www.opengis.net/sampling/1.0">
+	<om:samplingTime>
+		<gml:TimePeriod xsi:type="gml:TimePeriodType">
+			<gml:beginPosition>2013-02-01T11:30:00.000+01:00
+			</gml:beginPosition>
+			<gml:endPosition>2013-02-01T11:30:00.000+01:00</gml:endPosition>
+		</gml:TimePeriod>
+	</om:samplingTime>
+	<om:procedure xlink:href="Wasserstand-List_Auf_Sylt_9570070" />
+	<om:observedProperty>
+		<swe:CompositePhenomenon gml:id="cpid0"
+			dimension="2">
+			<gml:name>Result Components</gml:name>
+			<swe:component
+				xlink:href="http://www.opengis.net/def/property/OGC/0/SamplingTime" />
+			<swe:component xlink:href="Wasserstand" />
+		</swe:CompositePhenomenon>
+	</om:observedProperty>
+	<om:featureOfInterest>
+		<gml:FeatureCollection>
+			<gml:featureMember>
+				<sa:SamplingPoint gml:id="List_Auf_Sylt_9570070"
+					xsi:schemaLocation=" http://www.opengis.net/sampling/1.0 http://schemas.opengis.net/sampling/1.0.0/sampling.xsd">
+					<gml:description>NOT_SET</gml:description>
+					<gml:name>List Auf Sylt - Kilometer: 100</gml:name>
+					<sa:sampledFeature xlink:role="urn:x-ogc:def:property:river"
+						xlink:href="http://pegelonline.wsv.de/webservices/gis/gdi-sos?REQUEST=getFeatureOfInterest&amp;service=SOS&amp;version=1.0.0&amp;featureOfInterestID=NORDSEE" />
+					<sa:position>
+						<gml:Point>
+							<gml:pos srsName="urn:ogc:def:crs:EPSG::31466">6101358.410998587 2656129.240082613
+							</gml:pos>
+						</gml:Point>
+					</sa:position>
+				</sa:SamplingPoint>
+			</gml:featureMember>
+		</gml:FeatureCollection>
+	</om:featureOfInterest>
+	<om:result>
+		<swe:DataArray>
+			<swe:elementCount>
+				<swe:Count>
+					<swe:value>1</swe:value>
+				</swe:Count>
+			</swe:elementCount>
+			<swe:elementType name="Components">
+				<swe:DataRecord>
+					<swe:field name="SamplingTime">
+						<swe:Time definition="http://www.opengis.net/def/property/OGC/0/SamplingTime">
+							<swe:uom xlink:href="http://www.opengis.net/def/uom/ISO-8601/0/Gregorian" />
+						</swe:Time>
+					</swe:field>
+					<swe:field name="FeatureOfInterest">
+						<swe:Text
+							definition="http://www.opengis.net/def/property/OGC/0/FeatureOfInterest" />
+					</swe:field>
+					<swe:field name="Wasserstand">
+						<swe:Quantity definition="Wasserstand">
+							<swe:uom code="m+NN" />
+						</swe:Quantity>
+					</swe:field>
+				</swe:DataRecord>
+			</swe:elementType>
+			<swe:encoding>
+				<swe:TextBlock decimalSeparator="." tokenSeparator=","
+					blockSeparator=";" />
+			</swe:encoding>
+			<swe:values>2013-02-01T11:30:00.000+01:00,List_Auf_Sylt_9570070,447.6;
+			</swe:values>
+		</swe:DataArray>
+	</om:result>
+</om:Observation>

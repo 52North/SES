@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<muse xmlns="http://ws.apache.org/muse/descriptor" xmlns:wsrf-sgw="http://docs.oasis-open.org/wsrf/sgw-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ws.apache.org/muse/descriptor muse-descriptor.xsd">
+	<router>
+		<java-router-class>org.n52.ses.common.SESResourceRouter</java-router-class>
+		<logging>
+			<!-- catalina.home needs updated muse libraries -->
+			<log-file>${catalina.home}/logs/52n-ses-muse.log</log-file>
+			<!-- set this to FINE to log all incoming and outgoing requests with Muse's default logger -->
+			<log-level>INFO</log-level>
+		</logging>
+		<persistence>
+			<java-persistence-class>org.n52.ses.persistency.SESFilePersistence</java-persistence-class>
+			<persistence-location>router-entries</persistence-location>
+		</persistence>
+		<!-- 		<persistence>
+			<java-persistence-class>org.apache.muse.core.routing.RouterFilePersistence</java-persistence-class>
+			<persistence-location>router-entries</persistence-location>
+		</persistence> -->
+	</router>
+
+	<!-- Must have highest priority -->
+	<resource-type use-router-persistence="true">
+		<context-path>SubscriptionManager</context-path>
+		<wsdl>
+			<wsdl-file>wsdl/SESsubmgr.wsdl</wsdl-file>
+			<wsdl-port-type xmlns:pfx="http://docs.oasis-open.org/wsn/bw-2">pfx:SubscriptionManager</wsdl-port-type>
+		</wsdl>
+		<java-id-factory-class>org.n52.ses.common.SESResourceIdFactory$SubscriptionIdFactory</java-id-factory-class>
+		<java-resource-class>org.apache.muse.ws.resource.impl.SimpleWsResource</java-resource-class>
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsn/bw-2/SubscriptionManager</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.wsn.SESSubscriptionManager</desc:java-capability-class>
+		</desc:capability>
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rlw-2/ScheduledResourceTermination</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.wsrf.SESScheduledTermination</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rlw-2/ImmediateResourceTermination</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.lifetime.impl.SimpleImmediateTermination</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Set</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.set.impl.SimpleSetCapability</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Get</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.get.impl.SimpleGetCapability</desc:java-capability-class>
+		</desc:capability>
+	</resource-type>
+
+	<resource-type use-router-persistence="true">
+		<context-path>Broker</context-path>
+		<wsdl>
+			<wsdl-file>wsdl/SESallinone.wsdl</wsdl-file>
+			<wsdl-port-type xmlns:pfx="http://www.opengis.net/ses/0.0">pfx:SesPortType</wsdl-port-type>
+		</wsdl>
+		<java-id-factory-class>org.n52.ses.common.SESResourceIdFactory$ProducerIdFactory</java-id-factory-class>
+		<java-resource-class>org.apache.muse.ws.resource.impl.SimpleWsResource</java-resource-class>
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Query</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.query.impl.SimpleQueryCapability</desc:java-capability-class>
+		</desc:capability>
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Set</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.set.impl.SimpleSetCapability</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Get</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.get.impl.SimpleGetCapability</desc:java-capability-class>
+		</desc:capability>
+
+		<!-- MyNotificationProducer -->
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsn/bw-2/NotificationProducer</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.wsn.SESNotificationProducer</desc:java-capability-class>
+		</desc:capability>
+
+		<!--  
+			Here is the SAS RegisterPublisher resource type as configured by Johannes Echterhoff
+			operations are registerPublisher
+		-->
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsn/br-2</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.wsbr.RegisterPublisher</desc:java-capability-class>
+		</desc:capability>
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://www.opengis.net/ses/0.0</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.common.Capabilites</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsn/bw-2/NotificationConsumer</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.wsn.SESNotificationConsumer</desc:java-capability-class>
+		</desc:capability>
+
+	</resource-type>
+
+	<!--  
+		Here is the PublisherRegistrationManager resource type
+		operations are registerPublisher
+	-->
+	<resource-type use-router-persistence="true">
+		<context-path>PublisherRegistrationManager</context-path>
+		<wsdl>
+			<wsdl-file>wsdl/SESprm.wsdl</wsdl-file>
+			<wsdl-port-type xmlns:pfx="http://www.opengis.net/ses/0.0">pfx:SesPRMPortType</wsdl-port-type>
+		</wsdl>
+		<java-id-factory-class>org.n52.ses.common.SESResourceIdFactory$PublisherIdFactory</java-id-factory-class>
+		<java-resource-class>org.apache.muse.ws.resource.impl.SimpleWsResource</java-resource-class>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rlw-2/ScheduledResourceTermination</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.wsrf.SESScheduledTermination</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rlw-2/ImmediateResourceTermination</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.lifetime.impl.SimpleImmediateTermination</desc:java-capability-class>
+		</desc:capability>
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Query</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.query.impl.SimpleQueryCapability</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Set</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.set.impl.SimpleSetCapability</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Get</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.get.impl.SimpleGetCapability</desc:java-capability-class>
+		</desc:capability>
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsn/br-2</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.wsbr.PublisherEndpoint</desc:java-capability-class>
+		</desc:capability>
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://www.opengis.net/sensorML/1.0.1</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.common.SensorML</desc:java-capability-class>
+		</desc:capability>
+	</resource-type>
+
+	<resource-type use-router-persistence="true">
+		<context-path>StoredFilterManager</context-path>
+		<wsdl>
+			<wsdl-file>wsdl/SESStoredFilter.wsdl</wsdl-file>
+			<wsdl-port-type xmlns:pfx="http://www.opengis.net/es-sf/0.0">pfx:SesStoredFilterPortType</wsdl-port-type>
+		</wsdl>
+		<java-id-factory-class>org.n52.ses.common.SESResourceIdFactory$PublisherIdFactory</java-id-factory-class>
+		<java-resource-class>org.apache.muse.ws.resource.impl.SimpleWsResource</java-resource-class>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rlw-2/ScheduledResourceTermination</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.wsrf.SESScheduledTermination</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rlw-2/ImmediateResourceTermination</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.lifetime.impl.SimpleImmediateTermination</desc:java-capability-class>
+		</desc:capability>
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Query</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.query.impl.SimpleQueryCapability</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Set</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.set.impl.SimpleSetCapability</desc:java-capability-class>
+		</desc:capability>
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://docs.oasis-open.org/wsrf/rpw-2/Get</desc:capability-uri>
+			<desc:java-capability-class>org.apache.muse.ws.resource.properties.get.impl.SimpleGetCapability</desc:java-capability-class>
+		</desc:capability>
+
+		<desc:capability xmlns:desc="http://ws.apache.org/muse/descriptor">
+			<desc:capability-uri>http://www.opengis.net/es-sf/0.0</desc:capability-uri>
+			<desc:java-capability-class>org.n52.ses.storedfilters.StoredFilterInstance</desc:java-capability-class>
+		</desc:capability>
+		
+	</resource-type>
+
+</muse>

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="WS-BaseNotification"
+    targetNamespace="http://docs.oasis-open.org/wsn/bw-2"
+    xmlns:wsntw="http://docs.oasis-open.org/wsn/bw-2"
+    xmlns:wsa="http://www.w3.org/2005/08/addressing"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl-soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2"
+    xmlns:wsrf-r="http://docs.oasis-open.org/wsrf/r-2"
+    xmlns:wsrf-rl="http://docs.oasis-open.org/wsrf/rl-2"
+    xmlns:wsrf-rlw="http://docs.oasis-open.org/wsrf/rlw-2"
+    xmlns:wsrf-rp="http://docs.oasis-open.org/wsrf/rp-2"
+    xmlns:wsrf-rpw="http://docs.oasis-open.org/wsrf/rpw-2"
+    xmlns:wsrf-rw="http://docs.oasis-open.org/wsrf/rw-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+    <!-- TYPES -->
+    <wsdl:types>
+		<xsd:schema>
+		  <xsd:import
+		    namespace="http://docs.oasis-open.org/wsn/b-2" 
+		    schemaLocation="WS-BaseNotification-1_3.xsd"/>
+		  <xsd:import
+		    namespace="http://docs.oasis-open.org/wsrf/rp-2" 
+		    schemaLocation="WS-ResourceProperties-1_2.xsd"/>
+		  <xsd:import
+		    namespace="http://www.w3.org/2005/08/addressing" 
+		    schemaLocation="WS-Addressing-2005_08.xsd"/>
+		  <xsd:import
+		    namespace="http://docs.oasis-open.org/wsrf/bf-2" 
+		    schemaLocation="WS-BaseFaults-1_2.xsd"/>
+		  <xsd:import
+		    namespace="http://www.w3.org/XML/1998/namespace" 
+		    schemaLocation="XML-Namespace-1998.xsd"/>
+		  <xsd:import
+		    namespace="http://docs.oasis-open.org/wsrf/rl-2" 
+		    schemaLocation="WS-ResourceLifetime-1_2.xsd"/>
+		  <xsd:import
+		    namespace="http://docs.oasis-open.org/wsn/t-1" 
+		    schemaLocation="WS-Topics-1_3.xsd"/>
+		  <xsd:import
+		    namespace="http://docs.oasis-open.org/wsrf/r-2" 
+		    schemaLocation="WS-Resource-1_2.xsd"/>		    
+		</xsd:schema>
+       
+<!--         <xsd:schema attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            targetNamespace="http://docs.oasis-open.org/wsrf/rw-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://docs.oasis-open.org/wsrf/r-2"/>
+        </xsd:schema> -->
+		
+		<!-- Unsubscribe schema -->
+        <xsd:schema attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            targetNamespace="http://docs.oasis-open.org/wsn/bw-2"
+            xmlns="http://docs.oasis-open.org/wsn/b-2"
+            xmlns:wsa="http://www.w3.org/2005/08/addressing"
+            xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2"
+            xmlns:wsrf-bf="http://docs.oasis-open.org/wsrf/bf-2"
+            xmlns:wsrf-rl="http://docs.oasis-open.org/wsrf/rl-2"
+            xmlns:wstop="http://docs.oasis-open.org/wsn/t-1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			
+            <xsd:element name="Unsubscribe">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:any maxOccurs="unbounded" minOccurs="0"
+                            namespace="##other" processContents="lax"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="UnsubscribeResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:any maxOccurs="unbounded" minOccurs="0"
+                            namespace="##other" processContents="lax"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+		</xsd:schema>
+		
+    </wsdl:types>
+    
+    
+    <!-- MESSAGES -->
+    <wsdl:message name="ResourceUnknownFault">
+        <wsdl:part element="wsrf-r:ResourceUnknownFault" name="ResourceUnknownFault"/>
+    </wsdl:message>
+    <wsdl:message name="ResourceUnavailableFault">
+        <wsdl:part element="wsrf-r:ResourceUnavailableFault" name="ResourceUnavailableFault"/>
+    </wsdl:message>
+    <wsdl:message name="SetTerminationTimeRequest">
+        <wsdl:part element="wsrf-rl:SetTerminationTime" name="SetTerminationTimeRequest"/>
+    </wsdl:message>
+    <wsdl:message name="SetTerminationTimeResponse">
+        <wsdl:part element="wsrf-rl:SetTerminationTimeResponse" name="SetTerminationTimeResponse"/>
+    </wsdl:message>
+    <wsdl:message name="DestroyRequest">
+        <wsdl:part element="wsrf-rl:Destroy" name="DestroyRequest"/>
+    </wsdl:message>
+    <wsdl:message name="DestroyResponse">
+        <wsdl:part element="wsrf-rl:DestroyResponse" name="DestroyResponse"/>
+    </wsdl:message>
+
+
+    <!-- Unsubscribe message -->
+    <wsdl:message name="UnsubscribeRequest">
+        <wsdl:part element="wsntw:Unsubscribe" name="UnsubscribeRequest"/>
+    </wsdl:message>
+    <wsdl:message name="UnsubscribeResponse">
+        <wsdl:part element="wsntw:UnsubscribeResponse" name="UnsubscribeResponse"/>
+    </wsdl:message>
+    
+    <wsdl:message name="ResourceNotDestroyedFault">
+        <wsdl:part element="wsrf-rl:ResourceNotDestroyedFault" name="ResourceNotDestroyedFault"/>
+    </wsdl:message>
+    <wsdl:message name="UnableToSetTerminationTimeFault">
+        <wsdl:part element="wsrf-rl:UnableToSetTerminationTimeFault" name="UnableToSetTerminationTimeFault"/>
+    </wsdl:message>
+    <wsdl:message name="TerminationTimeChangeRejectedFault">
+        <wsdl:part element="wsrf-rl:TerminationTimeChangeRejectedFault" name="TerminationTimeChangeRejectedFault"/>
+    </wsdl:message>
+    <wsdl:message name="GetResourcePropertyRequest">
+        <wsdl:part element="wsrf-rp:GetResourceProperty" name="GetResourcePropertyRequest"/>
+    </wsdl:message>
+    <wsdl:message name="GetResourcePropertyResponse">
+        <wsdl:part element="wsrf-rp:GetResourcePropertyResponse" name="GetResourcePropertyResponse"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidResourcePropertyQNameFault">
+        <wsdl:part element="wsrf-rp:InvalidResourcePropertyQNameFault" name="InvalidResourcePropertyQNameFault"/>
+    </wsdl:message>
+    <wsdl:message name="GetMultipleResourcePropertiesRequest">
+        <wsdl:part element="wsrf-rp:GetMultipleResourceProperties" name="GetMultipleResourcePropertiesRequest"/>
+    </wsdl:message>
+    <wsdl:message name="GetMultipleResourcePropertiesResponse">
+        <wsdl:part
+            element="wsrf-rp:GetMultipleResourcePropertiesResponse" name="GetMultipleResourcePropertiesResponse"/>
+    </wsdl:message>
+    <wsdl:message name="GetResourcePropertyDocumentRequest">
+        <wsdl:part element="wsrf-rp:GetResourcePropertyDocument" name="GetResourcePropertyDocumentRequest"/>
+    </wsdl:message>
+    <wsdl:message name="GetResourcePropertyDocumentResponse">
+        <wsdl:part element="wsrf-rp:GetResourcePropertyDocumentResponse" name="GetResourcePropertyDocumentResponse"/>
+    </wsdl:message>
+    
+    
+    <!-- PORT TYPES -->
+    <wsdl:portType name="SubscriptionManager" wsrf-rp:ResourceProperties="wsnt:SubscriptionManagerRP">
+		<wsdl:operation name="Destroy">
+            <wsdl:input message="wsntw:DestroyRequest"
+                name="DestroyRequest" wsa:Action="http://docs.oasis-open.org/wsrf/rlw-2/ImmediateResourceTermination/DestroyRequest"/>
+            <wsdl:output message="wsntw:DestroyResponse"
+                name="DestroyResponse" wsa:Action="http://docs.oasis-open.org/wsrf/rlw-2/ImmediateResourceTermination/DestroyResponse"/>
+            <wsdl:fault message="wsntw:ResourceNotDestroyedFault" name="ResourceNotDestroyedFault"/>
+            <wsdl:fault message="wsntw:ResourceUnknownFault" name="ResourceUnknownFault"/>
+            <wsdl:fault message="wsntw:ResourceUnavailableFault" name="ResourceUnavailableFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="SetTerminationTime">
+            <wsdl:input message="wsntw:SetTerminationTimeRequest"
+                name="SetTerminationTimeRequest" wsa:Action="http://docs.oasis-open.org/wsrf/rlw-2/ScheduledResourceTermination/SetTerminationTimeRequest"/>
+            <wsdl:output message="wsntw:SetTerminationTimeResponse"
+                name="SetTerminationTimeResponse" wsa:Action="http://docs.oasis-open.org/wsrf/rlw-2/ScheduledResourceTermination/SetTerminationTimeResponse"/>
+            <wsdl:fault message="wsntw:UnableToSetTerminationTimeFault" name="UnableToSetTerminationTimeFault"/>
+            <wsdl:fault message="wsntw:ResourceUnknownFault" name="ResourceUnknownFault"/>
+            <wsdl:fault message="wsntw:ResourceUnavailableFault" name="ResourceUnavailableFault"/>
+            <wsdl:fault message="wsntw:TerminationTimeChangeRejectedFault" name="TerminationTimeChangeRejectedFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetResourcePropertyDocument">
+            <wsdl:input message="wsntw:GetResourcePropertyDocumentRequest"
+                name="GetResourcePropertyDocumentRequest" wsa:Action="http://docs.oasis-open.org/wsrf/rpw-2/GetResourcePropertyDocument/GetResourcePropertyDocumentRequest"/>
+            <wsdl:output
+                message="wsntw:GetResourcePropertyDocumentResponse"
+                name="GetResourcePropertyDocumentResponse" wsa:Action="http://docs.oasis-open.org/wsrf/rpw-2/GetResourcePropertyDocument/GetResourcePropertyDocumentResponse"/>
+            <wsdl:fault message="wsntw:ResourceUnknownFault" name="ResourceUnknownFault"/>
+            <wsdl:fault message="wsntw:ResourceUnavailableFault" name="ResourceUnavailableFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetResourceProperty">
+            <wsdl:input message="wsntw:GetResourcePropertyRequest"
+                name="GetResourcePropertyRequest" wsa:Action="http://docs.oasis-open.org/wsrf/rpw-2/GetResourceProperty/GetResourcePropertyRequest"/>
+            <wsdl:output message="wsntw:GetResourcePropertyResponse"
+                name="GetResourcePropertyResponse" wsa:Action="http://docs.oasis-open.org/wsrf/rpw-2/GetResourceProperty/GetResourcePropertyResponse"/>
+            <wsdl:fault message="wsntw:ResourceUnknownFault" name="ResourceUnknownFault"/>
+            <wsdl:fault message="wsntw:ResourceUnavailableFault" name="ResourceUnavailableFault"/>
+            <wsdl:fault message="wsntw:InvalidResourcePropertyQNameFault" name="InvalidResourcePropertyQNameFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetMultipleResourceProperties">
+            <wsdl:input
+                message="wsntw:GetMultipleResourcePropertiesRequest"
+                name="GetMultipleResourcePropertiesRequest" wsa:Action="http://docs.oasis-open.org/wsrf/rpw-2/GetMultipleResourceProperties/GetMultipleResourcePropertiesRequest"/>
+            <wsdl:output
+                message="wsntw:GetMultipleResourcePropertiesResponse"
+                name="GetMultipleResourcePropertiesResponse" wsa:Action="http://docs.oasis-open.org/wsrf/rpw-2/GetMultipleResourceProperties/GetMultipleResourcePropertiesResponse"/>
+            <wsdl:fault message="wsntw:ResourceUnknownFault" name="ResourceUnknownFault"/>
+            <wsdl:fault message="wsntw:ResourceUnavailableFault" name="ResourceUnavailableFault"/>
+            <wsdl:fault message="wsntw:InvalidResourcePropertyQNameFault" name="InvalidResourcePropertyQNameFault"/>
+        </wsdl:operation>
+        
+        
+        <!-- Unsubscribe method -->
+		<wsdl:operation name="Unsubscribe">
+            <wsdl:input message="wsntw:UnsubscribeRequest"
+                name="UnsubscribeRequest" wsa:Action="http://docs.oasis-open.org/wsn/bw-2/SubscriptionManager/UnsubscribeRequest"/>
+            <wsdl:output message="wsntw:UnsubscribeResponse"
+                name="UnsubscribeResponse" wsa:Action="http://docs.oasis-open.org/wsn/bw-2/SubscriptionManager/UnsubscribeResponse"/>
+            <wsdl:fault message="wsrf-rlw:ResourceNotDestroyedFault" name="ResourceNotDestroyedFault"/>
+            <wsdl:fault message="wsrf-rlw:ResourceUnknownFault" name="ResourceUnknownFault"/>
+            <wsdl:fault message="wsrf-rlw:ResourceUnavailableFault" name="ResourceUnavailableFault"/>
+        </wsdl:operation>
+        
+    </wsdl:portType>
+    
+    <!-- BINDINGS -->
+    <wsdl:binding name="SubscriptionManagerBinding" type="wsntw:SubscriptionManager">
+        <wsdl-soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="Destroy">
+            <wsdl-soap:operation soapAction="Destroy"/>
+            <wsdl:input name="DestroyRequest">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:input>
+            <wsdl:output name="DestroyResponse">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:output>
+            <wsdl:fault name="ResourceNotDestroyedFault">
+                <wsdl-soap:fault name="ResourceNotDestroyedFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="ResourceUnknownFault">
+                <wsdl-soap:fault name="ResourceUnknownFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="ResourceUnavailableFault">
+                <wsdl-soap:fault name="ResourceUnavailableFault" use="encoded"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="SetTerminationTime">
+            <wsdl-soap:operation soapAction="SetTerminationTime"/>
+            <wsdl:input name="SetTerminationTimeRequest">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:input>
+            <wsdl:output name="SetTerminationTimeResponse">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:output>
+            <wsdl:fault name="UnableToSetTerminationTimeFault">
+                <wsdl-soap:fault name="UnableToSetTerminationTimeFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="ResourceUnknownFault">
+                <wsdl-soap:fault name="ResourceUnknownFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="ResourceUnavailableFault">
+                <wsdl-soap:fault name="ResourceUnavailableFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="TerminationTimeChangeRejectedFault">
+                <wsdl-soap:fault
+                    name="TerminationTimeChangeRejectedFault" use="encoded"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetResourcePropertyDocument">
+            <wsdl-soap:operation soapAction="GetResourcePropertyDocument"/>
+            <wsdl:input name="GetResourcePropertyDocumentRequest">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:input>
+            <wsdl:output name="GetResourcePropertyDocumentResponse">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:output>
+            <wsdl:fault name="ResourceUnknownFault">
+                <wsdl-soap:fault name="ResourceUnknownFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="ResourceUnavailableFault">
+                <wsdl-soap:fault name="ResourceUnavailableFault" use="encoded"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetResourceProperty">
+            <wsdl-soap:operation soapAction="GetResourceProperty"/>
+            <wsdl:input name="GetResourcePropertyRequest">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:input>
+            <wsdl:output name="GetResourcePropertyResponse">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:output>
+            <wsdl:fault name="ResourceUnknownFault">
+                <wsdl-soap:fault name="ResourceUnknownFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="ResourceUnavailableFault">
+                <wsdl-soap:fault name="ResourceUnavailableFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidResourcePropertyQNameFault">
+                <wsdl-soap:fault
+                    name="InvalidResourcePropertyQNameFault" use="encoded"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetMultipleResourceProperties">
+            <wsdl-soap:operation soapAction="GetMultipleResourceProperties"/>
+            <wsdl:input name="GetMultipleResourcePropertiesRequest">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:input>
+            <wsdl:output name="GetMultipleResourcePropertiesResponse">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:output>
+            <wsdl:fault name="ResourceUnknownFault">
+                <wsdl-soap:fault name="ResourceUnknownFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="ResourceUnavailableFault">
+                <wsdl-soap:fault name="ResourceUnavailableFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidResourcePropertyQNameFault">
+                <wsdl-soap:fault
+                    name="InvalidResourcePropertyQNameFault" use="encoded"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        
+        <!-- Unsubscribe method -->
+        <wsdl:operation name="Unsubscribe">
+            <wsdl-soap:operation soapAction="Unsubscribe"/>
+            <wsdl:input name="UnsubscribeRequest">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:input>
+            <wsdl:output name="UnsubscribeResponse">
+                <wsdl-soap:body
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded"/>
+            </wsdl:output>
+            <wsdl:fault name="ResourceNotDestroyedFault">
+                <wsdl-soap:fault name="ResourceNotDestroyedFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="ResourceUnknownFault">
+                <wsdl-soap:fault name="ResourceUnknownFault" use="encoded"/>
+            </wsdl:fault>
+            <wsdl:fault name="ResourceUnavailableFault">
+                <wsdl-soap:fault name="ResourceUnavailableFault" use="encoded"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        
+    </wsdl:binding>
+    
+    <!-- THE ACTUAL SERVICE?! -->
+    <wsdl:service name="SubscriptionManagerService">
+        <wsdl:port binding="wsntw:SubscriptionManagerBinding" name="SubscriptionManagerPort">
+            <wsdl-soap:address location="http://localhost:8080/wsn-producer/services/SubscriptionManager"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

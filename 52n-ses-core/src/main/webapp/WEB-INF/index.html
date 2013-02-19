@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+<TITLE>SAS Test Server</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2900.2802" name=GENERATOR>
+</HEAD>
+<BODY text=#000000 bgColor=#ffffff>
+<TABLE borderColor=#000099 height=740 width="75%" align=center border=0>
+	<TBODY>
+		<TR>
+			<TD>
+			<TABLE borderColor=#000099 width="100%" align=center border=0>
+				<TBODY>
+					<TR borderColor=#0000cc>
+						<TD borderColor=#000099 width="51%">
+						<H1><FONT color=#000080><B><I><FONT
+							face="Verdana, Arial, Helvetica, sans-serif" color=#000080>SAS
+						Test Server</FONT></I></B></FONT></H1>
+						</TD>
+					</TR>
+				</TBODY>
+			</TABLE>
+			</TD>
+		</TR>
+		<TR>
+			<TD height=528>
+			<TABLE borderColor=#000080 width="75%" border=1>
+				<TBODY>
+					<TR bgColor=#000080>
+						<TD><FONT face="Verdana, Arial, Helvetica, sans-serif"
+							color=#ffffff><B>Server:</B> </FONT></TD>
+						<TD bgColor=#000080 colSpan=2>
+						<FORM name=form1 action="" method=post>
+						<DIV><INPUT size=90 value="services/Broker"
+							name=url></DIV>
+						</FORM>
+						</TD>
+					</TR>
+					<TR bgColor=#000080>
+						<TD><FONT face="Verdana, Arial, Helvetica, sans-serif"
+							color=#ffffff><B>Request:</B></FONT></TD>
+						<TD>
+						<FORM name=form2 action="" method=post>
+						<DIV>
+<TEXTAREA name=request rows=20 cols=80>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;S:Envelope xmlns:S=&quot;http://www.w3.org/2003/05/soap-envelope&quot; xmlns:wsa=&quot;http://www.w3.org/2005/08/addressing&quot;&gt;
+	&lt;S:Header&gt;
+		&lt;wsa:MessageID&gt;http://example.com/6B29FC40-CA47-1067-B31D-00DD010662DA&lt;/wsa:MessageID&gt;
+		&lt;wsa:ReplyTo&gt;
+			&lt;wsa:Address&gt;inline://tests/Broker&lt;/wsa:Address&gt;
+		&lt;/wsa:ReplyTo&gt;
+		&lt;wsa:To&gt;inline://tests/Broker&lt;/wsa:To&gt;
+		&lt;wsa:Action&gt;http://www.opengis.net/ses/GetCapabilitiesRequest&lt;/wsa:Action&gt;
+	&lt;/S:Header&gt;
+	&lt;S:Body&gt;
+		&lt;sas:GetCapabilities service=&quot;SES&quot; xsi:schemaLocation=&quot;http://www.opengis.net/ses/0.0 sesCapabilities.xsd&quot;
+			xmlns:sas=&quot;http://www.opengis.net/ses/0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; /&gt;
+	&lt;/S:Body&gt;
+&lt;/S:Envelope&gt;
+</TEXTAREA>
+</DIV>
+						<P><INPUT type=reset value="   Clear    " name=reset>
+						</P>
+						<P><INPUT onclick="form2.action = form1.url.value" type=submit
+							value="   Send    "></P>
+						</FORM>
+						</TD>
+					</TR>
+				</TBODY>
+			</TABLE>
+			</TD>
+		</TR>
+	</TBODY>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,171 @@
+<ses:Capabilities version="0.0.0"
+	xmlns:ses="http://www.opengis.net/ses/0.0" xmlns:essf="http://www.opengis.net/es-sf/0.0"
+	xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:ogc="http://www.opengis.net/ogc"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:swe="http://www.opengis.net/swe/1.0"
+	xmlns:ows="http://www.opengis.net/ows/1.1">
+	<ows:ServiceIdentification>
+		<ows:Title>${targetWebappName}</ows:Title>
+		<ows:Abstract>${targetPublicName} (SVN Revision ${svnRevision})</ows:Abstract>
+		<ows:Keywords>
+			<ows:Keyword>OGC Sensor Event Service implementation</ows:Keyword>
+		</ows:Keywords>
+		<ows:ServiceType codeSpace="http://opengeospatial.net">OGC:SES</ows:ServiceType>
+		<ows:ServiceTypeVersion>0.0.0</ows:ServiceTypeVersion>
+		<ows:Fees>NONE</ows:Fees>
+		<ows:AccessConstraints>NONE</ows:AccessConstraints>
+	</ows:ServiceIdentification>
+	<ows:ServiceProvider>
+		<ows:ProviderName>52 North, Muenster, Germany</ows:ProviderName>
+		<ows:ProviderSite xlink:href="http://52north.org" />
+		<ows:ServiceContact>
+			<ows:IndividualName>Matthes Rieke</ows:IndividualName>
+			<ows:PositionName>Research Associate</ows:PositionName>
+			<ows:ContactInfo>
+				<ows:Phone>
+					<ows:Voice>+49-251-396371-51</ows:Voice>
+				</ows:Phone>
+				<ows:Address>
+					<ows:DeliveryPoint>Martin-Luther-King-Weg 24</ows:DeliveryPoint>
+					<ows:City>Muenster</ows:City>
+					<ows:AdministrativeArea>NRW</ows:AdministrativeArea>
+					<ows:PostalCode>48155</ows:PostalCode>
+					<ows:Country>Germany</ows:Country>
+					<ows:ElectronicMailAddress>m.rieke@52north.de
+					</ows:ElectronicMailAddress>
+				</ows:Address>
+			</ows:ContactInfo>
+			<ows:Role>Service Developer</ows:Role>
+		</ows:ServiceContact>
+	</ows:ServiceProvider>
+	<ows:OperationsMetadata>
+		<ows:Operation name="GetCapabilities">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${broker}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="Subscribe">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${broker}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="RegisterPublisher">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${broker}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="Notify">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${broker}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="GetCurrentMessage">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${broker}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="ListStoredFilters">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${broker}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="DescribeStoredFilter">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${broker}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:ExtendedCapabilities>
+			<essp:SubscriptionPolicyCapabilities
+				xmlns:essp="http://www.opengis.net/es-sp/0.0">
+				<essp:SupportedPolicies>
+					<essp:UpdateIntervalPolicy>
+						<essp:BatchingSupported>true</essp:BatchingSupported>
+						<essp:NonRelatedEventTreatmentSupported>false</essp:NonRelatedEventTreatmentSupported>
+					</essp:UpdateIntervalPolicy>
+				</essp:SupportedPolicies>
+			</essp:SubscriptionPolicyCapabilities>
+		</ows:ExtendedCapabilities>
+	</ows:OperationsMetadata>
+	<ses:SubscriptionCapabilities>
+		<ses:SubscriptionCapability label="Filter Encoding 2.0 Capabilities">
+			<ses:DialectIdentifier>http://www.opengis.net/ses/filter/level2
+			</ses:DialectIdentifier>
+			<ses:DialectCapabilities>
+				<!-- DO NOT CHANGE THIS COMMENT, WORKS AS A PLACEHOLDER -->
+				<!-- Filter_Capabilities here -->
+			</ses:DialectCapabilities>
+		</ses:SubscriptionCapability>
+		<ses:SubscriptionCapability label="EML Capabilities">
+			<ses:DialectIdentifier>http://www.opengis.net/ses/filter/level3
+			</ses:DialectIdentifier>
+			<ses:DialectCapabilities>
+				<!-- DO NOT CHANGE THIS COMMENT, WORKS AS A PLACEHOLDER -->
+				<!-- EML_Capabilities here -->
+			</ses:DialectCapabilities>
+		</ses:SubscriptionCapability>
+		<ses:SubscriptionCapability label="Stored Filter Capabilities">
+			<ses:DialectIdentifier>http://www.opengis.net/es-sf/0.0
+			</ses:DialectIdentifier>
+			<ses:DialectCapabilities>
+				<essf:StoredFilterCapabilities>
+					<essf:SupportedOperations>
+						<essf:ListStoredFilters />
+						<essf:DescribeStoredFilter />
+					</essf:SupportedOperations>
+				</essf:StoredFilterCapabilities>
+			</ses:DialectCapabilities>
+		</ses:SubscriptionCapability>
+	</ses:SubscriptionCapabilities>
+	<ses:UnitConversionCapabilities>
+		<ses:UCUM>true</ses:UCUM>
+	</ses:UnitConversionCapabilities>
+	
+</ses:Capabilities>

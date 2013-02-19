@@ -1,0 +1,30 @@
+52°North Sensor Event Service Changelog
+=============================================
+
+Current Trunk
+-----------
+New Features:
++ Implemented Stored Filters for easy reusability of subscriptions (see Capabilities)
++ Switched default Consumer Notification to usage of Apache HttpComponents HttpClient 4.x (including connection pooling)
+
+Bug Fixes:
+to be compiled from bugzilla
+
+Version 1.1.0-SNAPSHOT, 2013-01-11
+-----------
++ externalize ses/eml xml bindings (to OXF)
+
+Version 1.0.0, 2012-05-24
+-----------
+New Features:
++ First official release
++ Correct processing order of messages is now guaranteed (deactivation possible through config parameer)
++ Configuration via web-frontend (security is based on tomcat user authentication)
++ Landing page, including Simple SOAP Client (Javascript needed)
++ Upgrade to Esper version 4.5.0
++ Subscription/Publisher resource naming enhanced ("Subscription-#", "Publisher-#")
++ WSDL Port Types renamed: Broker, SubscriptionManager, PublisherRegistrationManager
+
+Bug Fixes:
++ Minor bugs in subscription persistency
++ Resource freeing during shutdown

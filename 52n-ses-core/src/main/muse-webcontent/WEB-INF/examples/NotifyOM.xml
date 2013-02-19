@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+    <soap:Header>
+        <wsa:To>${ses_host}</wsa:To>
+        <wsa:Action>http://docs.oasis-open.org/wsn/bw-2/NotificationConsumer/Notify</wsa:Action>
+        <wsa:MessageID>uuid:1b4d3025-f80a-a5b6-aa37-864c47fa1a7e</wsa:MessageID>
+        <wsa:From>
+            <wsa:Address>http://www.w3.org/2005/08/addressing/role/anonymous</wsa:Address>
+        </wsa:From>
+    </soap:Header>
+    <soap:Body>
+        <wsnt:Notify>
+            <wsnt:NotificationMessage>
+                <wsnt:Topic xmlns:sestopic="http://www.opengis.net/ses/topics" Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple"> 
+	sestopic:Measurements
+                </wsnt:Topic>
+		<wsnt:Message>
+			<om:Observation gml:id="oc2109"
+				xmlns:gml="http://www.opengis.net/gml"
+				xmlns:om="http://www.opengis.net/om/1.0"
+				xmlns:sa="http://www.opengis.net/sampling/1.0"
+				xmlns:swe="http://www.opengis.net/swe/1.0.1"
+				xmlns:xlink="http://www.w3.org/1999/xlink"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/om/1.0 http://schemas.opengis.net/om/1.0.0/om.xsd http://www.opengis.net/sampling/1.0 http://schemas.opengis.net/sampling/1.0.0/sampling.xsd">
+				<om:samplingTime>
+					<gml:TimePeriod xsi:type="gml:TimePeriodType">
+						<gml:beginPosition>2007-08-30T01:00:00+02:00</gml:beginPosition>
+						<gml:endPosition>2007-08-30T23:00:00+02:00</gml:endPosition>
+					</gml:TimePeriod>
+				</om:samplingTime>
+				<om:procedure xlink:href="urn:ogc:object:feature:Sensor:IFGI:dummysensor1"/>
+				<om:observedProperty>
+					<swe:CompositePhenomenon dimension="1" gml:id="cpid0">
+						<gml:name>resultComponents</gml:name>
+						<swe:component xlink:href="urn:ogc:data:time:iso8601"/>
+						<swe:component xlink:href="urn:ogc:def:phenomenon:OGC:1.0.30:temperature"/>
+					</swe:CompositePhenomenon>
+				</om:observedProperty>
+				<om:featureOfInterest>
+					<gml:FeatureCollection>
+						<gml:featureMember>
+							<sa:SamplingPoint gml:id="IFGI_d1">
+								<gml:name>IFGI dummysensor1</gml:name>
+								<sa:sampledFeature xlink:href=""/>
+								<sa:position>
+									<gml:Point>
+										<gml:pos srsName="urn:ogc:crs:epsg:4326">10.0 10.0</gml:pos>
+									</gml:Point>
+								</sa:position>
+							</sa:SamplingPoint>
+						</gml:featureMember>
+					</gml:FeatureCollection>
+				</om:featureOfInterest>
+				<om:result>
+					<swe:DataArray>
+						<swe:elementCount>
+							<swe:Count>
+								<swe:value>2</swe:value>
+							</swe:Count>
+						</swe:elementCount>
+						<swe:elementType name="Components">
+							<swe:SimpleDataRecord>
+								<swe:field name="Time">
+									<swe:Time definition="urn:ogc:data:time:iso8601"/>
+								</swe:field>
+								<swe:field name="feature">
+									<swe:Text definition="urn:ogc:data:feature"/>
+								</swe:field>
+								<swe:field name="temperature">
+									<swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:temperature">
+										<swe:uom code="[degF]"/>
+									</swe:Quantity>
+								</swe:field>
+							</swe:SimpleDataRecord>
+						</swe:elementType>
+						<swe:encoding>
+							<swe:TextBlock blockSeparator="@@"
+								decimalSeparator="." tokenSeparator=","/>
+						</swe:encoding>
+						<swe:values>2007-08-30T01:00:00+02,IFGI_d1,76@@2007-08-30T02:00:00+02,IFGI_d1,75</swe:values>
+					</swe:DataArray>
+				</om:result>
+			</om:Observation>
+		</wsnt:Message>
+	</wsnt:NotificationMessage>
+</wsnt:Notify>
+</soap:Body>
+</soap:Envelope>

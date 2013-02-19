@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This OGC work (including software, documents, or other related items) is being
+provided by the copyright holders under the following license. By obtaining,
+using and/or copying this work, you (the licensee) agree that you have read,
+understood, and will comply with the following terms and conditions:
+
+Permission to use, copy, and modify this software and its documentation, with
+or without modification, for any purpose and without fee or royalty is hereby
+granted, provided that you include the following on ALL copies of the software
+and documentation or portions thereof, including modifications, that you make:
+
+   1. The full text of this NOTICE in a location viewable to users of the
+   redistributed or derivative work.
+   2. Any pre-existing intellectual property disclaimers, notices, or terms
+   and conditions. If none exist, a short notice of the following form (hypertext
+   is preferred, text is permitted) should be used within the body of any
+   redistributed or derivative code: "Copyright © [$date-of-document] Open
+   Geospatial Consortium, Inc. All Rights Reserved.
+   http://www.opengeospatial.org/ogc/legal (Hypertext is preferred, but a textual
+   representation is permitted.)
+   3. Notice of any changes or modifications to the OGC files, including the
+   date changes were made. (We recommend you provide URIs to the location from
+   which the code is derived.)
+ 
+
+THIS SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
+THE USE OF THE SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS,
+COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE SOFTWARE OR DOCUMENTATION.
+
+The name and trademarks of copyright holders may NOT be used in advertising or
+publicity pertaining to the software without specific, written prior permission.
+Title to copyright in this software and any associated documentation will at all
+times remain with copyright holders.
+
+
+CHANGES TO ORIGINAL FILE (derived from http://schemas.opengeospatial.net):
+xsd:import's and xsd:include's changed to local one-folder-hierarchy -->
+<schema targetNamespace="http://www.opengis.net/ows/1.1" 
+xmlns:ows="http://www.opengis.net/ows/1.1" 
+xmlns:xlink="http://www.w3.org/1999/xlink" 
+xmlns="http://www.w3.org/2001/XMLSchema" 
+elementFormDefault="qualified" version="1.1.0" xml:lang="en">
+	<annotation>
+		<appinfo>owsDataIdentification.xsd 2006-10-04</appinfo>
+		<documentation>This XML Schema Document encodes the parts of the MD_DataIdentification class of ISO 19115 (OGC Abstract Specification Topic 11) which are expected to be used for most datasets. This Schema also encodes the parts of this class that are expected to be useful for other metadata. Both may be used within the Contents section of OWS service metadata (Capabilities) documents.
+		Copyright (c) 2006 Open Geospatial Consortium, Inc. All Rights Reserved. </documentation>
+	</annotation>
+	<!-- ==============================================================
+		includes and imports
+	============================================================== -->
+	<include schemaLocation="OGC-OWS-1_1_0-owsCommon.xsd"/>
+	<include schemaLocation="OGC-OWS-1_1_0-ows19115subset.xsd"/>
+	<!-- ==============================================================
+		elements and types
+	============================================================== -->
+	<complexType name="DescriptionType">
+		<annotation>
+			<documentation>Human-readable descriptive information for the object it is included within.
+This type shall be extended if needed for specific OWS use to include additional metadata for each type of information. This type shall not be restricted for a specific OWS to change the multiplicity (or optionality) of some elements.
+			If the xml:lang attribute is not included in a Title, Abstract or Keyword element, then no language is specified for that element unless specified by another means.  All Title, Abstract and Keyword elements in the same Description that share the same xml:lang attribute value represent the description of the parent object in that language. Multiple Title or Abstract elements shall not exist in the same Description with the same xml:lang attribute value unless otherwise specified. </documentation>
+		</annotation>
+		<sequence>
+			<element ref="ows:Title" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="ows:Abstract" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="ows:Keywords" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<!-- ========================================================= -->
+	<complexType name="BasicIdentificationType">
+		<annotation>
+			<documentation>Basic metadata identifying and describing a set of data. </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="ows:DescriptionType">
+				<sequence>
+					<element ref="ows:Identifier" minOccurs="0">
+						<annotation>
+							<documentation>Optional unique identifier or name of this dataset. </documentation>
+						</annotation>
+					</element>
+					<element ref="ows:Metadata" minOccurs="0" maxOccurs="unbounded">
+						<annotation>
+							<documentation>Optional unordered list of additional metadata about this data(set). A list of optional metadata elements for this data identification could be specified in the Implementation Specification for this service. </documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- ========================================================= -->
+	<complexType name="IdentificationType">
+		<annotation>
+			<documentation>Extended metadata identifying and describing a set of data. This type shall be extended if needed for each specific OWS to include additional metadata for each type of dataset. If needed, this type should first be restricted for each specific OWS to change the multiplicity (or optionality) of some elements. </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="ows:BasicIdentificationType">
+				<sequence>
+					<element ref="ows:BoundingBox" minOccurs="0" maxOccurs="unbounded">
+						<annotation>
+							<documentation>Unordered list of zero or more bounding boxes whose union describes the extent of this dataset. </documentation>
+						</annotation>
+					</element>
+					<element ref="ows:OutputFormat" minOccurs="0" maxOccurs="unbounded">
+						<annotation>
+							<documentation>Unordered list of zero or more references to data formats supported for server outputs. </documentation>
+						</annotation>
+					</element>
+					<element ref="ows:AvailableCRS" minOccurs="0" maxOccurs="unbounded">
+						<annotation>
+							<documentation>Unordered list of zero or more available coordinate reference systems. </documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- ===========================================================-->
+	<element name="Identifier" type="ows:CodeType">
+		<annotation>
+			<documentation>Unique identifier or name of this dataset. </documentation>
+		</annotation>
+	</element>
+	<!-- ===========================================================-->
+	<element name="OutputFormat" type="ows:MimeType">
+		<annotation>
+			<documentation>Reference to a format in which this data can be encoded and transferred. More specific parameter names should be used by specific OWS specifications wherever applicable. More than one such parameter can be included for different purposes. </documentation>
+		</annotation>
+	</element>
+	<!-- ===========================================================-->
+	<element name="AvailableCRS" type="anyURI"/>
+	<element name="SupportedCRS" type="anyURI" substitutionGroup="ows:AvailableCRS">
+		<annotation>
+			<documentation>Coordinate reference system in which data from this data(set) or resource is available or supported. More specific parameter names should be used by specific OWS specifications wherever applicable. More than one such parameter can be included for different purposes. </documentation>
+		</annotation>
+	</element>
+	<!-- ==========================================================
+	The following elements could be added to the IdentificationType when useful for a 
+	specific OWS. In addition the PointOfContact element in ows19115subset.xsd could 
+	be added.
+	============================================================= -->
+	<element name="AccessConstraints" type="string">
+		<annotation>
+			<documentation>Access constraint applied to assure the protection of privacy or intellectual property, or any other restrictions on retrieving or using data from or otherwise using this server. The reserved value NONE (case insensitive) shall be used to mean no access constraints are imposed. </documentation>
+		</annotation>
+	</element>
+	<!-- ========================================================== -->
+	<element name="Fees" type="string">
+		<annotation>
+			<documentation>Fees and terms for retrieving data from or otherwise using this server, including the monetary units as specified in ISO 4217. The reserved value NONE (case insensitive) shall be used to mean no fees or terms. </documentation>
+		</annotation>
+	</element>
+	<!-- ========================================================== -->
+	<element name="Language" type="language">
+		<annotation>
+			<documentation>Identifier of a language used by the data(set) contents. This language identifier shall be as specified in IETF RFC 4646. When this element is omitted, the language used is not identified. </documentation>
+		</annotation>
+	</element>
+	<!-- ========================================================== -->
+</schema>

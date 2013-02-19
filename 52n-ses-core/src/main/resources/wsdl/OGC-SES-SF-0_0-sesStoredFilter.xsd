@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.opengis.net/es-sf/0.0" xmlns:essf="http://www.opengis.net/es-sf/0.0"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xml:lang="en">
+
+	<!-- REQUESTS -->
+	<xs:element name="DescribeStoredFilter">
+		<xs:annotation>
+			<xs:documentation>Used to request detailed stored filter description.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="essf:StoredFilterID" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StoredFilterID" type="xs:token">
+		<xs:annotation>
+			<xs:documentation>Unique ID for every available stored filter.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DescribeStoredFilterResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="essf:StoredFilterDescription" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="ListStoredFilters">
+		<xs:annotation>
+			<xs:documentation>Used to request the available stored filter IDs.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType />
+	</xs:element>
+	<xs:element name="ListStoredFiltersResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="essf:StoredFilterID" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- DESCRIPTION -->
+	<xs:element name="StoredFilterDescription" type="essf:StoredFilterDescriptionType" />
+	<xs:complexType name="StoredFilterDescriptionType">
+		<xs:sequence>
+			<xs:element ref="essf:Title" />
+			<xs:element ref="essf:Abstract" />
+			<xs:element ref="essf:Parameter" minOccurs="0" />
+			<xs:element ref="essf:FilterExpressionText" minOccurs="0"
+				maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>ID for this stored filter (as provided in the
+					capabilities contents).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="Title" type="xs:string" />
+	<xs:element name="Abstract" type="xs:string" />
+	<xs:element name="Parameter">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="essf:Abstract" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Local name for this parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="type" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>An xml type with namespace prefix. The prefix
+						must be defined within an xml instance.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="FilterExpressionText">
+		<xs:annotation>
+			<xs:documentation>This holds the actual filter expression. Due to the
+				fact that the markup
+				probably has placeholders for the parameters, it is useful to provide the
+				expression as
+				escaped XML (e.g. using CDATA or escaped characters).</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:choice>
+				<xs:any namespace="##other" processContents="skip" minOccurs="0"
+					maxOccurs="unbounded" />
+				<xs:any namespace="##targetNamespace" processContents="skip"
+					minOccurs="0" maxOccurs="unbounded" />
+			</xs:choice>
+			<xs:attribute name="language" type="xs:anyURI" use="required" />
+			<xs:attribute name="isPrivate" type="xs:boolean"
+				default="false" />
+		</xs:complexType>
+	</xs:element>
+
+	<!-- SUBSCRIPTION -->
+	<xs:element name="StoredFilterSubscription" type="essf:StoredFilterSubscription" />
+	<xs:complexType name="StoredFilterSubscription">
+		<xs:sequence>
+			<xs:element ref="essf:ParameterValue" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>ID for this stored filter (as provided in the
+					capabilities contents).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="ParameterValue">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any processContents="lax" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+
+	<!-- CAPABILITIES -->
+	<xs:element name="StoredFilterCapabilities" type="essf:StoredFilterCapabilitiesType" />
+	<xs:complexType name="StoredFilterCapabilitiesType">
+		<xs:sequence>
+			<xs:element name="SupportedOperations">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ListStoredFilters">
+							<xs:complexType />
+						</xs:element>
+						<xs:element name="DescribeStoredFilter">
+							<xs:complexType />
+						</xs:element>
+						<xs:element name="CreateStoredFilter" minOccurs="0"
+							maxOccurs="1">
+							<xs:complexType />
+						</xs:element>
+						<xs:element name="RemoveStoredFilter" minOccurs="0"
+							maxOccurs="1">
+							<xs:complexType />
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

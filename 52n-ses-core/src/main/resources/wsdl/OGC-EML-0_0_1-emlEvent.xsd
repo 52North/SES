@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This OGC work (including software, documents, or other related items) is being
+provided by the copyright holders under the following license. By obtaining,
+using and/or copying this work, you (the licensee) agree that you have read,
+understood, and will comply with the following terms and conditions:
+
+Permission to use, copy, and modify this software and its documentation, with
+or without modification, for any purpose and without fee or royalty is hereby
+granted, provided that you include the following on ALL copies of the software
+and documentation or portions thereof, including modifications, that you make:
+
+   1. The full text of this NOTICE in a location viewable to users of the
+   redistributed or derivative work.
+   2. Any pre-existing intellectual property disclaimers, notices, or terms
+   and conditions. If none exist, a short notice of the following form (hypertext
+   is preferred, text is permitted) should be used within the body of any
+   redistributed or derivative code: "Copyright © [$date-of-document] Open
+   Geospatial Consortium, Inc. All Rights Reserved.
+   http://www.opengeospatial.org/ogc/legal (Hypertext is preferred, but a textual
+   representation is permitted.)
+   3. Notice of any changes or modifications to the OGC files, including the
+   date changes were made. (We recommend you provide URIs to the location from
+   which the code is derived.)
+ 
+
+THIS SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
+THE USE OF THE SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS,
+COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE SOFTWARE OR DOCUMENTATION.
+
+The name and trademarks of copyright holders may NOT be used in advertising or
+publicity pertaining to the software without specific, written prior permission.
+Title to copyright in this software and any associated documentation will at all
+times remain with copyright holders.
+
+
+CHANGES TO ORIGINAL FILE (derived from http://schemas.opengeospatial.net):
+xsd:import's and xsd:include's changed to local one-folder-hierarchy -->
+<!-- Mit XMLSpy v2008 sp1 (http://www.altova.com) von Thomas Everding (Institut für Geoinformatik) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:eml="http://www.opengis.net/eml/0.0.1" targetNamespace="http://www.opengis.net/eml/0.0.1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.opengis.net/gml/3.2" schemaLocation="OGC-GML-3_2_1-gml.xsd"/>
+	<xs:element name="Event" type="eml:EventType">
+		<xs:annotation>
+			<xs:documentation>Event object representing a (higher level) event with a tree like event hierarchy. May contain a node event object or a leaf event object.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="EventType">
+		<xs:sequence>
+			<xs:element name="content" type="eml:EventContentPropertyType">
+				<xs:annotation>
+					<xs:appinfo>
+						<gml:targetElement>EventContent</gml:targetElement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EventPropertyType">
+		<xs:sequence>
+			<xs:element ref="eml:Event"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="EventCharacteristics" type="eml:EventCharacteristicsType"/>
+	<xs:complexType name="EventCharacteristicsType">
+		<xs:sequence>
+			<xs:element name="eventTime" type="eml:EventTimePropertyType">
+				<xs:annotation>
+					<xs:appinfo>
+						<gml:targetElement>EventTime</gml:targetElement>
+					</xs:appinfo>
+					<xs:documentation>Time of the event represented by this event object. Either a point in time or a duration. Higher level events last at least from the ealiest to the latest time of all event objects contained in the causal vector.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="causalVector" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains all event object which led to this event object.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="eml:Event" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="attributes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Specific attributes of this event object stored as key-value pairs. Often derived from the attributes of the event objects contained in the causal vector.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="eml:EventAttribute" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Attribute of an event object as key-value  pair.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EventCharacteristicsPropertyType">
+		<xs:sequence>
+			<xs:element ref="eml:EventCharacteristics"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="EventAttribute" type="eml:EventAttributeType"/>
+	<xs:complexType name="EventAttributeType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:token">
+				<xs:annotation>
+					<xs:documentation>Name of the attribute of the event object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="xs:anyType">
+				<xs:annotation>
+					<xs:documentation>Value of the attribute.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EventAttributePropertyType">
+		<xs:sequence>
+			<xs:element ref="eml:EventAttribute"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="EventContent">
+		<xs:choice>
+			<xs:element ref="eml:EventCharacteristics">
+				<xs:annotation>
+					<xs:documentation>Description of node event objects. Contains time stamps, attributes and a causal vector with the child event objects.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Leaf" type="xs:anyType">
+				<xs:annotation>
+					<xs:documentation>Description of leaf event objects (for instance OM observations).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="EventContentPropertyType">
+		<xs:sequence>
+			<xs:group ref="eml:EventContent"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attribute name="unionSemantics" type="eml:EventContentUnionSemantics"/>
+	</xs:complexType>
+	<xs:simpleType name="EventContentUnionSemantics">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="characteristics"/>
+			<xs:enumeration value="leaf"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:group name="EventTime">
+		<xs:choice>
+			<xs:element ref="gml:TimeInstant"/>
+			<xs:element ref="gml:TimePeriod"/>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="EventTimePropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:group ref="eml:EventTime"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup"/>
+		<xs:attribute name="unionSemantics" type="eml:EventTimeUnionSemantics"/>
+	</xs:complexType>
+	<xs:simpleType name="EventTimeUnionSemantics">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="instant"/>
+			<xs:enumeration value="period"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

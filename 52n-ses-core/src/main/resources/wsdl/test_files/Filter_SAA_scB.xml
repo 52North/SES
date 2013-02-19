@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fes:Filter xmlns="http://www.opengis.net/wfs" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:ows="http://www.opengis.net/ows" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/1.0.1" xsi:schemaLocation="http://www.opengis.net/fes/2.0 ../OGC-FILTER-2_0_0-filter.xsd http://www.opengis.net/swe/1.0.1 ../OGC-SWE-1_0_1-swe.xsd">
+	<fes:And>
+		<fes:Not>
+			<fes:PropertyIsLessThanOrEqualTo>
+				<fes:ValueReference>upperLimit</fes:ValueReference>
+				<fes:Literal>
+					<swe:Quantity>
+						<swe:uom code="[ft_i]"/>
+						<swe:value>1000</swe:value>
+					</swe:Quantity>
+				</fes:Literal>
+			</fes:PropertyIsLessThanOrEqualTo>
+		</fes:Not>
+		<fes:Not>
+			<fes:PropertyIsGreaterThanOrEqualTo>
+				<fes:ValueReference>lowerLimit</fes:ValueReference>
+				<fes:Literal>
+					<swe:Quantity>
+						<swe:uom code="[ft_i]"/>
+						<swe:value>5000</swe:value>
+					</swe:Quantity>
+				</fes:Literal>
+			</fes:PropertyIsGreaterThanOrEqualTo>
+		</fes:Not>
+	</fes:And>
+</fes:Filter>

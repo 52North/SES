@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.sensorweb.ses</groupId>
+		<artifactId>52n-ses</artifactId>
+		<version>1.1.0-rc.2-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>52n-ses-utils</artifactId>
+	<description>52North Sensor Event Service Util Module</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.n52.sensorweb.ses</groupId>
+			<artifactId>52n-ses-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb.ses</groupId>
+			<artifactId>52n-xml-ses-config</artifactId>
+		</dependency>
+		<!-- XML BINDINGS -->
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-filter-v20</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-eml-v001</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-sweCommon-v101</artifactId>
+		</dependency>
+		<!-- DISRUPTOR -->
+		<dependency>
+			<groupId>com.googlecode.disruptor</groupId>
+			<artifactId>disruptor</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-oxf-conversion</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-oxf-xmlbeans</artifactId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-util-xml</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-util</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-core</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-wsn-api</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-wsa-soap</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<groupId>com.vividsolutions</groupId>
+			<artifactId>jts</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>8.3-603.jdbc4</version>
+		</dependency>
+	</dependencies>
+</project>

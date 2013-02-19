@@ -1,0 +1,60 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+    <soap:Header>
+        <wsa:To>${ses_host}</wsa:To>
+        <wsa:Action>http://docs.oasis-open.org/wsn/bw-2/NotificationConsumer/Notify</wsa:Action>
+        <wsa:MessageID>uuid:4e595160-185a-9b3c-3eb6-592c7c5b0c7a</wsa:MessageID>
+        <wsa:From>
+            <wsa:Address>http://www.w3.org/2005/08/addressing/role/anonymous</wsa:Address>
+        </wsa:From>
+    </soap:Header>
+    <soap:Body>
+		<wsnt:Notify  xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+			<wsnt:NotificationMessage>
+				<wsnt:Topic Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple">SES-Meta-Information</wsnt:Topic>
+				<wsnt:Message>
+                        <om:Observation gml:id="oc2109"
+                                xmlns:gml="http://www.opengis.net/gml"
+                                xmlns:om="http://www.opengis.net/om/1.0"
+                                xmlns:sa="http://www.opengis.net/sampling/1.0"
+                                xmlns:swe="http://www.opengis.net/swe/1.0.1"
+                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <om:samplingTime>
+                                        <gml:TimeInstant>
+                                                <gml:timePosition>${now}</gml:timePosition>
+                                        </gml:TimeInstant>
+                                </om:samplingTime>
+                                <om:procedure xlink:href="SES-Meta-Information-Publisher"/>
+                                <om:observedProperty>
+                                        <swe:CompositePhenomenon dimension="1" gml:id="cpid0">
+                                                <gml:name>resultComponents</gml:name>
+                                                <swe:component xlink:href="SES-Meta-Information"/>
+                                        </swe:CompositePhenomenon>
+                                </om:observedProperty>
+                                <om:featureOfInterest>
+                                        <gml:FeatureCollection>
+                                                <gml:featureMember>
+                                                        <sa:SamplingPoint gml:id="SES_Pub">
+                                                                <gml:name>SES-Meta-Information-Publisher</gml:name>
+                                                                <sa:sampledFeature xlink:href="http://52north.org"/>
+                                                                <sa:position>
+                                                                        <gml:Point>
+                                                                                <gml:pos srsName="urn:ogc:crs:epsg:4326">51.934893 7.652326</gml:pos>
+                                                                        </gml:Point>
+                                                                </sa:position>
+                                                        </sa:SamplingPoint>
+                                                </gml:featureMember>
+                                        </gml:FeatureCollection>
+                                </om:featureOfInterest>
+                                <om:result>
+                                        <swe:Quantity definition="SES-Startup-Percentage">
+                                                <swe:uom code="%"/>
+                                                <swe:value>100</swe:value>
+                                        </swe:Quantity>
+                                </om:result>
+                        </om:Observation>
+                </wsnt:Message>
+        </wsnt:NotificationMessage>
+		</wsnt:Notify>
+
+    </soap:Body>
+</soap:Envelope>
