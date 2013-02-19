@@ -9,6 +9,5 @@
 				<Call name="start" />
 			</New>
 		</Set>
-		<Set name="checkWelcomeFiles">true</Set>
 	</Get>
 </Configure>

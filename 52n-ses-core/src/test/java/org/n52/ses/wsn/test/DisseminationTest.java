@@ -40,7 +40,7 @@ public class DisseminationTest {
 
 	@Test
 	public void testHttpPostDissemination() throws URISyntaxException {
-		String url = "http://52north.org";
+		String url = "http://www.google.com";
 		DefaultDisseminationMethod method = new DefaultDisseminationMethod();
 		method.setNumberOfTries(5);
 		

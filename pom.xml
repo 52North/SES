@@ -586,8 +586,7 @@
 			<id>compile-bindings</id>
 			<activation>
 				<property>
-					<name>compile-bindings</name>
-					<value>true</value>	
+					<name>!disable-compile-bindings</name>
 				</property>
 			</activation>
 			<modules>
