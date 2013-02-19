@@ -45,6 +45,9 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.muse.core.platform.mini.MiniIsolationLayer;
 import org.apache.muse.core.platform.mini.MiniServlet;
 import org.apache.muse.util.xml.XmlUtils;
+import org.apache.muse.ws.addressing.soap.SoapConstants;
+import org.apache.muse.ws.addressing.soap.SoapFault;
+import org.apache.muse.ws.addressing.soap.SoapUtils;
 import org.n52.ses.common.environment.handler.GetRequestHandler;
 import org.n52.ses.common.environment.handler.GetCapabilitiesHandler;
 import org.n52.ses.common.environment.handler.WSDLProvisionHandler;
@@ -55,8 +58,10 @@ import org.n52.ses.util.common.ConfigurationRegistry;
 import org.n52.ses.wsbr.RegisterPublisher;
 import org.n52.ses.wsn.SESNotificationProducer;
 import org.n52.ses.wsn.SESSubscriptionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import org.w3c.dom.Element;
 
 /**
  * Extended Servlet with support for shutdown and wsdl provision.
@@ -67,6 +72,7 @@ import org.xml.sax.SAXException;
 public class SESMiniServlet extends MiniServlet {
 
 
+	private static final Logger logger = LoggerFactory.getLogger(SESMiniServlet.class);
 	private static final long serialVersionUID = 1L;
 	private String landingPage;
 	private MiniIsolationLayer sesIsolationLayer;
@@ -93,7 +99,7 @@ public class SESMiniServlet extends MiniServlet {
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
-	throws IOException {
+			throws IOException {
 		if (this.sesIsolationLayer == null)
 			this.sesIsolationLayer = createIsolationLayer(request, getServletContext());
 
@@ -107,9 +113,13 @@ public class SESMiniServlet extends MiniServlet {
 			soapRequest = XmlUtils.createDocument(input);
 		}
 
-		catch (SAXException error)
+		catch (Exception error)
 		{
-			throw new IOException(error);
+			logger.warn(error.getMessage(), error);
+			SoapFault fault = SoapUtils.convertToFault(error);
+			response.setContentType("application/soap+xml; charset=utf-8");
+			printResponse(request, response, createSoapFaultEnvelope(fault));
+			return;
 		}
 
 		handleSoapRequest(request, response, soapRequest);
@@ -121,6 +131,23 @@ public class SESMiniServlet extends MiniServlet {
 			if (loggerInst != null)
 				loggerInst.logRequest(time, soapRequest);
 		}
+	}
+
+	private String createSoapFaultEnvelope(SoapFault fault) {
+		Document response = XmlUtils.createDocument();
+
+		Element soap = XmlUtils.createElement(response, SoapConstants.ENVELOPE_QNAME);
+		response.appendChild(soap);
+
+
+		Element body = XmlUtils.createElement(response, SoapConstants.BODY_QNAME);
+		soap.appendChild(body);
+
+		Element result = (Element) response.importNode(fault.toXML(), true);
+		body.appendChild(result);
+
+
+		return XmlUtils.toString(response);
 	}
 
 	private void handleSoapRequest(HttpServletRequest request, HttpServletResponse response,
@@ -148,20 +175,20 @@ public class SESMiniServlet extends MiniServlet {
 
 	private boolean clientSupportsGzip(HttpServletRequest request) {
 		String header = request.getHeader("Accept-Encoding");
-	      if (header != null && !header.isEmpty()) {
-	         String[] split = header.split(",");
-	         for (String string : split) {
-	            if (string.equalsIgnoreCase("gzip")) {
-	               return true;
-	            }
-	         }
-	      }
-	      return false;
+		if (header != null && !header.isEmpty()) {
+			String[] split = header.split(",");
+			for (String string : split) {
+				if (string.equalsIgnoreCase("gzip")) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-	throws ServletException, IOException {
+			throws ServletException, IOException {
 		ConfigurationRegistry conf = ConfigurationRegistry.getInstance();
 
 		for (GetRequestHandler handler : this.getRequestHandlers) {
@@ -174,14 +201,14 @@ public class SESMiniServlet extends MiniServlet {
 				return;
 			}
 		}
-		
+
 		provideLandingPage(req, resp, conf);
 	}
 
 
 	private void provideLandingPage(HttpServletRequest req,
 			HttpServletResponse resp, ConfigurationRegistry conf)
-	throws IOException, UnsupportedEncodingException {
+					throws IOException, UnsupportedEncodingException {
 		/*
 		 * return landing page
 		 */
@@ -222,7 +249,7 @@ public class SESMiniServlet extends MiniServlet {
 			conf.setSubscriptionManagerWsdl(subMgrUrl + "?wsdl");
 
 			html = html.replace("<p id=\"ses-status\"><p>",
-			"<p style=\"color:#0f0\">The service is active and available.</p>");
+					"<p style=\"color:#0f0\">The service is active and available.</p>");
 
 			html = html.replace("[GET_CAPS]", StringEscapeUtils.escapeHtml4(StartupInitServlet.getGetCapabilitiesRequest(sesPortTypeUrl)));
 			/*
@@ -247,7 +274,7 @@ public class SESMiniServlet extends MiniServlet {
 			 * we do not have the config, warn the user
 			 */
 			html = html.replace("<p id=\"ses-status\"><p>",
-			"<p style=\"color:#f00\">The service is currently not available due to unfinished or failed initialization.</p>");
+					"<p style=\"color:#f00\">The service is currently not available due to unfinished or failed initialization.</p>");
 
 			resp.setContentType("text/html");
 			printResponse(req, resp, html);
@@ -269,7 +296,7 @@ public class SESMiniServlet extends MiniServlet {
 						ConfigurationRegistry.MINIMUM_GZIP_SIZE));	
 			}
 		}
-		
+
 		// compressed response
 		if (contentLength > minimumContentLengthForGzip && clientSupportsGzip(request)) {
 			response.addHeader("Content-Encoding", "gzip");

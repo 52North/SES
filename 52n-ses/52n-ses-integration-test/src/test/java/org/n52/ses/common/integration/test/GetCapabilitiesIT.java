@@ -24,7 +24,6 @@
 package org.n52.ses.common.integration.test;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.util.Collection;
 
 import org.apache.xmlbeans.XmlError;
@@ -49,7 +48,6 @@ public class GetCapabilitiesIT {
 	
 	@Test
 	public void shouldReceiveValidCapabilities() throws OXFException, XmlException, ExceptionReport, IOException {
-		try {
 		ServiceInstance.getInstance().waitUntilAvailable();
 		
 		logger.info("Requesting Capabilities...");
@@ -60,9 +58,6 @@ public class GetCapabilitiesIT {
 		
 		Collection<XmlError> errors = XMLBeansParser.validate(response);
 		Assert.assertTrue("Capabilities are not valid!", errors.isEmpty());
-		} catch (SocketException e) {
-			logger.warn("Here we go SocketException!", e);
-		}
 	}
 
 	private EnvelopeDocument requestCapabilities() throws OXFException, XmlException, ExceptionReport, IOException {

@@ -24,7 +24,6 @@
 package org.n52.ses.common.integration.test;
 
 import java.io.IOException;
-import java.net.SocketException;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -55,7 +54,7 @@ public class RegisterPublisherWorkflowIT {
 	public void
 	shouldRegisterPublisherAndRemoveAgain()
 			throws OXFException, ExceptionReport, XmlException, IOException {
-try{		ServiceInstance.getInstance().waitUntilAvailable();
+		ServiceInstance.getInstance().waitUntilAvailable();
 		
 		EnvelopeDocument envelope = registerPublisher();
 		logger.info("RegisterPublisher Response from Service: {}", envelope);
@@ -67,10 +66,7 @@ try{		ServiceInstance.getInstance().waitUntilAvailable();
 		
 		envelope = removePublisher(pub.getResourceID(), pub.getPublisherAddress());
 		logger.info("DestroyRegistration Response from Service: {}", envelope);
-} catch (SocketException e) {
-	logger.warn("Here we go SocketException!", e);
-}
-}
+	}
 
 
 	private EnvelopeDocument registerPublisher() throws OXFException, ExceptionReport, XmlException, IOException {
