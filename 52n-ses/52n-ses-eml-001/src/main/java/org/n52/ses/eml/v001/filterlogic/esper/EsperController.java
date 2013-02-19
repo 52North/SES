@@ -452,7 +452,7 @@ public class EsperController implements ILogicController {
 	 * logs all created statements
 	 */
 	private void logStatements() {
-		if (logger.isDebugEnabled()) {
+		if (logger.isInfoEnabled()) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("Statements:");
 			
@@ -465,7 +465,7 @@ public class EsperController implements ILogicController {
 			}
 			
 			sb.append("\n--");
-			logger.debug(sb.toString());
+			logger.info(sb.toString());
 		}
 		
 	}
@@ -644,7 +644,8 @@ public class EsperController implements ILogicController {
 	 * @param pattern the pattern
 	 */
 	private void buildListenersForPattern(APattern pattern) {
-		EsperController.logger.info("building listener for pattern " + pattern.getPatternID());
+		if (EsperController.logger.isDebugEnabled())
+			EsperController.logger.debug("building listener for pattern " + pattern.getPatternID());
 		if (pattern instanceof PatternRepetitive) {
 			/*
 			 * repetitive pattern needs two statements per select function
