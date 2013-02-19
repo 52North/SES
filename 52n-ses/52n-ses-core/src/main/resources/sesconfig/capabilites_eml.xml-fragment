@@ -1,0 +1,165 @@
+<eml:EML_Capabilities xmlns:eml="http://www.opengis.net/eml/0.0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<!--
+	VIEWS
+	-->
+	<eml:View_Capabilities>
+	<!--length views -->
+		<eml:SupportedDataView name="LengthView" batch="false">
+			<eml:ParameterNames>
+				<eml:ParameterName>EventCount</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>View containing a fixed number of events.Sliding version.</eml:Description>
+		</eml:SupportedDataView>
+		<eml:SupportedDataView name="LengthView" batch="true">
+			<eml:ParameterNames>
+				<eml:ParameterName>EventCount</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>View containing a fixed number of events. Batch version.</eml:Description>
+		</eml:SupportedDataView>
+		<!-- time views -->
+		<eml:SupportedDataView name="TimeView" batch="false">
+			<eml:ParameterNames>
+				<eml:ParameterName>Duration</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>View containing all events arrived in the specified duration. Sliding version.</eml:Description>
+		</eml:SupportedDataView>
+		<eml:SupportedDataView name="TimeView" batch="true">
+			<eml:ParameterNames>
+				<eml:ParameterName>Duration</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>View containing all events arrived in the specified duration. Batch version.</eml:Description>
+		</eml:SupportedDataView>
+		<!-- time length views -->
+		<eml:SupportedDataView name="TimeLengthView" batch="false">
+			<eml:ParameterNames>
+				<eml:ParameterName>EventCount</eml:ParameterName>
+				<eml:ParameterName>Duration</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>View containing all events arrived in the specified duration up to a maximum number. Sliding version.</eml:Description>
+		</eml:SupportedDataView>
+		<eml:SupportedDataView name="TimeLengthView" batch="true">
+			<eml:ParameterNames>
+				<eml:ParameterName>EventCount</eml:ParameterName>
+				<eml:ParameterName>Duration</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>View containing all events arrived in the specified duration up to a maximum number. Batch version.</eml:Description>
+		</eml:SupportedDataView>
+		<!-- all view -->
+		<eml:SupportedDataView name="AllView">
+			<eml:ParameterNames/>
+			<eml:Description>View containing all events.</eml:Description>
+		</eml:SupportedDataView>
+	</eml:View_Capabilities>
+	<!--
+	SELECT FUNCTIONS
+	-->
+	<eml:SelectFunction_Capabilities>
+		<eml:CausalityCreation>false</eml:CausalityCreation>
+		<!-- select event -->
+		<eml:SupportedSelectFunction name="SelectEvent">
+			<eml:ParameterNames>
+				<eml:ParameterName>eventName</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>Selects the event with the specified name.</eml:Description>
+		</eml:SupportedSelectFunction>
+		<!-- select property -->
+		<eml:SupportedSelectFunction name="SelectProperty">
+			<eml:ParameterNames>
+				<eml:ParameterName>propertyName</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>Selects the specified property.</eml:Description>
+		</eml:SupportedSelectFunction>
+		<!-- select sum -->
+		<eml:SupportedSelectFunction name="SelectSum">
+			<eml:ParameterNames>
+				<eml:ParameterName>propertyName</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>Selects the sum of the specified property.</eml:Description>
+		</eml:SupportedSelectFunction>
+		<!-- select avg -->
+		<eml:SupportedSelectFunction name="SelectAvg">
+			<eml:ParameterNames>
+				<eml:ParameterName>propertyName</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>Selects the average of the specified property.</eml:Description>
+		</eml:SupportedSelectFunction>
+		<!-- select max -->
+		<eml:SupportedSelectFunction name="SelectMax">
+			<eml:ParameterNames>
+				<eml:ParameterName>propertyName</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>Selects the maximum of the specified property.</eml:Description>
+		</eml:SupportedSelectFunction>
+		<!-- select min -->
+		<eml:SupportedSelectFunction name="SelectMin">
+			<eml:ParameterNames>
+				<eml:ParameterName>propertyName</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>Selects the minimum of the specified property.</eml:Description>
+		</eml:SupportedSelectFunction>
+		<!-- select count -->
+		<eml:SupportedSelectFunction name="SelectCount">
+			<eml:ParameterNames/>
+			<eml:Description>Selects the number of events currently available in the view.</eml:Description>
+		</eml:SupportedSelectFunction>
+		<!-- notify on select -->
+		<eml:SupportedSelectFunction name="NotifyOnSelect">
+			<eml:ParameterNames>
+				<eml:ParameterName>Message</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>Selects the specified message when activated.</eml:Description>
+		</eml:SupportedSelectFunction>
+		<!-- SelectStdDev -->
+		<eml:SupportedSelectFunction name="SelectStdDev">
+			<eml:ParameterNames>
+				<eml:ParameterName>propertyName</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>Selects the standard deviation of the specified property.</eml:Description>
+		</eml:SupportedSelectFunction>
+		<!-- GetAdditiveInverseValue -->
+		<eml:SupportedSelectFunction name="GetAdditiveInverseValue">
+			<eml:ParameterNames>
+				<eml:ParameterName>propertyName</eml:ParameterName>
+			</eml:ParameterNames>
+			<eml:Description>Selects the inverse of the specified property if it is a number,
+				else just the property.</eml:Description>
+		</eml:SupportedSelectFunction>
+	</eml:SelectFunction_Capabilities>
+	<!--
+	PATTERN OPERATORS
+	-->
+	<eml:PatternOperator_Capabilities>
+		<eml:SupportedBinaryPatternOperator name="CAUSE">
+			<eml:Description>Matches if the first is in the causal vector of the second event.</eml:Description>
+		</eml:SupportedBinaryPatternOperator>
+		<eml:SupportedBinaryPatternOperator name="PARALLEL">
+			<eml:Description>Matches if the first is not in the causal vector of the second event.</eml:Description>
+		</eml:SupportedBinaryPatternOperator>
+		<eml:SupportedBinaryPatternOperator name="BEFORE">
+			<eml:Description>Matches if the first arrived before the second event.</eml:Description>
+		</eml:SupportedBinaryPatternOperator>
+		<eml:SupportedBinaryPatternOperator name="AND">
+			<eml:Description>Matches if the first and the second event are found.</eml:Description>
+		</eml:SupportedBinaryPatternOperator>
+		<eml:SupportedBinaryPatternOperator name="OR">
+			<eml:Description>Matches if the first or the second event are found.</eml:Description>
+		</eml:SupportedBinaryPatternOperator>
+		<eml:SupportedBinaryPatternOperator name="AND_NOT">
+			<eml:Description>Matches if the first and not the second event are found.</eml:Description>
+		</eml:SupportedBinaryPatternOperator>
+	</eml:PatternOperator_Capabilities>
+	<!--
+	SPECIALIZED PATTERNS
+	-->
+	<eml:SpecializedPattern_Capabilities>
+		<eml:TimerPattern_Capabilities>
+			<eml:IntervalPattern>true</eml:IntervalPattern>
+			<eml:AtPattern>true</eml:AtPattern>
+		</eml:TimerPattern_Capabilities>
+		<eml:Repetetive>true</eml:Repetetive>
+	</eml:SpecializedPattern_Capabilities>
+	<!--
+	WILDCARD
+	-->
+	<eml:WildcardSupport>false</eml:WildcardSupport>
+</eml:EML_Capabilities>

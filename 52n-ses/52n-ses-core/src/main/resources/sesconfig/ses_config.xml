@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<EventServiceConfiguration xmlns="http://52north.org/sensorweb/ses/config/">
+	<Parameters>
+		<Parameter>
+			<Name>POSTGRES_PWD</Name>
+			<Value>2asdf3</Value>
+		</Parameter>
+		<Parameter>
+			<Name>USE_ENRICHMENT</Name>
+			<Value>true</Value>
+		</Parameter>
+		<Parameter>
+			<Name>WFS_URL</Name>
+			<Value>http://91.221.120.150:13871/cadas-aimdb/wfs@@true@@IfGI:Ljanogd7;http://91.221.120.150:14871/cadas-aimdb/wfs@@true@@IfGI:Ljanogd7;http://demo.snowflakesoftware.com:8080/OWS-9_AIXM51_EU/GOPublisherWFS@@false@@;http://demo.snowflakesoftware.com:8080/OWS-9_AIXM51_T_USEU//GOPublisherWFS@@false@@
+			</Value>
+		</Parameter>
+		<Parameter>
+			<Name>WPS_URL</Name>
+			<Value>http://demo.luciad.com:8080/LuciadWPS/wps
+			</Value>
+		</Parameter>
+		<Parameter>
+			<Name>USE_REQUEST_LOGGER</Name>
+			<Value>true</Value>
+		</Parameter>
+		<Parameter>
+			<Name>BAW</Name>
+			<Value>true</Value>
+		</Parameter>
+		<Parameter>
+			<Name>SES_INSTANCE</Name>
+			<Value>http://${targetHostWithPort}/${targetWebappName}/services/Broker
+			</Value>
+		</Parameter>
+		<Parameter>
+			<Name>EML_CONTROLLER</Name>
+			<Value>${conf.ses.eml.controller}</Value>
+		</Parameter>
+		<Parameter>
+			<Name>USE_CONCURRENT_ORDERED_HANDLING</Name>
+			<Value>true</Value>
+		</Parameter>
+		<Parameter>
+			<Name>MAX_THREADS</Name>
+			<Value>4</Value>
+		</Parameter>
+		<Parameter>
+			<Name>CONCURRENT_MAXIMUM_TIMEOUT</Name>
+			<Value>5000</Value>
+		</Parameter>
+		<Parameter>
+			<Name>CONCURRENT_MINIMUM_TIMEOUT</Name>
+			<Value>500</Value>
+		</Parameter>
+	</Parameters>
+	<RegisteredParsers>
+		<Parser>
+			<JavaClass>org.n52.ses.io.parser.OMParser</JavaClass>
+			<Enabled>true</Enabled>
+		</Parser>
+		<Parser>
+			<JavaClass>org.n52.ses.io.parser.OWS8Parser</JavaClass>
+			<Enabled>true</Enabled>
+		</Parser>
+		<Parser>
+			<JavaClass>org.n52.ses.io.parser.AircraftPositionParser</JavaClass>
+			<Enabled>true</Enabled>
+		</Parser>
+		<Parser>
+			<JavaClass>org.n52.ses.io.parser.SASParser</JavaClass>
+			<Enabled>true</Enabled>
+		</Parser>
+		<Parser>
+			<JavaClass>org.n52.ses.io.parser.WXXMParser</JavaClass>
+			<Enabled>true</Enabled>
+		</Parser>
+		<Parser>
+			<JavaClass>org.n52.ses.io.parser.GeossWFSParser</JavaClass>
+			<Enabled>false</Enabled>
+		</Parser>
+		<Parser>
+			<JavaClass>org.n52.ses.io.parser.AIXMParser</JavaClass>
+			<Enabled>false</Enabled>
+		</Parser>
+		<Parser>
+			<JavaClass>org.n52.ses.io.parser.FaaSaaPilotParser</JavaClass>
+			<Enabled>false</Enabled>
+		</Parser>
+	</RegisteredParsers>
+
+</EventServiceConfiguration>
+<!-- 
+### Configuration file for the Sensor Event Service
+
+### The keys not in use show the default values.
+### (Keys in lines starting with only one '#')
+
+### You only need to activate them (remove the '#') 
+### if you want to change the value.
+
+
+### postgres parameters
+
+#POSTGRES_PORT = default
+#POSTGRES_USER = postgres
+#POSTGRES_HOST = host_without_protocol_or_port
+### the database made of the postgis template
+#POSTGRES_DATABASE = postgis
+POSTGRES_PWD = 2asdf3
+
+### enrichment parameters
+### separate URLS by ';'. syntax is as follows:
+### <service-url>@@<boolean_uses-soap>@@<empty|or|user:pw>;<service-url>....
+USE_ENRICHMENT=false
+WFS_URL = http://demo.snowflakesoftware.com:8081/AIXM51_CurrentHistory/OWS8@@false@@;http://91.221.120.150:13871/cadas-aimdb/wfs@@true@@ifgi:asdasd;http://demo.luciad.com:8080/SaaWFS/wfs@@false@@
+
+### used FilterEngine
+### must be a class that implements org.n52.ses.filter.IClassProvider
+#USED_FILTER_ENGINE = org.n52.ses.filter.EsperClassProvider
+
+USE_REQUEST_LOGGER = true
+#REQUEST_LOGGER_URL = http://localhost:8080/request-logger-1.0-SNAPSHOT/logger
+
+### path of the SES instance
+#SES_INSTANCE = http://<your-global-knwon-hostname-or-ip>:<port>/<webapp name>/services/Broker
+SES_INSTANCE = http://localhost:8080/52n-ses-core-1.0-SNAPSHOT/services/Broker
+
+EML_CONTROLLER = ${conf.ses.eml.controller}
+#CONCURRENT_WORKER = org.n52.ses.util.concurrent.FIFOWorker
+#CONCURRENT_WORKER = org.n52.ses.util.concurrent.DisruptorWorker
+
+### use persistence of subscriptions
+#RESUBSCRIBE_ON_STARTUP = YES
+USE_CONCURRENT_ORDERED_HANDLING = true
+MAX_THREADS = 4
+CONCURRENT_MAXIMUM_TIMEOUT = 5000
+CONCURRENT_MINIMUM_TIMEOUT = 500
+### milliseconds to wait for wakeup (depends on speed of server and other webapps)
+#TIME_TO_WAKEUP = 1000
+ -->

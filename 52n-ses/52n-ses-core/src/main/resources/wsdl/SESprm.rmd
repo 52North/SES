@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Definitions xmlns="http://docs.oasis-open.org/wsrf/rmd-1"
+    targetNamespace="http://www.opengis.net/ses/0.0" xmlns:ses="http://www.opengis.net/ses/0.0"
+    xmlns:wsrl="http://docs.oasis-open.org/wsrf/rl-2"
+    xmlns:wsrf-rl="http://docs.oasis-open.org/wsrf/rl-2"
+    xmlns:wsrf-bf="http://docs.oasis-open.org/wsrf/bf-2"
+    xmlns:wsn-br="http://docs.oasis-open.org/wsn/br-2"
+    xmlns:sml="http://www.opengis.net/sensorML/1.0.1">
+    <MetadataDescriptor name="ses:SesPRMMetadataDescriptor" interface="ses:SesPRMPortType"
+        wsdlLocation="http://www.opengis.net/ses/0.0 SesPRM.wsdl">
+        <Property name="wsrf-rl:CurrentTime" modifiability="read-only" mutability="mutable"/>
+        <Property name="wsrf-rl:TerminationTime" modifiability="read-only" mutability="mutable"/>
+        <Property name="wsn-br:PublisherReference" modifiability="read-only" mutability="constant"/>
+        <Property name="wsn-br:Topic" modifiability="read-only" mutability="constant"/>
+        <Property name="wsn-br:Demand" modifiability="read-only" mutability="constant"/>
+        <Property name="wsn-br:CreationTime" modifiability="read-only" mutability="constant"/>
+        <Property name="sml:SensorML" modifiability="read-only" mutability="mutable"/>
+    </MetadataDescriptor>
+</Definitions>

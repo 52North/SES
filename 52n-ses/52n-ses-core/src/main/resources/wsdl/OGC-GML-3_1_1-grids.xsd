@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This OGC work (including software, documents, or other related items) is being
+provided by the copyright holders under the following license. By obtaining,
+using and/or copying this work, you (the licensee) agree that you have read,
+understood, and will comply with the following terms and conditions:
+
+Permission to use, copy, and modify this software and its documentation, with
+or without modification, for any purpose and without fee or royalty is hereby
+granted, provided that you include the following on ALL copies of the software
+and documentation or portions thereof, including modifications, that you make:
+
+   1. The full text of this NOTICE in a location viewable to users of the
+   redistributed or derivative work.
+   2. Any pre-existing intellectual property disclaimers, notices, or terms
+   and conditions. If none exist, a short notice of the following form (hypertext
+   is preferred, text is permitted) should be used within the body of any
+   redistributed or derivative code: "Copyright © [$date-of-document] Open
+   Geospatial Consortium, Inc. All Rights Reserved.
+   http://www.opengeospatial.org/ogc/legal (Hypertext is preferred, but a textual
+   representation is permitted.)
+   3. Notice of any changes or modifications to the OGC files, including the
+   date changes were made. (We recommend you provide URIs to the location from
+   which the code is derived.)
+ 
+
+THIS SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
+THE USE OF THE SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS,
+COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE SOFTWARE OR DOCUMENTATION.
+
+The name and trademarks of copyright holders may NOT be used in advertising or
+publicity pertaining to the software without specific, written prior permission.
+Title to copyright in this software and any associated documentation will at all
+times remain with copyright holders.
+
+
+CHANGES TO ORIGINAL FILE (derived from http://schemas.opengeospatial.net):
+xsd:import's and xsd:include's changed to local one-folder-hierarchy -->
+<schema targetNamespace="http://www.opengis.net/gml" xmlns:gml="http://www.opengis.net/gml" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" elementFormDefault="qualified" version="3.1.1">
+	<annotation>
+		<appinfo source="urn:opengis:specification:gml:schema-xsd:grids:3.1.1">grids.xsd</appinfo>
+		<documentation xml:lang="en">Grid geometries
+    A subset of implicit geometries
+    Designed for use with GML Coverage schema, but maybe useful elsewhere as well.  
+    
+    Copyright (c) 2002-2005 OGC, All Rights Reserved.
+	For conditions, see OGC Software Notice http://www.opengeospatial.org/about/?page=ipr</documentation>
+	</annotation>
+	<!-- ==============================================================
+       includes and imports
+	============================================================== -->
+	<include schemaLocation="OGC-GML-3_1_1-geometryBasic0d1d.xsd"/>
+	<!-- ==============================================================
+       global elements
+	============================================================== -->
+	<element name="_ImplicitGeometry" type="gml:AbstractGeometryType" abstract="true" substitutionGroup="gml:_Geometry"/>
+	<!-- =========================================================== -->
+	<element name="Grid" type="gml:GridType" substitutionGroup="gml:_ImplicitGeometry"/>
+	<!-- =========================================================== -->
+	<complexType name="GridType">
+		<annotation>
+			<documentation>An unrectified grid, which is a network composed of two or more sets of equally spaced parallel lines in which the members of each set intersect the members of the other sets at right angles.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gml:AbstractGeometryType">
+				<sequence>
+					<element name="limits" type="gml:GridLimitsType"/>
+					<element name="axisName" type="string" maxOccurs="unbounded"/>
+				</sequence>
+				<attribute name="dimension" type="positiveInteger" use="required"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- =========================================================== -->
+	<complexType name="GridLimitsType">
+		<sequence>
+			<element name="GridEnvelope" type="gml:GridEnvelopeType"/>
+		</sequence>
+	</complexType>
+	<!-- =========================================================== -->
+	<complexType name="GridEnvelopeType">
+		<annotation>
+			<documentation>Provides grid coordinate values for the diametrically opposed corners of an envelope that bounds a section of grid. The value of a single coordinate is the number of offsets from the origin of the grid in the direction of a specific axis.</documentation>
+		</annotation>
+		<sequence>
+			<element name="low" type="gml:integerList"/>
+			<element name="high" type="gml:integerList"/>
+		</sequence>
+	</complexType>
+	<!-- =========================================================== -->
+	<element name="RectifiedGrid" type="gml:RectifiedGridType" substitutionGroup="gml:_ImplicitGeometry">
+		<annotation>
+			<documentation>Should be substitutionGroup="gml:Grid" but changed in order to accomplish Xerces-J schema validation</documentation>
+		</annotation>
+	</element>
+	<!-- =========================================================== -->
+	<complexType name="RectifiedGridType">
+		<annotation>
+			<documentation>A rectified grid has an origin and vectors that define its post locations.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gml:GridType">
+				<sequence>
+					<element name="origin" type="gml:PointPropertyType"/>
+					<element name="offsetVector" type="gml:VectorType" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- =========================================================== -->
+</schema>

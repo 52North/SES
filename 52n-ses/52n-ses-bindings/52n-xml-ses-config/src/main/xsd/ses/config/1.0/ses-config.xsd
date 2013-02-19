@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ses="http://52north.org/sensorweb/ses/config/"
+	targetNamespace="http://52north.org/sensorweb/ses/config/" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<element name="EventServiceConfiguration" type="ses:EventServiceConfigurationType">
+	</element>
+
+	<complexType name="EventServiceConfigurationType">
+		<sequence>
+			<element name="Parameters">
+				<complexType>
+					<sequence>
+						<element name="Parameter" maxOccurs="unbounded" minOccurs="0">
+							<complexType>
+								<sequence>
+									<element name="Name" type="string">
+									</element>
+									<element name="Value" type="string">
+									</element>
+								</sequence>
+							</complexType>
+						</element>
+    				</sequence>
+				</complexType>
+			</element>
+			<element name="RegisteredParsers">
+				<complexType>
+					<sequence>
+						<element name="Parser" maxOccurs="unbounded" minOccurs="0">
+							<complexType>
+								<sequence>
+									<element name="JavaClass" type="string"></element>
+									<element name="Enabled" type="boolean"></element>
+								</sequence>
+							</complexType>
+						</element>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+</schema>
