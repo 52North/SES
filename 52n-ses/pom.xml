@@ -51,7 +51,7 @@
 		<buildDate>${maven.build.timestamp}</buildDate>
 		<svnRevision>${buildNumber}</svnRevision>
 		<oxf.version>2.0.0-alpha.2-SNAPSHOT</oxf.version>
-		<n52.xml.version>1.1.4-SNAPSHOT</n52.xml.version>
+		<n52.xml.version>1.1.4</n52.xml.version>
 	</properties>
 
 	<build>
