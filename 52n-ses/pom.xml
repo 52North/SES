@@ -291,11 +291,11 @@
 				<version>${slf4j.version}</version>
 			</dependency>
 
-<!-- 			<dependency> -->
-<!-- 				<groupId>org.gavaghan</groupId> -->
-<!-- 				<artifactId>geodesy</artifactId> -->
-<!-- 				<version>1.0.0</version> -->
-<!-- 			</dependency> -->
+			<!-- <dependency> -->
+			<!-- <groupId>org.gavaghan</groupId> -->
+			<!-- <artifactId>geodesy</artifactId> -->
+			<!-- <version>1.0.0</version> -->
+			<!-- </dependency> -->
 
 			<dependency>
 				<groupId>commons-io</groupId>
@@ -581,7 +581,7 @@
 			</modules>
 
 		</profile>
-		
+
 		<profile>
 			<id>compile-bindings</id>
 			<activation>
@@ -594,29 +594,61 @@
 			</modules>
 		</profile>
 
-		<!-- <profile> -->
-		<!-- <id>release</id> -->
-		<!-- <activation> -->
-		<!-- <property> -->
-		<!-- <name>env</name> -->
-		<!-- <value>ci</value> -->
-		<!-- </property> -->
-		<!-- </activation> -->
-		<!-- <build> -->
-		<!-- <plugins> -->
-		<!-- <plugin> -->
-		<!-- <groupId>org.apache.maven.plugins</groupId> -->
-		<!-- <artifactId>maven-release-plugin</artifactId> -->
-		<!-- <configuration> -->
-		<!-- <preparationGoals>clean</preparationGoals> -->
-		<!-- <autoVersionSubmodules>true</autoVersionSubmodules> -->
-		<!-- <tagBase>https://svn.52north.org/svn/swe/incubation/SES/Service/tags/</tagBase> -->
-		<!-- <goals>deploy, assembly:single</goals> -->
-		<!-- </configuration> -->
-		<!-- </plugin> -->
-		<!-- </plugins> -->
-		<!-- </build> -->
-		<!-- </profile> -->
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+					<name>release</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<configuration>
+							<preparationGoals>clean</preparationGoals>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<tagBase>https://svn.52north.org/svn/swe/incubation/SES/Service/tags/</tagBase>
+							<goals>deploy, assembly:single</goals>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+		<profile>
+			<id>ci-deploy</id>
+			<!-- a profile which shall be activated if a release is performed, it 
+				is also automatic activated in the ci environment. -->
+			<activation>
+				<property>
+					<name>env</name>
+					<value>cii</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<!-- no build in release:prepare (takes to long time), so in bad cases 
+								release fails on perform -->
+							<preparationGoals>clean</preparationGoals>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<tagBase>https://svn.52north.org/svn/swe/incubation/SES/Service/tags/</tagBase>
+							<connectionUrl>
+								scm:svn:https://svn.52north.org/svn/swe/incubation/SES/Service/trunk/52n-ses
+							</connectionUrl>
+							<goals>deploy</goals>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
 	</profiles>
 

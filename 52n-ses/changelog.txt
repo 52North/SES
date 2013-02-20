@@ -6,6 +6,7 @@ Current Trunk
 New Features:
 + Implemented Stored Filters for easy reusability of subscriptions (see Capabilities)
 + Switched default Consumer Notification to usage of Apache HttpComponents HttpClient 4.x (including connection pooling)
++ New mechanism to define the used Notification Parsers in the configuration file. This enables support for external parsers (implemented against the API).
 
 Bug Fixes:
 to be compiled from bugzilla
