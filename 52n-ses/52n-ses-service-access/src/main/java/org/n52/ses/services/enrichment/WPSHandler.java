@@ -63,6 +63,8 @@ public class WPSHandler implements EnrichmentHandler {
 	}
 
 	private void initConnectors(String propertyForKey) {
+		if (propertyForKey == null) return;
+		
 		String[] wpsKeys = propertyForKey.split(";");
 		setServiceUrls(Arrays.asList(wpsKeys));
 	}
