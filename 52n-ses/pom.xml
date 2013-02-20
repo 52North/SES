@@ -625,7 +625,7 @@
 			<activation>
 				<property>
 					<name>env</name>
-					<value>cii</value>
+					<value>ci</value>
 				</property>
 			</activation>
 			<build>
