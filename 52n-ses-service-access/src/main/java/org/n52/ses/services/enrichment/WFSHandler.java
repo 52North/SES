@@ -76,6 +76,8 @@ public class WFSHandler implements EnrichmentHandler {
 	 * 		the property-string for the WFSs
 	 */
 	private void initWFSConnectors(String propertyForKey){
+		if (propertyForKey == null) return;
+		
 		// get properties of each WFS
 		String[] wfsKeys = propertyForKey.split(";");
 
