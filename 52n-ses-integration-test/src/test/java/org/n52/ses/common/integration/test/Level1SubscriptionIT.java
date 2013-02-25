@@ -38,6 +38,7 @@ import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.ses.adapter.ISESRequestBuilder;
 import org.n52.oxf.ses.adapter.SESAdapter;
 import org.n52.oxf.ses.adapter.SESRequestBuilderFactory;
+import org.n52.oxf.ses.adapter.client.Subscription;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,8 @@ public class Level1SubscriptionIT {
 	private static final Logger logger = LoggerFactory.getLogger(Level1SubscriptionIT.class);
 	
 	@Test
-	public void shouldSuccesfullySubscribe() throws OXFException, XmlException, ExceptionReport, IOException {
+	public void shouldSuccesfullySubscribe()
+			throws OXFException, XmlException, ExceptionReport, IOException {
 		ServiceInstance.getInstance().waitUntilAvailable();
 		
 		logger.info("Subscribing Level 1 (XPath)...");
@@ -59,6 +61,34 @@ public class Level1SubscriptionIT {
 		
 		Collection<XmlError> errors = XMLBeansParser.validate(response);
 		Assert.assertTrue("Response are not valid!", errors.isEmpty());
+		
+		response = unsubscribe(response);
+		
+		logger.info("Response from SES: {}", response);
+		
+		errors = XMLBeansParser.validate(response);
+		Assert.assertTrue("Response are not valid!", errors.isEmpty());
+	}
+
+	private EnvelopeDocument unsubscribe(EnvelopeDocument response) throws OXFException, ExceptionReport, XmlException, IOException {
+		Subscription sub = new Subscription(null);
+		sub.parseResponse(response);
+	    
+        SESAdapter adapter = new SESAdapter("0.0.0");
+        
+        Operation op = new Operation(SESAdapter.UNSUBSCRIBE, null, sub.getManager().getHost().toExternalForm());
+        
+        ParameterContainer parameter = new ParameterContainer();
+        parameter.addParameterShell(ISESRequestBuilder.UNSUBSCRIBE_SES_URL, sub.getManager().getHost().toExternalForm());
+        parameter.addParameterShell(ISESRequestBuilder.UNSUBSCRIBE_REFERENCE, sub.getResourceID());
+        
+        logger.info(SESRequestBuilderFactory.generateRequestBuilder("0.0.0").buildUnsubscribeRequest(parameter));
+        
+        OperationResult opResult = adapter.doOperation(op, parameter);
+
+		EnvelopeDocument envelope = EnvelopeDocument.Factory.parse(opResult.getIncomingResultAsStream());
+
+		return envelope;
 	}
 
 	private EnvelopeDocument subscribe() throws OXFException, XmlException, ExceptionReport, IOException {

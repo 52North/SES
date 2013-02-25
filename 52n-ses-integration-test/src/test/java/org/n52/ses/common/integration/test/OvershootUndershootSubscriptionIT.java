@@ -84,7 +84,7 @@ public class OvershootUndershootSubscriptionIT {
 		Object hasReceived = new Object();
 		try {
 			//null upon success
-			hasReceived = future.get(5000, TimeUnit.MILLISECONDS);
+			hasReceived = future.get(IntegrationTestConfig.getInstance().getNotificationTimeout(), TimeUnit.MILLISECONDS);
 		} catch (Exception e) {
 			logger.warn(e.getMessage(), e);
 		}

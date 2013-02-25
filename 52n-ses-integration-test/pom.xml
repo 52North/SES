@@ -138,6 +138,14 @@
 									<token>sesInstance</token>
 									<value>http://localhost:${jettyServerPort}/${targetWebappName}/services/Broker</value>
 								</replacement>
+								<replacement>
+									<token>localWebAppDirectory</token>
+									<value>${project.build.directory}/${targetWebappName}</value>
+								</replacement>
+								<replacement>
+									<token>notificationTimeout</token>
+									<value>${notification.timeout.ms}</value>
+								</replacement>
 							</replacements>
 						</configuration>
 					</execution>
@@ -245,4 +253,7 @@
 		</dependency>
 	</dependencies>
 
+	<properties>
+		<notification.timeout.ms>5000</notification.timeout.ms>
+	</properties>
 </project>

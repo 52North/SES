@@ -254,9 +254,7 @@ public class SESFilePersistence extends AbstractFilePersistence implements Route
 							"//pre:"+ SES_REGPUB_PERS_NAME.getLocalPart(), obj).length > 0) {
 								return true;
 							}
-						} catch (XmlException e) {
-							logger.warn(e.getMessage(), e);
-						} catch (IOException e) {
+						} catch (Exception e) {
 							logger.warn(e.getMessage(), e);
 						}
 						return false;
