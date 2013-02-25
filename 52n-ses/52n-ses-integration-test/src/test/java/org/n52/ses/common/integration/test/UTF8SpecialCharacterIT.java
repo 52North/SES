@@ -107,6 +107,8 @@ public class UTF8SpecialCharacterIT {
 
 				Assert.assertTrue("Not a SoapFault!", cur.getObject() instanceof Fault);
 				cur.dispose();
+				
+				logger.info("Received an expected SoapFault: "+ xo);
 			}
 			else throw new IllegalStateException("No response available.");
 		}
