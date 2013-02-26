@@ -23,12 +23,15 @@
  */
 package org.n52.ses.common.integration.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Scanner;
 
 import org.n52.ses.util.common.SESProperties;
 import org.slf4j.Logger;
@@ -51,19 +54,20 @@ public class IntegrationTestConfig {
 	}
 
 	private void readConfig() {
-		this.config = new Properties();
+		this.config = new UnescapedProperties();
 		try {
 			this.config.load(getClass().getResourceAsStream("integration-test-ports.properties"));
 			this.consumerPort = Integer.parseInt(this.config.getProperty("wsn.consumer.port"));
 			this.servicePort = Integer.parseInt(this.config.getProperty("ses.instance.port"));
 			this.serviceUrl = this.config.getProperty("ses.instance").trim();
 			this.localWebappDirectory = this.config.getProperty("local.webapp.directory").trim();
+			logger.info("Local webapp dir: {}", this.localWebappDirectory);
 			this.notificationTimeout = Integer.parseInt(this.config.getProperty("notification.timeout"));
 		} catch (IOException e) {
 			logger.warn(e.getMessage(), e);
 		}
 	}
-
+	
 	public static synchronized IntegrationTestConfig getInstance() {
 		if (instance == null) {
 			instance = new IntegrationTestConfig();
@@ -98,7 +102,6 @@ public class IntegrationTestConfig {
 			loadProperties();
 		}
 		
-		
 		return this.properties;
 	}
 
@@ -122,6 +125,29 @@ public class IntegrationTestConfig {
 
 	public int getNotificationTimeout() {
 		return this.notificationTimeout;
+	}
+	
+	private static class UnescapedProperties extends Properties {
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public void load(InputStream fis) throws IOException {
+	        Scanner in = new Scanner(fis);
+	        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+	        String line;
+	        while(in.hasNext()) {
+	        	line = in.nextLine();
+	            out.write(line.replace("\\","\\\\").getBytes());
+	            out.write("\n".getBytes());
+	        }
+	        in.close();
+
+	        InputStream is = new ByteArrayInputStream(out.toByteArray());
+	        super.load(is);
+	    }
 	}
 	
 

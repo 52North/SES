@@ -10,6 +10,7 @@ New Features:
 
 Bug Fixes:
 to be compiled from bugzilla
+- fixed a namespace issue for UnsubscribeResponse. The wrong namespace "http://docs.oasis-open.org/wsn/bw-2" has been changed to "http://docs.oasis-open.org/wsn/b-2"
 
 Version 1.1.0-SNAPSHOT, 2013-01-11
 -----------

@@ -461,7 +461,7 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 			else {
 				logger.debug("...unsubscribing... no ResourceID found.");
 			}
-			}
+		}
 			
 
 		} catch (IOException e) {
