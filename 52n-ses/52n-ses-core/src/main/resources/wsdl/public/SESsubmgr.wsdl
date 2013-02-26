@@ -79,7 +79,7 @@ this way its easier to link the wsdl:message's to the wsdl:operation's -->
         </xsd:schema>
        
 		<!-- Unsubscribe schema -->
-        <xsd:schema attributeFormDefault="unqualified"
+        <!-- <xsd:schema attributeFormDefault="unqualified"
             elementFormDefault="qualified"
             targetNamespace="http://docs.oasis-open.org/wsn/bw-2"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -99,7 +99,7 @@ this way its easier to link the wsdl:message's to the wsdl:operation's -->
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-		</xsd:schema>
+		</xsd:schema> -->
 		
     </wsdl:types>
     
@@ -127,10 +127,10 @@ this way its easier to link the wsdl:message's to the wsdl:operation's -->
 
     <!-- Unsubscribe message -->
     <wsdl:message name="UnsubscribeRequest">
-        <wsdl:part element="wsntw:Unsubscribe" name="UnsubscribeRequest"/>
+        <wsdl:part element="wsnt:Unsubscribe" name="UnsubscribeRequest"/>
     </wsdl:message>
     <wsdl:message name="UnsubscribeResponse">
-        <wsdl:part element="wsntw:UnsubscribeResponse" name="UnsubscribeResponse"/>
+        <wsdl:part element="wsnt:UnsubscribeResponse" name="UnsubscribeResponse"/>
     </wsdl:message>
     
     <!-- Pausable SubscriptionManager -->
