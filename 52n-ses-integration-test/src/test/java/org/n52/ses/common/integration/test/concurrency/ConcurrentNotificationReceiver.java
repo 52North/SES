@@ -59,7 +59,6 @@ public class ConcurrentNotificationReceiver implements HttpListener {
 			
 			list.add(request);
 		}
-		
 		return null;
 	}
 
