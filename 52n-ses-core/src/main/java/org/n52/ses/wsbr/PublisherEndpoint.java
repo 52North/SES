@@ -276,7 +276,7 @@ public class PublisherEndpoint extends AbstractWsResourceCapability implements I
 		XmlObject smlDoc = XMLBeansParser.parse(sml, true);
 		
 		if (smlDoc != null) {
-			logger.info("SensorML for new Publisher registered.");
+			logger.info("Registering SensorML for new Publisher...");
 			
 			Member[] members = ((SensorMLDocument) smlDoc).getSensorML().getMemberArray();
 			List<XmlObject> systems = new ArrayList<XmlObject>();

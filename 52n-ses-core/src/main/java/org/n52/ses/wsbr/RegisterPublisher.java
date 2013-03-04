@@ -75,7 +75,7 @@ implements IRegisterPublisher, ResourceManagerListener {
 	 * constant for the resource type
 	 */
 	public final static String RESOURCE_TYPE = GlobalConstants.PUBLISHER_REGISTRATION_MANAGER_CONTEXT_PATH;
-	
+
 	private String registerPath;
 
 
@@ -93,7 +93,7 @@ implements IRegisterPublisher, ResourceManagerListener {
 		/* get the Manager instance */
 		WsResource resource = getWsResource();
 		this.manager = resource.getResourceManager();
-		
+
 
 		/*
 		 * select the register method that is called on "register" by the
@@ -120,7 +120,7 @@ implements IRegisterPublisher, ResourceManagerListener {
 		/* add ourselves as listener for shutdown of PRM instances */
 		this.manager.addListener(this);
 
-//		SESNotificationProducer producer = (SESNotificationProducer)getResource().getCapability(WsnConstants.PRODUCER_URI);
+		//		SESNotificationProducer producer = (SESNotificationProducer)getResource().getCapability(WsnConstants.PRODUCER_URI);
 	}
 
 	@Override
@@ -157,15 +157,12 @@ implements IRegisterPublisher, ResourceManagerListener {
 			boolean demand, Date initialTerminationTime, org.w3c.dom.Element domElem) throws SoapFault {
 		Resource publisherResource = null;
 
-
 		/* create new resource (@see SimpleNotificationProducer) */
 		publisherResource = this.manager.createResource(this.publisherRegistrationManagerEndpoint);
 
 		EndpointReference epr = publisherResource.getEndpointReference();
 		PublisherEndpoint publisherCapability =
-			(PublisherEndpoint) publisherResource.getCapability(IPublisherEndpoint.NAMESPACE_URI);
-
-		this.map.put(epr, publisherCapability);
+				(PublisherEndpoint) publisherResource.getCapability(IPublisherEndpoint.NAMESPACE_URI);
 
 		/* set topics */
 		publisherCapability.setTopic(topic);
@@ -173,28 +170,38 @@ implements IRegisterPublisher, ResourceManagerListener {
 		/* check for AdvertiseSOS or SensorML */
 		if (domElem == null) {
 			throw new NullPointerException("There" +
-			" was no SensorML element found in the request.");
+					" was no SensorML element found in the request.");
 		}
 
 		try {
 			publisherCapability.registerSensorML(domElem);
 			SensorML sml = (SensorML) publisherResource.getCapability(SensorMLConstants.NAMESPACE);
-					sml.setSensorML(domElem);
+			sml.setSensorML(domElem);
 		} catch (XMLHandlingException e) {
 			throw new SoapFault("An error occured while processing " +
 					"SensorML: "+ e.getMessage());
 		}
-
+		
+		Collection<IPublisherEndpoint> existingEndpoints = getPublisherEndpoints();
+		for (IPublisherEndpoint pe : existingEndpoints) {
+			if (pe.getSensorId().equals(publisherCapability.getSensorId())) {
+				throw new IllegalStateException("The SensorID '" + pe.getSensorId()
+						+"' is already registered within this service instance.");
+			}
+		}
+		
 		/*
 		 * set termination time
 		 * @see SimpleScheduledTermination
 		 */
 		ScheduledTermination scheduledTermination = (ScheduledTermination) publisherResource
-		.getCapability("http://docs.oasis-open.org/wsrf/rlw-2/ScheduledResourceTermination");
+				.getCapability("http://docs.oasis-open.org/wsrf/rlw-2/ScheduledResourceTermination");
 		scheduledTermination.setTerminationTime(generateTerminationTime(initialTerminationTime));
 
+		synchronized (this) {
+			this.map.put(epr, publisherCapability);
+		}
 
-		
 		/* don't change the EPR after the following step */
 		publisherResource.initialize();
 		this.manager.addResource(epr, publisherResource);
@@ -240,13 +247,15 @@ implements IRegisterPublisher, ResourceManagerListener {
 	 */
 	@Override
 	public void resourceRemoved(EndpointReference epr) throws SoapFault {
-		if (epr != null) {
-			Object isInMap = this.map.remove(epr);
-			if(isInMap instanceof PublisherEndpoint) {
-				logger.info("The PublisherEndpoint " + isInMap.toString() + " has been removed.");
+		synchronized (this) {
+			if (epr != null) {
+				Object isInMap = this.map.remove(epr);
+				if(isInMap instanceof PublisherEndpoint) {
+					logger.info("The PublisherEndpoint " + isInMap.toString() + " has been removed.");
+				}
+			} else {
+				logger.debug("Attemp to remove a null value from PublisherEnpoint map");
 			}
-		} else {
-			logger.debug("Attemp to remove a null value from PublisherEnpoint map");
 		}
 	}
 
@@ -255,7 +264,9 @@ implements IRegisterPublisher, ResourceManagerListener {
 	 *         this instance
 	 */
 	public Collection<IPublisherEndpoint> getPublisherEndpoints() {
-		return this.map.values();
+		synchronized (this) {
+			return this.map.values();	
+		}
 	}
 
 	/*
@@ -284,7 +295,9 @@ implements IRegisterPublisher, ResourceManagerListener {
 			QName[] topic, boolean demand, Date initialTerminationTime,
 			Element sensorML, IPublisherEndpoint publisherCapability) {
 
-		this.map.put(publisherCapability.getPublisherReference(), publisherCapability);
+		synchronized (this) {
+			this.map.put(publisherCapability.getPublisherReference(), publisherCapability);
+		}
 	}
 
 }
