@@ -11,7 +11,7 @@ New Features:
 + externalized SES/EML XML bindings (to OXF)
 + migrated from Apache Muse to 52North amused (fork of Muse)
 + Improved WSDL descriptions, now allows fully access to all operations through the WSDL definitions
-+ (Meta Feature) introduced Integration Testing to provide a more stable service
++ (Meta Feature) introduced Integration Testing to provide an improved stable service
 
 Bug Fixes:
 - Fixed a namespace issue for Unsubscribe and UnsubscribeResponse. The wrong namespace "http://docs.oasis-open.org/wsn/bw-2" has been changed to "http://docs.oasis-open.org/wsn/b-2"
