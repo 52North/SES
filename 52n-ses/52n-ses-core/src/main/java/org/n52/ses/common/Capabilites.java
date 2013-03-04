@@ -54,6 +54,7 @@ import org.n52.ses.api.ws.IPublisherEndpoint;
 import org.n52.ses.storedfilters.StoredFilterInstance;
 import org.n52.ses.util.common.ConfigurationRegistry;
 import org.n52.ses.wsbr.RegisterPublisher;
+import org.n52.ses.wsn.SESSubscriptionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -154,8 +155,15 @@ public class Capabilites extends AbstractWsResourceCapability implements ICapabi
 			sb.append(lineSep);
 		}
 
+		String defaulturi = getEnvironment().getDefaultURI().substring(0,
+				getEnvironment().getDefaultURI().lastIndexOf("/services"));
+		String subMgrUrl = defaulturi + "/services/" + SESSubscriptionManager.CONTEXT_PATH;
+		String prmUrl = defaulturi + "/services/" + RegisterPublisher.RESOURCE_TYPE;
+		
 		String baseString = sb.toString().replace("${broker}", getEnvironment().getDeploymentEPR().getAddress().toString());
-
+		baseString = baseString.replace("${subMgr}", subMgrUrl);
+		baseString = baseString.replace("${pubRegMgr}", prmUrl);
+		
 		/*
 		 * read filter file
 		 */

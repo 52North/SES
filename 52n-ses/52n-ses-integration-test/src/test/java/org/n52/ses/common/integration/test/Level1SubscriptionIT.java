@@ -78,9 +78,15 @@ public class Level1SubscriptionIT {
         
         Operation op = new Operation(SESAdapter.UNSUBSCRIBE, null, sub.getManager().getHost().toExternalForm());
         
+        StringBuilder sb = new StringBuilder();
+        sb.append("<rid:ResourceId wsa:IsReferenceParameter=\"true\" ");
+        sb.append("xmlns:rid=\"http://ws.apache.org/muse/addressing\">");
+        sb.append(sub.getResourceID());
+        sb.append("</rid:ResourceId>");
+        
         ParameterContainer parameter = new ParameterContainer();
         parameter.addParameterShell(ISESRequestBuilder.UNSUBSCRIBE_SES_URL, sub.getManager().getHost().toExternalForm());
-        parameter.addParameterShell(ISESRequestBuilder.UNSUBSCRIBE_REFERENCE, sub.getResourceID());
+        parameter.addParameterShell(ISESRequestBuilder.UNSUBSCRIBE_REFERENCE_XML, sb.toString());
         
         logger.info(SESRequestBuilderFactory.generateRequestBuilder("0.0.0").buildUnsubscribeRequest(parameter));
         
