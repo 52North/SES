@@ -20,7 +20,7 @@
 	<scm>
 		<connection>scm:svn:http://svn.52north.org/svn/swe/incubation/SES/Service/tags/1.1.0-release</connection>
 		<developerConnection>scm:svn:https://svn.52north.org/svn/swe/incubation/SES/Service/tags/1.1.0-release</developerConnection>
-		<url>https://svn.52north.org/cgi-bin/viewvc.cgi/incubation/SES/Service/tags/1.1.0-release?root=sensorweb</url>
+		<url>https://svn.52north.org/cgi-bin/viewvc.cgi/incubation/SES/Service/tags/?root=sensorweb/1.1.0-release</url>
 	</scm>
 
 	<modules>
