@@ -40,6 +40,7 @@ import net.opengis.swe.x101.TimeDocument.Time;
 
 import org.apache.xmlbeans.QNameSet;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.n52.ses.util.common.ConfigurationRegistry;
 import org.n52.ses.api.IUnitConverter;
 import org.slf4j.Logger;
@@ -227,12 +228,16 @@ public class LiteralExpression extends AFilterExpression{
 					doubleValue = converter.convert(uom.getCode(), doubleValue).getValue();
 					
 					if (converter.isCompatible(uom.getCode(), "s")) {
+						//XXX This affects also Parsers -> VERY DIRTY as it is NOT transparent.
 						//time values shall be represented as milliseconds -> mult by 1000
 						doubleValue *= 1000;
 					}
 				}
 				catch (Throwable t) {
-					logger.info("could not convert uom '" + uom + "' to base unit, reason: " + t.getMessage());
+					logger.warn("Could not convert uom '" + uom.xmlText(new XmlOptions().setSaveOuter()) +
+							"' to base unit, reason: " + t.getMessage());
+					if (t instanceof RuntimeException) throw (RuntimeException) t;
+					throw new RuntimeException(t);
 				}
 			}
 

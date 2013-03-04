@@ -41,11 +41,16 @@ import net.opengis.swe.x101.UomPropertyType;
 import org.apache.muse.util.xml.XmlUtils;
 import org.apache.muse.ws.notification.faults.SubscribeCreationFailedFault;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.n52.oxf.conversion.unit.NumberWithUOM;
 import org.n52.ses.api.IUnitConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 public class EMLHelper {
+	
+	private static final Logger logger = LoggerFactory.getLogger(EMLHelper.class);
 
 	private static final QName AND_QNAME = new QName("http://www.opengis.net/fes/2.0", "And");
 	
@@ -184,10 +189,19 @@ public class EMLHelper {
 						return;
 					}
 					
-					NumberWithUOM result = converter.convert(uomCode, value);
-					sweQ.getQuantity().setValue(result.getValue());
-					sweQ.getQuantity().getUom().setCode(result.getUom());
-					et.set(sweQ);
+					try {
+						NumberWithUOM result = converter.convert(uomCode, value);
+						sweQ.getQuantity().setValue(result.getValue());
+						sweQ.getQuantity().getUom().setCode(result.getUom());
+						et.set(sweQ);		
+					}
+					catch (Throwable t) {
+						logger.warn("Could not convert uom '" + uom.xmlText(new XmlOptions().setSaveOuter()) +
+								"' to base unit, reason: " + t.getMessage());
+						if (t instanceof RuntimeException) throw (RuntimeException) t;
+						throw new RuntimeException(t);
+					}
+
 				}
 			}
 		
