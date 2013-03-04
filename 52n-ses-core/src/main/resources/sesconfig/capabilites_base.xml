@@ -50,10 +50,70 @@
 				</ows:AllowedValues>
 			</ows:Parameter>
 		</ows:Operation>
+		<ows:Operation name="Notify">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${broker}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
 		<ows:Operation name="Subscribe">
 			<ows:DCP>
 				<ows:HTTP>
 					<ows:Post xlink:href="${broker}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="Unsubscribe">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${subMgr}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="PauseSubscription">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${subMgr}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="ResumeSubscription">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${subMgr}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="SetTerminationTime">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${subMgr}" />
 				</ows:HTTP>
 			</ows:DCP>
 			<ows:Parameter name="Format">
@@ -74,10 +134,34 @@
 				</ows:AllowedValues>
 			</ows:Parameter>
 		</ows:Operation>
-		<ows:Operation name="Notify">
+		<ows:Operation name="DestroyRegistration">
 			<ows:DCP>
 				<ows:HTTP>
-					<ows:Post xlink:href="${broker}" />
+					<ows:Post xlink:href="${pubRegMgr}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="RenewRegistration">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${pubRegMgr}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
+		<ows:Operation name="SetTerminationTime">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${pubRegMgr}" />
 				</ows:HTTP>
 			</ows:DCP>
 			<ows:Parameter name="Format">
