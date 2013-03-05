@@ -38,7 +38,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<license.header.file>${basedir}/src/main/config/52n_license_header.txt</license.header.file>
 		<esper.version>4.5.0</esper.version>
-		<muse.version>1.0.1-SNAPSHOT</muse.version>
+		<muse.version>1.0.0</muse.version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<logback.version>1.0.7</logback.version>
 		<ses.logfile.name>${catalina.home:-.}/logs/52n-ses</ses.logfile.name>
@@ -49,8 +49,8 @@
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 		<buildDate>${maven.build.timestamp}</buildDate>
 		<svnRevision>${buildNumber}</svnRevision>
-		<oxf.version>2.0.0-alpha.3-SNAPSHOT</oxf.version>
-		<n52.xml.version>1.1.5-SNAPSHOT</n52.xml.version>
+		<oxf.version>2.0.0-alpha.2</oxf.version>
+		<n52.xml.version>1.1.4</n52.xml.version>
 	</properties>
 
 	<build>
