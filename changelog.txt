@@ -25,6 +25,7 @@ Bug Fixes:
 - https://bugzilla.52north.org/show_bug.cgi?id=729
 - https://bugzilla.52north.org/show_bug.cgi?id=746
 - https://bugzilla.52north.org/show_bug.cgi?id=815
+- https://bugzilla.52north.org/show_bug.cgi?id=844
 
 Version 1.0.0, 2012-05-24
 -----------

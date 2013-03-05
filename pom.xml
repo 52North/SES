@@ -549,10 +549,8 @@
 				<conf.ses.eml.controller>org.n52.ses.eml.v001.filterlogic.esper.EsperController</conf.ses.eml.controller>
 			</properties>
 			<activation>
-				<activeByDefault>true</activeByDefault>
 				<property>
-					<name>env</name>
-					<value>ci</value>
+					<name>!disable-eml-001</name>
 				</property>
 			</activation>
 		</profile>
