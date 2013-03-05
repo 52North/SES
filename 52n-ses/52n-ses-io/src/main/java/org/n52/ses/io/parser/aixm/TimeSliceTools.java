@@ -96,7 +96,7 @@ public class TimeSliceTools {
 	private static List<AbstractAIXMTimeSliceType> getSlicesFromFeature(AbstractAIXMFeatureType feature) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		List<AbstractAIXMTimeSliceType> results = new ArrayList<AbstractAIXMTimeSliceType>();
 		for (Method method : feature.getClass().getMethods()) {
-			if (method.getName().equals(GET_TIME_SLICE_ARRAY_METHOD_NAME)) {
+			if (method.getName().equals(GET_TIME_SLICE_ARRAY_METHOD_NAME) && method.getGenericParameterTypes().length == 0) {
 				Object[] objects = (Object[]) method.invoke(feature, new Object[] {});
 				for (Object object : objects) {
 					for (Method m2 : object.getClass().getMethods()) {

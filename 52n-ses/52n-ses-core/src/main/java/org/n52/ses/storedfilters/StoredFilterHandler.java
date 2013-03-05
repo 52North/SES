@@ -24,6 +24,8 @@
 package org.n52.ses.storedfilters;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -48,6 +50,8 @@ import org.apache.xmlbeans.XmlOptions;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -87,12 +91,35 @@ public class StoredFilterHandler implements FilterFactoryHandler {
 		}
 		
 		try {
-			return findFilterForContent(template);
+			return findFilterForContent(incorporateNamespacesIntoTemplate(template, sub));
 		} catch (IOException e) {
 			throw new InvalidFilterFault(e);
 		} catch (SAXException e) {
 			throw new InvalidFilterFault(e);
+		} catch (XmlException e) {
+			throw new InvalidFilterFault(e);
 		}
+	}
+
+	private String incorporateNamespacesIntoTemplate(String template, StoredFilterSubscription sub) throws XmlException {
+		Map<String, String> prefixMap = new HashMap<String, String>();
+		NamedNodeMap attributes = sub.getDomNode().getAttributes();
+		for (int i = 0; i < attributes.getLength(); i++) {
+			if (attributes.item(i).getNodeType() == Node.ATTRIBUTE_NODE) {
+				if (attributes.item(i).getPrefix().equals("xmlns")) {
+					prefixMap.put(attributes.item(i).getLocalName(), attributes.item(i).getNodeValue());
+				}
+			}
+		}
+		
+		XmlObject templateObject = XmlObject.Factory.parse(template);
+		XmlCursor cur = templateObject.newCursor();
+		cur.toFirstChild();
+		for (String prefix : prefixMap.keySet()) {
+			cur.insertNamespace(prefix, prefixMap.get(prefix));
+		}
+		
+		return cur.getObject().xmlText(new XmlOptions().setSaveOuter());
 	}
 
 	private Filter findFilterForContent(String template) throws IOException, SAXException, BaseFault {

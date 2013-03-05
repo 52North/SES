@@ -1,6 +1,13 @@
 52°North Sensor Event Service Changelog
 =============================================
 
+Current Trunk
+-----------
+New Features:
+
+
+Bug Fixes:
+
 
 Version 1.1.0, 2013-03-04
 -----------

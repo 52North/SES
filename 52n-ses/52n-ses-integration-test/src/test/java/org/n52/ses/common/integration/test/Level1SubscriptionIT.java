@@ -79,7 +79,7 @@ public class Level1SubscriptionIT {
         Operation op = new Operation(SESAdapter.UNSUBSCRIBE, null, sub.getManager().getHost().toExternalForm());
         
         StringBuilder sb = new StringBuilder();
-        sb.append("<rid:ResourceId wsa:IsReferenceParameter=\"true\" ");
+        sb.append("<rid:ResourceId wsa:IsReferenceParameter=\"true\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" ");
         sb.append("xmlns:rid=\"http://ws.apache.org/muse/addressing\">");
         sb.append(sub.getResourceID());
         sb.append("</rid:ResourceId>");
