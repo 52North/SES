@@ -454,14 +454,14 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 					WsaConstants.DEFAULT_RESOURCE_ID_QNAME.getNamespaceURI(),
 					WsaConstants.DEFAULT_RESOURCE_ID_QNAME.getLocalPart());
 			
-			if (logger.isDebugEnabled()) {
-				if (id != null && id.item(0) != null) {
-				logger.debug("...unsubscribing... "+ id.item(0).getTextContent());
+			if (id != null && id.item(0) != null) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("...unsubscribing... "+ id.item(0).getTextContent());
+				}
 			}
 			else {
-				logger.debug("...unsubscribing... no ResourceID found.");
+				throw new RuntimeException("Detected an attemp to remove the base Endpoint resource! Rejected.");
 			}
-		}
 			
 
 		} catch (IOException e) {
