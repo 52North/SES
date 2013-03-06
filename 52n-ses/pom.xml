@@ -41,7 +41,7 @@
 		<muse.version>1.0.1-SNAPSHOT</muse.version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<logback.version>1.0.7</logback.version>
-		<ses.logfile.name>${catalina.home:-.}/logs/52n-ses</ses.logfile.name>
+		<ses.logfile.name>${catalina.base:-.}/logs/52n-ses</ses.logfile.name>
 		<httpcomponents.version>4.2.1</httpcomponents.version>
 		<targetHostWithPort>localhost:8080</targetHostWithPort>
 		<targetWebappName>52n-ses-${project.version}</targetWebappName>

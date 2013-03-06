@@ -15,6 +15,8 @@
         <exclude>**/.settings/**</exclude>
         <exclude>**/.project</exclude>
         <exclude>**/${project.build.directory}/**</exclude>
+        <exclude>*.pdf</exclude>
+        <exclude>*.jmx</exclude>
       </excludes>
     </fileSet>
     <fileSet>
@@ -32,6 +34,9 @@
         <include>README*</include>
         <include>LICENSE*</include>
         <include>RELEASE_NOTES*</include>
+        <include>*.pdf</include>
+        <include>*.jmx</include>
+		<include>changelog*</include>
       </includes>
       <excludes>
         <exclude>**/*.log</exclude>
