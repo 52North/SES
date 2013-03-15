@@ -1,0 +1,71 @@
+<aixm:AirportHeliport gml:id="uuid.107ec65f-5236-495c-bf32-75bc75079f75"
+	xmlns:aixm-message="http://www.aixm.aero/schema/5.1/message"
+	xmlns:aixm="http://www.aixm.aero/schema/5.1" xmlns:dnotam="http://www.aixm.aero/schema/5.1/event"
+	xmlns:dvof="http://www.icg.mod.uk/aixm51/DVOF" xmlns:gml="http://www.opengis.net/gml/3.2"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.aixm.aero/schema/5.1/message
+http://test.schemas.opengis.net/ows-9/aviation/aixm/5.1/message/AIXM_BasicMessage.xsd http://www.aixm.aero/schema/5.1/event http://test.schemas.opengis.net/ows-9/aviation/aixm/5.1/event/Event_Features.xsd">
+	<gml:identifier codeSpace="www.snowflakesoftware.com/aixm">107ec65f-5236-495c-bf32-75bc75079f75
+	</gml:identifier>
+	<gml:boundedBy>
+		<gml:Envelope srsName="urn:ogc:def:crs:EPSG::4326">
+			<gml:lowerCorner>48.42085 15.91101</gml:lowerCorner>
+			<gml:upperCorner>48.42085 15.91101</gml:upperCorner>
+		</gml:Envelope>
+	</gml:boundedBy>
+	<aixm:featureMetadata />
+	<aixm:timeSlice>
+		<aixm:AirportHeliportTimeSlice gml:id="uuid.ts.nasr_arp.24889">
+			<gml:validTime>
+				<gml:TimePeriod gml:id="uuid.tp.nasr_arp.24889">
+					<gml:beginPosition>2000-01-01T00:00:00.000</gml:beginPosition>
+					<gml:endPosition />
+				</gml:TimePeriod>
+			</gml:validTime>
+			<aixm:interpretation>PERMDELTA</aixm:interpretation>
+			<aixm:sequenceNumber>1</aixm:sequenceNumber>
+			<aixm:correctionNumber>0</aixm:correctionNumber>
+			<aixm:timeSliceMetadata />
+			<aixm:featureLifetime>
+				<gml:TimePeriod gml:id="TimePeriod1">
+					<gml:beginPosition>2000-01-01T00:00:00.000</gml:beginPosition>
+					<gml:endPosition />
+				</gml:TimePeriod>
+			</aixm:featureLifetime>
+			<aixm:designator>DOFX</aixm:designator>
+			<aixm:name>DOFXTOWNAIRPORT</aixm:name>
+			<aixm:type>AH</aixm:type>
+			<aixm:servedCity>
+				<aixm:City gml:id="urn-x.ows7.snowflake.city.nasr_arp.24889">
+					<aixm:name>DOFXTOWN</aixm:name>
+				</aixm:City>
+			</aixm:servedCity>
+			<aixm:ARP>
+				<aixm:ElevatedPoint gml:id="uuid.geom.nasr_arp.24889"
+					srsName="urn:ogc:def:crs:EPSG::4326">
+					<gml:pos>48.42085 15.91101</gml:pos>
+				</aixm:ElevatedPoint>
+			</aixm:ARP>
+			<aixm:availability>
+				<aixm:AirportHeliportAvailability
+					gml:id="uuid.avail.nasr_arp.24889">
+					<aixm:operationalStatus>NORMAL</aixm:operationalStatus>
+					<aixm:usage>
+						<aixm:AirportHeliportUsage gml:id="uuid.usage.nasr_arp.24889">
+							<aixm:selection>
+								<aixm:ConditionCombination gml:id="uuid.concom.nasr_arp.24889">
+									<aixm:aircraft>
+										<aixm:AircraftCharacteristic
+											gml:id="uuid.concom.nasr_arp.24889_ac">
+											<aixm:type>LANDPLANE</aixm:type>
+										</aixm:AircraftCharacteristic>
+									</aixm:aircraft>
+								</aixm:ConditionCombination>
+							</aixm:selection>
+						</aixm:AirportHeliportUsage>
+					</aixm:usage>
+				</aixm:AirportHeliportAvailability>
+			</aixm:availability>
+		</aixm:AirportHeliportTimeSlice>
+	</aixm:timeSlice>
+</aixm:AirportHeliport>

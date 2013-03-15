@@ -1,0 +1,50 @@
+52°North Sensor Event Service Changelog
+=============================================
+
+Current Trunk
+-----------
+New Features:
+
+
+Bug Fixes:
+
+
+Version 1.1.0, 2013-03-04
+-----------
+New Features:
++ Implemented Stored Filters for easy reusability of subscriptions (see Capabilities and WSDLs)
++ Switched default Consumer Notification to usage of Apache HttpComponents HttpClient 4.x (embedded in OXF, including connection pooling)
++ New mechanism to define the used Notification Parsers in the configuration file. This enables support for external parsers (implemented against the API).
++ externalized SES/EML XML bindings (to OXF)
++ migrated from Apache Muse to 52North amused (fork of Muse)
++ Improved WSDL descriptions, now allows fully access to all operations through the WSDL definitions
++ (Meta Feature) introduced Integration Testing to provide an improved stable service
+
+Bug Fixes:
+- Fixed a namespace issue for Unsubscribe and UnsubscribeResponse. The wrong namespace "http://docs.oasis-open.org/wsn/bw-2" has been changed to "http://docs.oasis-open.org/wsn/b-2"
+- Following Bugs filed at the Bugzilla have been fixed:
+- https://bugzilla.52north.org/show_bug.cgi?id=351
+- https://bugzilla.52north.org/show_bug.cgi?id=359
+- https://bugzilla.52north.org/show_bug.cgi?id=401
+- https://bugzilla.52north.org/show_bug.cgi?id=700
+- https://bugzilla.52north.org/show_bug.cgi?id=715
+- https://bugzilla.52north.org/show_bug.cgi?id=720
+- https://bugzilla.52north.org/show_bug.cgi?id=729
+- https://bugzilla.52north.org/show_bug.cgi?id=746
+- https://bugzilla.52north.org/show_bug.cgi?id=815
+- https://bugzilla.52north.org/show_bug.cgi?id=844
+
+Version 1.0.0, 2012-05-24
+-----------
+New Features:
++ First official release
++ Correct processing order of messages is now guaranteed (deactivation possible through config parameer)
++ Configuration via web-frontend (security is based on tomcat user authentication)
++ Landing page, including Simple SOAP Client (Javascript needed)
++ Upgrade to Esper version 4.5.0
++ Subscription/Publisher resource naming enhanced ("Subscription-#", "Publisher-#")
++ WSDL Port Types renamed: Broker, SubscriptionManager, PublisherRegistrationManager
+
+Bug Fixes:
++ Minor bugs in subscription persistency
++ Resource freeing during shutdown

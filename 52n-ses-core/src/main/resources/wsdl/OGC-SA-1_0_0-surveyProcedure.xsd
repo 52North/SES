@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This OGC work (including software, documents, or other related items) is being
+provided by the copyright holders under the following license. By obtaining,
+using and/or copying this work, you (the licensee) agree that you have read,
+understood, and will comply with the following terms and conditions:
+
+Permission to use, copy, and modify this software and its documentation, with
+or without modification, for any purpose and without fee or royalty is hereby
+granted, provided that you include the following on ALL copies of the software
+and documentation or portions thereof, including modifications, that you make:
+
+   1. The full text of this NOTICE in a location viewable to users of the
+   redistributed or derivative work.
+   2. Any pre-existing intellectual property disclaimers, notices, or terms
+   and conditions. If none exist, a short notice of the following form (hypertext
+   is preferred, text is permitted) should be used within the body of any
+   redistributed or derivative code: "Copyright © [$date-of-document] Open
+   Geospatial Consortium, Inc. All Rights Reserved.
+   http://www.opengeospatial.org/ogc/legal (Hypertext is preferred, but a textual
+   representation is permitted.)
+   3. Notice of any changes or modifications to the OGC files, including the
+   date changes were made. (We recommend you provide URIs to the location from
+   which the code is derived.)
+ 
+
+THIS SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
+THE USE OF THE SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS,
+COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE SOFTWARE OR DOCUMENTATION.
+
+The name and trademarks of copyright holders may NOT be used in advertising or
+publicity pertaining to the software without specific, written prior permission.
+Title to copyright in this software and any associated documentation will at all
+times remain with copyright holders.
+
+
+CHANGES TO ORIGINAL FILE (derived from http://schemas.opengeospatial.net):
+xsd:import's and xsd:include's changed to local one-folder-hierarchy -->
+<schema xmlns:sa="http://www.opengis.net/sampling/1.0" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:gml="http://www.opengis.net/gml" xmlns:gmd="http://www.isotc211.org/2005/gmd"
+        xmlns:om="http://www.opengis.net/om/1.0" targetNamespace="http://www.opengis.net/sampling/1.0"
+        elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+	<annotation>
+		<documentation>surveyProcedure.xsd
+
+Components to describe procedures used in sampling.
+
+Copyright (c) 2007 Open Geospatial Consortium - see http://www.opengeospatial.org/ogc/software</documentation>
+	</annotation>
+	<!-- ====================================================================== -->
+	<!-- bring in other schemas -->
+	<import namespace="http://www.opengis.net/gml" schemaLocation="OGC-GML-3_1_1-gml.xsd"/>
+	<!-- GMD cannot be used with GML 3.1.1
+	<import namespace="http://www.isotc211.org/2005/gmd" schemaLocation="../../../../gml/trunk/gml/3.1.1/gmd/gmd.xsd"/>
+	-->
+	<import namespace="http://www.opengis.net/om/1.0" schemaLocation="OGC-OM-1_0_0-om.xsd"/>
+	<!-- ====================================================================== -->
+	<!-- ====================================================================== -->
+	<complexType name="SurveyProcedureType">
+		<annotation>
+			<documentation>Specialized procedure related to surveying positions and locations.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gml:AbstractFeatureType">
+				<sequence>
+					<element name="operator" type="sa:AnyOrReferenceType" minOccurs="0"/>
+					<!-- Replace with
+					<element name="operator" type="gmd:CI_ResponsibleParty_PropertyType" minOccurs="0"/>
+					when upgrading to GML 3.2
+					-->
+					<element name="elevationDatum" type="gml:ReferenceType" minOccurs="0"/>
+					<!-- Replace with
+					<element name="elevationDatum" type="gml:VerticalDatumPropertyType" minOccurs="0"/>
+					when upgrading to GML 3.2
+					-->
+					<element name="elevationMethod" type="om:ProcessPropertyType" minOccurs="0"/>
+					<element name="elevationAccuracy" type="gml:MeasureType" minOccurs="0"/>
+					<element name="geodeticDatum" type="gml:ReferenceType" minOccurs="0"/>
+					<!-- Replace with
+					<element name="geodeticDatum" type="gml:GeodeticDatumPropertyType" minOccurs="0"/>
+					when upgrading to GML 3.2
+					-->
+					<element name="positionMethod" type="om:ProcessPropertyType"/>
+					<element name="positionAccuracy" type="gml:MeasureType" minOccurs="0"/>
+					<element name="projection" type="gml:ReferenceType" minOccurs="0"/>
+					<!-- Replace with
+					<element name="projection" type="gml:SingleCRSPropertyType" minOccurs="0"/>
+					when upgrading to GML 3.2
+					-->
+					<element name="surveyTime" type="gml:TimePrimitivePropertyType" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- ...................... -->
+	<element name="SurveyProcedure" type="sa:SurveyProcedureType" substitutionGroup="gml:_Feature">
+		<annotation>
+			<documentation>Specialized procedure related to surveying positions and locations.</documentation>
+		</annotation>
+	</element>
+	<!-- ...................... -->
+	<complexType name="SurveyProcedurePropertyType">
+		<sequence minOccurs="0">
+			<element ref="sa:SurveyProcedure"/>
+		</sequence>
+		<attributeGroup ref="gml:AssociationAttributeGroup"/>
+	</complexType>
+	<!-- ====================================================================== -->
+		<!-- ====================================================================== -->
+	<complexType name="AnyOrReferenceType">
+		<annotation>
+			<documentation>Placeholder type</documentation>
+		</annotation>
+		<sequence minOccurs="0">
+			<any/>
+		</sequence>
+		<attributeGroup ref="gml:AssociationAttributeGroup"/>
+	</complexType>
+	<!-- ====================================================================== -->
+
+</schema>

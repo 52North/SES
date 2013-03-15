@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+	xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+	<soap:Header>
+		<wsa:To>${ses_host}</wsa:To>
+		<wsa:Action>http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest
+		</wsa:Action>
+		<wsa:MessageID>uuid:4e595160-185a-9b3c-3eb6-592c7c5b0c7a
+		</wsa:MessageID>
+		<wsa:From>
+			<wsa:Address>http://www.w3.org/2005/08/addressing/role/anonymous
+			</wsa:Address>
+		</wsa:From>
+	</soap:Header>
+	<soap:Body>
+		<wsnt:Subscribe>
+			<wsnt:ConsumerReference>
+				<wsa:Address>http://localhost:8080/ses-main-3.0-SNAPSHOT2/services/SesPortType
+				</wsa:Address>
+			</wsnt:ConsumerReference>
+			<wsnt:Filter xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2"
+				xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:gml32="http://www.opengis.net/gml/3.2"
+				xmlns:ows="http://www.opengis.net/ows" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:schemaLocation="http://www.opengis.net/fes/2.0 http://schemas.opengis.net/filter/2.0.0/filterAll.xsd">
+				<wsnt:MessageContent Dialect="http://www.opengis.net/ses/filter/level2">
+					<fes:Filter>
+						<fes:And>
+							<fes:Intersects>
+								<fes:ValueReference>geometry</fes:ValueReference>
+								<fes:Literal>
+									<gml32:LineString gml32:id="Line1">
+										<gml32:posList>43 57 6.52302 66 7 55.48638 45 25 30.43372 61
+											31
+											2.90387
+										</gml32:posList>
+									</gml32:LineString>
+								</fes:Literal>
+							</fes:Intersects>
+							<fes:PropertyIsGreaterThan>
+								<fes:ValueReference>doubleValue</fes:ValueReference>
+								<fes:Literal>
+									<swe:Quantity xmlns:swe="http://www.opengis.net/swe/1.0.1">
+										<swe:value>3</swe:value>
+									</swe:Quantity>
+								</fes:Literal>
+							</fes:PropertyIsGreaterThan>
+						</fes:And>
+					</fes:Filter>
+				</wsnt:MessageContent>
+			</wsnt:Filter>
+		</wsnt:Subscribe>
+	</soap:Body>
+</soap:Envelope>

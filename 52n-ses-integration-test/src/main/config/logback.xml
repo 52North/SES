@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user -->
+<!-- -->
+<!-- For professional support please see -->
+<!-- http://www.qos.ch/shop/products/professionalSupport -->
+<!-- -->
+<configuration>
+	<property name="logFile" value="${catalina.home:-.}/logs/52n-ses" />
+	<property name="requestLogFile" value="${catalina.home:-.}/logs/52n-ses-requests" />
+	<appender name="sesrequestfileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+		<!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy -->
+		<!--for further documentation -->
+		<File>${requestLogFile}.log</File><!-- ${catalina.home}/logs/52n-ses-requests.log -->
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${requestLogFile}/%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{ISO8601} [%t] %m%n%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="sesfile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+		<!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy -->
+		<!--for further documentation -->
+		<File>${logFile}.log</File><!-- ${catalina.home}/logs/52n-ses.log -->
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${logFile}/%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%d{ISO8601} [%t] %-5p %c: %m%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="sesconsole" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{ISO8601} [%t] %-5p %c: %m%n</pattern>
+		</encoder>
+	</appender>
+	<logger name="sesRequestLogger" additivity="false" level="DEBUG">
+		<appender-ref ref="sesrequestfileAppender" />
+	</logger>
+	<logger name="org.n52" level="DEBUG" />
+	<logger name="org.n52.ses.filter.epl.EPLFilterController" level="DEBUG" />
+	<root level="INFO">
+		<appender-ref ref="sesfile" />
+		<appender-ref ref="sesconsole" />
+	</root>
+</configuration>

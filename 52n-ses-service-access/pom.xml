@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.sensorweb.ses</groupId>
+		<artifactId>52n-ses</artifactId>
+		<version>1.2.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>52n-ses-service-access</artifactId>
+	<description>52North Sensor Event Service External service access module</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.n52.sensorweb.ses</groupId>
+			<artifactId>52n-ses-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb.ses</groupId>
+			<artifactId>52n-ses-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb.ses</groupId>
+			<artifactId>52n-ses-utils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb.ses</groupId>
+			<artifactId>52n-ses-tests</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- XML BINDINGS -->
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-wfs-v20</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.wps</groupId>
+			<artifactId>52n-wps-xml</artifactId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-util-xml</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.amused</groupId>
+			<artifactId>amused-util</artifactId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-core</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-wsa-soap</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<groupId>com.vividsolutions</groupId>
+			<artifactId>jts</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-wfs-v110</artifactId>
+		</dependency>
+	</dependencies>
+</project>

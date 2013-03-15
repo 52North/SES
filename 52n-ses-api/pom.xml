@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.sensorweb.ses</groupId>
+		<artifactId>52n-ses</artifactId>
+		<version>1.2.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>52n-ses-api</artifactId>
+	<description>52North Sensor Event Service API Module</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<dependencies>
+	
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-ses-v00</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-oxf-conversion</artifactId>
+		</dependency>
+
+		<dependency>
+			<artifactId>amused-wsn-api</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-core</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-util-xml</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-wsa-soap</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>amused-wsrf-api</artifactId>
+			<groupId>org.n52.amused</groupId>
+		</dependency>
+		<dependency>
+			<groupId>com.espertech</groupId>
+			<artifactId>esper</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>

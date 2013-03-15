@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serviceGroup>
+    <service name="sas">
+        <parameter locked="false" name="ServiceClass">org.apache.muse.core.platform.axis2.AxisIsolationLayer</parameter>
+        <operation name="handleRequest">
+            <messageReceiver class="org.apache.axis2.receivers.RawXMLINOutMessageReceiver"/>
+            <actionMapping>http://docs.oasis-open.org/wsrf/rlw-2/ScheduledResourceTermination/SetTerminationTimeRequest</actionMapping>
+            <actionMapping>http://docs.oasis-open.org/wsrf/rlw-2/ImmediateResourceTermination/DestroyRequest</actionMapping>
+            <actionMapping>http://docs.oasis-open.org/wsrf/rpw-2/QueryResourceProperties/QueryResourcePropertiesRequest</actionMapping>
+            <actionMapping>http://docs.oasis-open.org/wsrf/rpw-2/SetResourceProperties/SetResourcePropertiesRequest</actionMapping>
+            <actionMapping>http://schemas.xmlsoap.org/ws/2004/09/mex/GetMetadata</actionMapping>
+            <actionMapping>http://docs.oasis-open.org/wsrf/rpw-2/GetResourcePropertyDocument/GetResourcePropertyDocumentRequest</actionMapping>
+            <actionMapping>http://docs.oasis-open.org/wsrf/rpw-2/GetResourceProperty/GetResourcePropertyRequest</actionMapping>
+            <actionMapping>http://docs.oasis-open.org/wsrf/rpw-2/GetMultipleResourceProperties/GetMultipleResourcePropertiesRequest</actionMapping>
+            <actionMapping>http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/GetCurrentMessageRequest</actionMapping>
+            <actionMapping>http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest</actionMapping>
+        </operation>
+    </service>
+    <service name="SubscriptionManager">
+        <parameter locked="false" name="ServiceClass">org.apache.muse.core.platform.axis2.AxisIsolationLayer</parameter>
+        <operation name="handleRequest">
+            <messageReceiver class="org.apache.axis2.receivers.RawXMLINOutMessageReceiver"/>
+        </operation>
+    </service>
+</serviceGroup>

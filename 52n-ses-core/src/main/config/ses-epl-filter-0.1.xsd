@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Matthes Rieke (Westfälische Wilhelms-Universität Münster) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ses="http://www.opengis.net/ses/0.0" targetNamespace="http://www.opengis.net/ses/0.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="en">
+	<!-- ==============================================================
+		elements and types
+	============================================================== -->
+	<xs:element name="EPLFilters">
+		<xs:annotation>
+			<xs:documentation>List of EPLFilters</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ses:EPLFilter" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- =========================================================== -->
+	<xs:element name="EPLFilter">
+		<xs:annotation>
+			<xs:documentation>EPLFilter element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Statement">
+					<xs:annotation>
+						<xs:documentation>The Statement as pure EPL syntax</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="doOutput" type="xs:boolean">
+									<xs:annotation>
+										<xs:documentation>set to true if it should trigger a notification to the subscriptions endpoint.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="externalInput" type="xs:boolean" use="required"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="newEventName" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>the new stream name</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

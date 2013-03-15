@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:essp="http://www.opengis.net/es-sp/0.0" targetNamespace="http://www.opengis.net/es-sp/0.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="en">
+	<!-- Subscription Policy Elements -->
+	<xs:element name="EventServiceSubscriptionPolicy">
+		<xs:annotation>
+			<xs:documentation>Base element of an Event Service Subscription
+				policy.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="UpdateInterval" type="essp:UpdateIntervalType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Specify an update interval for a subscription.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- Types -->
+	<xs:complexType name="UpdateIntervalType">
+		<xs:sequence>
+			<xs:element name="IntervalDuration" type="xs:duration"/>
+			<xs:element name="DisseminationMethod">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="batching">
+							<xs:annotation>
+								<xs:documentation>
+									Use if all events occurred within the update interval should be
+									disseminated in one aggregated message.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="latest">
+							<xs:annotation>
+								<xs:documentation>
+									Use if only the latest event within the update interval should
+									be disseminated.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="NonRelatedEventTreatment" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="ignore">
+							<xs:annotation>
+								<xs:documentation>
+									Ignore non-related (different features) events within the update
+									interval.
+									When using "latest" as DisseminationMethod only the actual latest
+									event for the subscription regardless of
+									the associated feature will be provided
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="separate">
+							<xs:annotation>
+								<xs:documentation>
+									The service should identify related events (e.g. for different
+									features) and provide messages for
+									all features within the update interval.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- CAPABILITIES -->
+	<xs:element name="SubscriptionPolicyCapabilities" type="essp:SubscriptionPolicyCapabilitiesType"/>
+	<xs:complexType name="SubscriptionPolicyCapabilitiesType">
+		<xs:sequence>
+			<xs:element name="SupportedPolicies">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="UpdateIntervalPolicy">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="BatchingSupported" type="xs:boolean"/>
+									<xs:element name="NonRelatedEventTreatmentSupported" type="xs:boolean"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This OGC work (including software, documents, or other related items) is being
+provided by the copyright holders under the following license. By obtaining,
+using and/or copying this work, you (the licensee) agree that you have read,
+understood, and will comply with the following terms and conditions:
+
+Permission to use, copy, and modify this software and its documentation, with
+or without modification, for any purpose and without fee or royalty is hereby
+granted, provided that you include the following on ALL copies of the software
+and documentation or portions thereof, including modifications, that you make:
+
+   1. The full text of this NOTICE in a location viewable to users of the
+   redistributed or derivative work.
+   2. Any pre-existing intellectual property disclaimers, notices, or terms
+   and conditions. If none exist, a short notice of the following form (hypertext
+   is preferred, text is permitted) should be used within the body of any
+   redistributed or derivative code: "Copyright © [$date-of-document] Open
+   Geospatial Consortium, Inc. All Rights Reserved.
+   http://www.opengeospatial.org/ogc/legal (Hypertext is preferred, but a textual
+   representation is permitted.)
+   3. Notice of any changes or modifications to the OGC files, including the
+   date changes were made. (We recommend you provide URIs to the location from
+   which the code is derived.)
+ 
+
+THIS SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
+THE USE OF THE SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS,
+COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE SOFTWARE OR DOCUMENTATION.
+
+The name and trademarks of copyright holders may NOT be used in advertising or
+publicity pertaining to the software without specific, written prior permission.
+Title to copyright in this software and any associated documentation will at all
+times remain with copyright holders.
+
+
+CHANGES TO ORIGINAL FILE (derived from http://schemas.opengeospatial.net):
+xsd:import's and xsd:include's changed to local one-folder-hierarchy -->
+<!-- Mit XMLSpy v2010 rel. 3 sp1 (http://www.altova.com) von Thomas Everding (Wetsfaelische Wilhelms-Universität) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:eml="http://www.opengis.net/eml/0.0.2" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:swe="http://www.opengis.net/swe/1.0.1" targetNamespace="http://www.opengis.net/eml/0.0.2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<!--= Imports ===============-->
+	<xs:import namespace="http://www.opengis.net/swe/1.0.1" schemaLocation="OGC-SWE-1_0_1-simpleTypes.xsd"/>
+	<xs:import namespace="http://www.opengis.net/fes/2.0" schemaLocation="OGC-FILTER-2_0_0-filter.xsd"/>
+	<xs:import namespace="http://www.opengis.net/gml/3.2" schemaLocation="OGC-GML-3_2_1-temporal.xsd"/>
+	<xs:include schemaLocation="OGC-EML-0_0_2-emlEvent.xsd"/>
+	<!--=======================-->
+	<xs:element name="EML">
+		<xs:annotation>
+			<xs:documentation>root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SimplePatterns">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="eml:SimplePattern" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ComplexPatterns">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="eml:ComplexPattern" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TimerPatterns">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="eml:TimerPattern" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RepetitivePatterns">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="eml:RepetitivePattern" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!--=======================-->
+	<xs:element name="AbstractPattern" type="eml:AbstractPatternType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>base substitution group for all patterns</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AbstractPatternType">
+		<xs:sequence>
+			<xs:element name="SelectFunctions">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="eml:SelectFunction" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PatternDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional textual description of the event pattern.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="patternID" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Unique ID to refer to this pattern.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="AbstractViewPattern" type="eml:AbstractViewPatternType" abstract="true" substitutionGroup="eml:AbstractPattern"/>
+	<xs:complexType name="AbstractViewPatternType">
+		<xs:complexContent>
+			<xs:extension base="eml:AbstractPatternType">
+				<xs:sequence>
+					<xs:element ref="eml:View" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="AbstractGuardedViewPattern" type="eml:AbstractGuardedViewPatternType" abstract="true" substitutionGroup="eml:AbstractViewPattern"/>
+	<xs:complexType name="AbstractGuardedViewPatternType">
+		<xs:complexContent>
+			<xs:extension base="eml:AbstractViewPatternType">
+				<xs:sequence>
+					<xs:element ref="eml:Guard" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="SimplePattern" type="eml:SimplePatternType" substitutionGroup="eml:AbstractGuardedViewPattern">
+		<xs:annotation>
+			<xs:documentation>pattern to match on single events</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SimplePatternType">
+		<xs:complexContent>
+			<xs:extension base="eml:AbstractGuardedViewPatternType">
+				<xs:sequence>
+					<xs:element name="PropertyRestrictions">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="PropertyRestriction" type="eml:EventAttributeType" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Input">
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="ExternalInput" type="xs:string">
+									<xs:annotation>
+										<xs:documentation>Reference to an external input for this Event Pattern. Must be unique for the application.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="InternalInput" type="eml:PatternReferenceType">
+									<xs:annotation>
+										<xs:documentation>Reference to an EML document internal input for this Event Pattern.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="ComplexPattern" substitutionGroup="eml:AbstractGuardedViewPattern">
+		<xs:annotation>
+			<xs:documentation>pattern to match multiple events</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="eml:ComplexPatternType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ComplexPatternType">
+		<xs:complexContent>
+			<xs:extension base="eml:AbstractGuardedViewPatternType">
+				<xs:sequence>
+					<xs:choice>
+						<xs:element name="CAUSE">
+							<xs:annotation>
+								<xs:documentation>Matches if all events that satisfy the first pattern are cause of all events that satisfy the second pattern.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PARALLEL">
+							<xs:annotation>
+								<xs:documentation>Matches if all events that satisfy the first pattern are not cause of all events that satisfy the second pattern.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="BEFORE"/>
+						<xs:element name="AND">
+							<xs:annotation>
+								<xs:documentation>Matches if both patterns match.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AND_NOT">
+							<xs:annotation>
+								<xs:documentation>Matches if the first but not the second pattern matches.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="OR">
+							<xs:annotation>
+								<xs:documentation>Matches if one of the two patterns matches.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="UserDefindeBinaryOperator" type="eml:UserDefinedOperatorType"/>
+					</xs:choice>
+					<xs:element name="FirstPattern" type="eml:PatternReferenceType"/>
+					<xs:element name="SecondPattern" type="eml:PatternReferenceType"/>
+					<xs:element name="MaximumListeningDuration" type="xs:duration" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Allows to specify a maximum duration in witch a pattern must match. The duration starts with the first match of of one of the inner patterns. If the pattern does not match during the duration the first match is discarded and the pattern listens for new matches.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="TimerPattern" type="eml:TimerPatternType" substitutionGroup="eml:AbstractViewPattern">
+		<xs:annotation>
+			<xs:documentation>pattern to match on system clock events</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="TimerPatternType">
+		<xs:complexContent>
+			<xs:extension base="eml:AbstractViewPatternType">
+				<xs:choice>
+					<xs:element name="TimerAt">
+						<xs:annotation>
+							<xs:documentation>Matches for specific times. Every included element is combined by AND. If an element is not set, TRUE is used instead.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="Second" type="eml:MinuteSecondType" minOccurs="0"/>
+								<xs:element name="Minute" type="eml:MinuteSecondType" minOccurs="0"/>
+								<xs:element name="Hour" type="eml:HourType" minOccurs="0"/>
+								<xs:element name="DayOfWeek" type="eml:DayOfWeekType" minOccurs="0"/>
+								<xs:element name="DayOfMonth" type="eml:DayOfMonthType" minOccurs="0"/>
+								<xs:element name="Month" type="eml:MonthType" minOccurs="0"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="TimerInterval" type="xs:duration">
+						<xs:annotation>
+							<xs:documentation>Matches after a given duration.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="MinuteSecondType">
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="59"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="HourType">
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="23"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DayOfWeekType">
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DayOfMonthType">
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="31"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MonthType">
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--=======================-->
+	<xs:element name="RepetitivePattern" type="eml:RepetitivePatternType" substitutionGroup="eml:AbstractPattern">
+		<xs:annotation>
+			<xs:documentation>pattern to match on repetitions</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="RepetitivePatternType">
+		<xs:complexContent>
+			<xs:extension base="eml:AbstractPatternType">
+				<xs:sequence>
+					<xs:element ref="eml:EventCount"/>
+					<xs:element name="PatternToRepeat" type="eml:PatternReferenceType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="View" type="eml:ViewType">
+		<xs:annotation>
+			<xs:documentation>data views like sliding and tumbling windows</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ViewType">
+		<xs:choice>
+			<xs:element name="LengthView">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="eml:EventCount"/>
+					</xs:sequence>
+					<xs:attribute name="isBatch" type="xs:boolean"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TimeView">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="eml:Duration"/>
+					</xs:sequence>
+					<xs:attribute name="isBatch" type="xs:boolean"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="TimeLengthView">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="eml:EventCount"/>
+						<xs:element ref="eml:Duration"/>
+					</xs:sequence>
+					<xs:attribute name="isBatch" type="xs:boolean"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AllView"/>
+			<xs:element name="UserDefinedView">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ViewParameters">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ViewParameter" type="eml:UserParameterType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="name" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>Name of the view.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="eml:GenericView"/>
+		</xs:choice>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="GenericView" type="eml:GenericViewType">
+		<xs:annotation>
+			<xs:documentation>A generic restrictive view.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GenericViewType">
+		<xs:sequence>
+			<xs:element name="ParameterDefinitions" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Defines the parameters that can be used in the generic view.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ParameterDefinition" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="eml:ParameterIdentifier"/>
+									<xs:element name="ViewClearingCondition" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Definition in which cases the according view has to be cleared.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element ref="fes:Filter"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InsertCriteria" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Criteria that have to be matched by all events in the view and the new event in order to accept the new event. Accepts all if not set. Multiple criteria are combined ba a logical AND.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InsertCriterion" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="fes:Filter"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReleaseCriteria" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Criteria whitch defines when which events are released. Keeps all if not set. In case of multiple criteria all will be used in parrallel.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReleaseCriterion" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ReleaseCondition">
+										<xs:annotation>
+											<xs:documentation>Defines the condition when the top most event is released from the stack (repeated untiil the condition is not matched anymore).</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element ref="fes:Filter"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:choice minOccurs="0">
+										<xs:element name="StackFunction">
+											<xs:annotation>
+												<xs:documentation>Function that defines the order in the event stack. If not set the oldest event will be released first.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="fes:Function"/>
+													<xs:element name="Descending" type="xs:boolean" default="true">
+														<xs:annotation>
+															<xs:documentation>Defines the order in the stack- In case of 'descending=true' and the function 'distanceTo' the far most event will be on top of the stack.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Batch" type="xs:boolean" default="true"/>
+									</xs:choice>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SelectFunctionInvocation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Defines in which cases the select functions shall be invoked. Default is "OnAnyChange" (ContentUpdate or ParameterUpdate)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OnParameterUpdate" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Invocation if one of the specified parameters is updated.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="eml:ParameterIdentifier" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ContentUpdate" minOccurs="0">
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="OnInsert">
+										<xs:annotation>
+											<xs:documentation>Invocation if a new event is inserted.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="OnRelease">
+										<xs:annotation>
+											<xs:documentation>Invocation if an event is released.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="OnContentChange">
+										<xs:annotation>
+											<xs:documentation>Invocation if the views content is changed.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="SelectFunction" type="eml:SelectFunctionType">
+		<xs:annotation>
+			<xs:documentation>output generation from event patterns</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SelectFunctionType">
+		<xs:choice>
+			<xs:element name="SelectEvent">
+				<xs:annotation>
+					<xs:documentation>Selects the whole event..</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="eventName" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>Events with this name will be selected.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SelectProperty">
+				<xs:annotation>
+					<xs:documentation>Selects a property of an event.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="UpdateParameters" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Lists parameters (e.g. of generic views) that shall be updated with the selected value.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="eml:ParameterIdentifier" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="propertyName" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>Name of an event property. Used to specify the property to be slected. </xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SelectSum">
+				<xs:annotation>
+					<xs:documentation>Selects the sum of a property of all available events.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="propertyName" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>Name of an event property. Used to specify the property to be slected. </xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SelectAvg">
+				<xs:annotation>
+					<xs:documentation>Selects the average of a property of all available events.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="propertyName" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>Name of an event property. Used to specify the property to be slected. </xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SelectMax">
+				<xs:annotation>
+					<xs:documentation>Selects the maximun of a property of all available events.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="propertyName" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>Name of an event property. Used to specify the property to be slected. </xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SelectMin">
+				<xs:annotation>
+					<xs:documentation>Selects the minimum of a property of all available events.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="propertyName" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>Name of an event property. Used to specify the property to be slected. </xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SelectCount">
+				<xs:annotation>
+					<xs:documentation>Selects the count of the available events.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NotifyOnSelect">
+				<xs:annotation>
+					<xs:documentation>If an event is fired a message is sent instead of selecting the event. Can be used for system diagnostics.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Message" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Message sent via the referred output.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UserDefinedSelectFunction">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FunctionParameters">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FunctionParameter" type="eml:UserParameterType" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="name" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="outputName" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Refers to an output description. If set, the results will be values for the output.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="createCausality" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>If set to true,  the causing events will be saved in the causl vector of the result event. If not used, the default value if "false".</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="newEventName" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Specifies the name of the event that is newly created if the pattern matches (pattern matched event). This event contains the selected (derived) properties or events. The name shall be unique for the EML document.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="attributeName">
+			<xs:annotation>
+				<xs:documentation>Specifies the name of the property in the newly created event und which the selected result shall be available. If not set, 'value' will be used as default.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="Guard" type="eml:GuardType"/>
+	<xs:complexType name="GuardType">
+		<xs:sequence>
+			<xs:element ref="fes:Filter"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:complexType name="UserDefinedOperatorType">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="EventCount" type="xs:positiveInteger"/>
+	<xs:complexType name="EventCountType">
+		<xs:simpleContent>
+			<xs:extension base="xs:unsignedInt"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<!--=======================-->
+	<xs:element name="Duration" type="xs:duration"/>
+	<!--=======================-->
+	<xs:complexType name="PatternReferenceType">
+		<xs:sequence>
+			<xs:element name="PatternReference" type="xs:string"/>
+			<xs:element name="SelectFunctionNumber" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Numer of the selectFunction wich defines the newEventName to repeat. Starting with 0.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UserParameterType">
+		<xs:sequence>
+			<xs:element name="UserParameterName" type="xs:string"/>
+			<xs:element name="UserParameterValue" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="ParameterIdentifier" type="xs:string"/>
+</xs:schema>

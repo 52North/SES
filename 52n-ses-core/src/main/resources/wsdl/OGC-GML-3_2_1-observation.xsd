@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This OGC work (including software, documents, or other related items) is being
+provided by the copyright holders under the following license. By obtaining,
+using and/or copying this work, you (the licensee) agree that you have read,
+understood, and will comply with the following terms and conditions:
+
+Permission to use, copy, and modify this software and its documentation, with
+or without modification, for any purpose and without fee or royalty is hereby
+granted, provided that you include the following on ALL copies of the software
+and documentation or portions thereof, including modifications, that you make:
+
+   1. The full text of this NOTICE in a location viewable to users of the
+   redistributed or derivative work.
+   2. Any pre-existing intellectual property disclaimers, notices, or terms
+   and conditions. If none exist, a short notice of the following form (hypertext
+   is preferred, text is permitted) should be used within the body of any
+   redistributed or derivative code: "Copyright © [$date-of-document] Open
+   Geospatial Consortium, Inc. All Rights Reserved.
+   http://www.opengeospatial.org/ogc/legal (Hypertext is preferred, but a textual
+   representation is permitted.)
+   3. Notice of any changes or modifications to the OGC files, including the
+   date changes were made. (We recommend you provide URIs to the location from
+   which the code is derived.)
+ 
+
+THIS SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
+THE USE OF THE SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS,
+COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE SOFTWARE OR DOCUMENTATION.
+
+The name and trademarks of copyright holders may NOT be used in advertising or
+publicity pertaining to the software without specific, written prior permission.
+Title to copyright in this software and any associated documentation will at all
+times remain with copyright holders.
+
+
+CHANGES TO ORIGINAL FILE (derived from http://schemas.opengeospatial.net):
+xsd:import's and xsd:include's changed to local one-folder-hierarchy -->
+<schema targetNamespace="http://www.opengis.net/gml/3.2" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" elementFormDefault="qualified" version="3.2.1">
+	<annotation>
+		<appinfo source="urn:x-ogc:specification:gml:schema-xsd:observation:3.2.1">observation.xsd</appinfo>
+		<documentation>See ISO/DIS 19136 Clause 19.
+A GML observation models the act of observing, often with a camera, a person or some form of instrument.  An observation feature describes the "metadata" associated with an information capture event, together with a value for the result of the observation.  This covers a broad range of cases, from a tourist photo (not the photo but the act of taking the photo), to images acquired by space borne sensors or the measurement of a temperature 5 meters below the surfaces of a lake.
+The basic structures introduced in this schema are intended to serve as the foundation for more comprehensive schemas for scientific, technical and engineering measurement schemas.
+</documentation>
+	</annotation>
+	<include schemaLocation="OGC-GML-3_2_1-feature.xsd"/>
+	<include schemaLocation="OGC-GML-3_2_1-direction.xsd"/>
+	<include schemaLocation="OGC-GML-3_2_1-valueObjects.xsd"/>
+	<element name="Observation" type="gml:ObservationType" substitutionGroup="gml:AbstractFeature">
+		<annotation>
+			<documentation>The content model is a straightforward extension of gml:AbstractFeatureType; it automatically has the gml:identifier, gml:description, gml:descriptionReference, gml:name, and gml:boundedBy properties. 
+The gml:validTime element describes the time of the observation. Note that this may be a time instant or a time period.
+The gml:using property contains or references a description of a sensor, instrument or procedure used for the observation.
+The gml:target property contains or references the specimen, region or station which is the object of the observation. This property is particularly useful for remote observations, such as photographs, where a generic location property might apply to the location of the camera or the location of the field of view, and thus may be ambiguous.  
+The gml:subject element is provided as a convenient synonym for gml:target. This is the term commonly used in phtotography.  
+The gml:resultOf property indicates the result of the observation.  The value may be inline, or a reference to a value elsewhere.
+</documentation>
+		</annotation>
+	</element>
+	<complexType name="ObservationType">
+		<complexContent>
+			<extension base="gml:AbstractFeatureType">
+				<sequence>
+					<element ref="gml:validTime"/>
+					<element ref="gml:using" minOccurs="0"/>
+					<element ref="gml:target" minOccurs="0"/>
+					<element ref="gml:resultOf"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="using" type="gml:ProcedurePropertyType"/>
+	<complexType name="ProcedurePropertyType">
+		<sequence minOccurs="0">
+			<element ref="gml:AbstractFeature"/>
+		</sequence>
+		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
+		<attributeGroup ref="gml:AssociationAttributeGroup"/>
+	</complexType>
+	<element name="target" type="gml:TargetPropertyType"/>
+	<element name="subject" type="gml:TargetPropertyType" substitutionGroup="gml:target"/>
+	<complexType name="TargetPropertyType">
+		<choice minOccurs="0">
+			<element ref="gml:AbstractFeature"/>
+			<element ref="gml:AbstractGeometry"/>
+		</choice>
+		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
+		<attributeGroup ref="gml:AssociationAttributeGroup"/>
+	</complexType>
+	<element name="resultOf" type="gml:ResultType"/>
+	<complexType name="ResultType">
+		<sequence minOccurs="0">
+			<any namespace="##any"/>
+		</sequence>
+		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
+		<attributeGroup ref="gml:AssociationAttributeGroup"/>
+	</complexType>
+	<element name="DirectedObservation" type="gml:DirectedObservationType" substitutionGroup="gml:Observation">
+		<annotation>
+			<documentation>A gml:DirectedObservation is the same as an observation except that it adds an additional gml:direction property. This is the direction in which the observation was acquired. Clearly this applies only to certain types of observations such as visual observations by people, or observations obtained from terrestrial cameras.</documentation>
+		</annotation>
+	</element>
+	<complexType name="DirectedObservationType">
+		<complexContent>
+			<extension base="gml:ObservationType">
+				<sequence>
+					<element ref="gml:direction"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="DirectedObservationAtDistance" type="gml:DirectedObservationAtDistanceType" substitutionGroup="gml:DirectedObservation">
+		<annotation>
+			<documentation>gml:DirectedObservationAtDistance adds an additional distance property. This is the distance from the observer to the subject of the observation. Clearly this applies only to certain types of observations such as visual observations by people, or observations obtained from terrestrial cameras.</documentation>
+		</annotation>
+	</element>
+	<complexType name="DirectedObservationAtDistanceType">
+		<complexContent>
+			<extension base="gml:DirectedObservationType">
+				<sequence>
+					<element name="distance" type="gml:MeasureType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

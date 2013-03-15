@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>org.n52.sensorweb.ses</groupId>
+	<artifactId>52n-ses-bindings</artifactId>
+    <version>1.2.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>52n-xml-ses-config</artifactId>
+  <packaging>jar</packaging>
+  <name>SES configuration schema bindings</name>
+  <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xmlbeans-maven-plugin</artifactId>
+                <configuration>
+                	<schemaDirectory>src/main/xsd</schemaDirectory>
+                    <sourceSchemas>
+						<sourceSchema>ses/config/1.0/ses-config.xsd</sourceSchema>
+                    </sourceSchemas>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-ses-v00</artifactId>
+		</dependency>
+    </dependencies>
+</project>

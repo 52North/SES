@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.sensorweb.ses</groupId>
+		<artifactId>52n-ses</artifactId>
+		<version>1.2.0-SNAPSHOT</version>
+	</parent>
+
+	<packaging>pom</packaging>
+	<artifactId>52n-ses-bindings</artifactId>
+	<description>52North Sensor Event Service XML Bindings Module</description>
+
+	<modules>
+		<module>52n-xml-epl-filter</module>
+		<module>52n-xml-ses-config</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.9.0</version>
+				<executions>
+					<execution>
+						<id>check-headers</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+					<inherited>true</inherited>
+					<configuration>
+						<archive>
+							<!-- no index leads to errors, in some classloaders -->
+							<index>false</index>
+							<manifest>
+								<addClasspath>true</addClasspath>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>xmlbeans-maven-plugin</artifactId>
+					<version>2.3.3</version>
+					<executions>
+						<execution>
+							<id>main</id>
+							<goals>
+								<goal>xmlbeans</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<!-- xmlbeans plugin only used to generate the classes not for compiling 
+							or jar generation. -->
+						<noJavac>true</noJavac>
+						<memoryInitialSize>256</memoryInitialSize>
+						<memoryMaximumSize>512</memoryMaximumSize>
+						<download>false</download>
+						<schemaDirectory>target/xmlbeans-xsds/META-INF/xml</schemaDirectory>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

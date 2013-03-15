@@ -1,0 +1,11 @@
+<wsnt:Filter xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+	<wsnt:MessageContent Dialect="http://www.opengis.net/es-sf/0.0"
+		xmlns:aixm="http://www.aixm.aero/schema/5.1">
+		<essf:StoredFilterSubscription
+			id="urn:ogc:def:filter:OGC-ES::SubscribeForFeatureTypeAndExcludeMetadata"
+			xmlns:essf="http://www.opengis.net/es-sf/0.0">
+			<essf:ParameterValue name="typename"
+				xmlns:aixm="http://www.aixm.aero/schema/5.1">aixm:Runway</essf:ParameterValue>
+		</essf:StoredFilterSubscription>
+	</wsnt:MessageContent>
+</wsnt:Filter>

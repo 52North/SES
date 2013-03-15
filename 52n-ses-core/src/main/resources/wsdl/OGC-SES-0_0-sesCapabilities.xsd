@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This OGC work (including software, documents, or other related items) is being
+provided by the copyright holders under the following license. By obtaining,
+using and/or copying this work, you (the licensee) agree that you have read,
+understood, and will comply with the following terms and conditions:
+
+Permission to use, copy, and modify this software and its documentation, with
+or without modification, for any purpose and without fee or royalty is hereby
+granted, provided that you include the following on ALL copies of the software
+and documentation or portions thereof, including modifications, that you make:
+
+   1. The full text of this NOTICE in a location viewable to users of the
+   redistributed or derivative work.
+   2. Any pre-existing intellectual property disclaimers, notices, or terms
+   and conditions. If none exist, a short notice of the following form (hypertext
+   is preferred, text is permitted) should be used within the body of any
+   redistributed or derivative code: "Copyright © [$date-of-document] Open
+   Geospatial Consortium, Inc. All Rights Reserved.
+   http://www.opengeospatial.org/ogc/legal (Hypertext is preferred, but a textual
+   representation is permitted.)
+   3. Notice of any changes or modifications to the OGC files, including the
+   date changes were made. (We recommend you provide URIs to the location from
+   which the code is derived.)
+ 
+
+THIS SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
+THE USE OF THE SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS,
+COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE SOFTWARE OR DOCUMENTATION.
+
+The name and trademarks of copyright holders may NOT be used in advertising or
+publicity pertaining to the software without specific, written prior permission.
+Title to copyright in this software and any associated documentation will at all
+times remain with copyright holders.
+
+
+CHANGES TO ORIGINAL FILE (derived from http://schemas.opengeospatial.net):
+xsd:import's and xsd:include's changed to local one-folder-hierarchy -->
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Matthes Rieke (Westfälische Wilhelms-Universität Münster) -->
+<!-- Mit XMLSpy v2008 sp1 (http://www.altova.com) von Thomas Everding (Institut für Geoinformatik) bearbeitet -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:ses="http://www.opengis.net/ses/0.0" xmlns:ogc="http://www.opengis.net/fes/2.0" targetNamespace="http://www.opengis.net/ses/0.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="en">
+	<!-- ==============================================================
+		includes and imports
+	============================================================== -->
+	<xs:import namespace="http://www.opengis.net/ows/1.1" schemaLocation="OGC-OWS-1_1_0-owsAll.xsd"/>
+	<xs:import namespace="http://www.opengis.net/fes/2.0" schemaLocation="OGC-FILTER-2_0_0-filterCapabilities.xsd"/>
+	<xs:include schemaLocation="OGC-SES-0_0-sesCommon.xsd"/>
+	<!-- ==============================================================
+		elements and types
+	============================================================== -->
+	<xs:element name="GetCapabilities">
+		<xs:annotation>
+			<xs:documentation>Request to a SES to perform the GetCapabilities operation. This operation allows a client to retrieve service metadata (capabilities XML) providing metadata for the specific SES server. In this XML encoding, no "request" parameter is included, since the element name specifies the specific operation. </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ows:GetCapabilitiesType">
+					<xs:attribute name="service" type="ows:ServiceType" use="required" fixed="SES"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- =========================================================== -->
+	<xs:element name="Capabilities">
+		<xs:annotation>
+			<xs:documentation>XML encoded SES GetCapabilities operation response. This document provides clients with service metadata about a specific service instance, including metadata about the tightly-coupled data served. If the server does not implement the updateSequence parameter, the server shall always return the complete Capabilities document, without the updateSequence parameter. When the server implements the updateSequence parameter and the GetCapabilities operation request included the updateSequence parameter with the current value, the server shall return this element with only the "version" and "updateSequence" attributes. Otherwise, all optional elements shall be included or not depending on the actual value of the Sections parameter in the GetCapabilities operation request. </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ows:CapabilitiesBaseType">
+					<xs:sequence>
+						<xs:element ref="ses:Contents" minOccurs="0"/>
+						<xs:element name="SubscriptionCapabilities" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>List of Capabilities of the dialects that can be used in subscriptions (WS-N MessageContent Dialect).</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SubscriptionCapability" type="ses:SubscriptionCapabilityType" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Capabilities of a single dialect.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="UnitConversionCapabilities" type="ses:UnitConversion_CapabilitiesType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Contents">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="registeredSensors" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>root element for all SubscriptionOfferings</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ses:SensorID" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!--==========================================================-->
+	<xs:complexType name="SubscriptionCapabilityType">
+		<xs:sequence>
+			<xs:element name="DialectIdentifier" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Identifier of this dialect. To be used in subscriptions as value of the WS-N MessageContent Dialect.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DialectCapabilities" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional capabilities of this specific dialect (e.g., filter capabilities of the OGC filter encoding).</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any processContents="lax"/>
+					</xs:sequence>
+					<xs:anyAttribute processContents="lax"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="label" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Local name or label for this dialect (e.g., XPath, EML).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<!--==========================================================-->
+	<xs:complexType name="UnitConversion_CapabilitiesType">
+		<xs:sequence>
+			<xs:element name="UCUM" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>True if conversion of UCUM codes are supported, else false.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UnitDefinitions" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If present, the service shall list all additional unit definitions that it supports when performing unit conversion.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="UnitDefinition" type="xs:anyURI" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
