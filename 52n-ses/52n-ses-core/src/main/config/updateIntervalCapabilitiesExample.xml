@@ -1,8 +1,0 @@
-<essp:SubscriptionPolicyCapabilities xmlns:essp="http://www.opengis.net/es-sp/0.0">
-	<essp:SupportedPolicies>
-		<essp:UpdateIntervalPolicy>
-			<essp:BatchingSupported>true</essp:BatchingSupported>
-			<essp:NonRelatedEventTreatmentSupported>false</essp:NonRelatedEventTreatmentSupported>
-		</essp:UpdateIntervalPolicy>
-	</essp:SupportedPolicies>
-</essp:SubscriptionPolicyCapabilities>

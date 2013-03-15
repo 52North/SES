@@ -1,3 +1,0 @@
-<essf:StoredFilterSubscription xmlns:message="http://www.aixm.aero/schema/5.1/message" id="urn:ogc:def:filter:OGC-ES::SubscribeForFeatureType" xmlns:essf="http://www.opengis.net/es-sf/0.0">
-    <essf:ParameterValue name="typename">message:AIXMBasicMessage</essf:ParameterValue>
-</essf:StoredFilterSubscription>
