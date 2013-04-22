@@ -32,7 +32,7 @@
 		</dependency>
 
 		<dependency>
-			<artifactId>amused-wsn-api</artifactId>
+			<artifactId>amused-wsn-impl</artifactId>
 			<groupId>org.n52.amused</groupId>
 		</dependency>
 		<dependency>

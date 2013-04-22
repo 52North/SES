@@ -42,7 +42,7 @@ public class SesTopicFactory {
 	/**
 	 * namespace for the SES topics
 	 */
-	public static final String NAMESPACE = "http://www.opengis.net/ses/topics";
+	public static final String NAMESPACE = "http://www.opengis.net/ses/0.0";
 	
 	
 	/** 
@@ -53,6 +53,7 @@ public class SesTopicFactory {
 	    new QName(NAMESPACE, "AIXMData", "sestopic"), 
 	    new QName(NAMESPACE, "Cap", "sestopic"),
 	    new QName(NAMESPACE, "SensorManagement", "sestopic"),
+	    new QName(NAMESPACE, "ExpirationInformation", "sestopic")
 	};
 	
 	

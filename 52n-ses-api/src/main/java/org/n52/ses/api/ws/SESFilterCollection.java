@@ -32,6 +32,7 @@ import org.apache.muse.util.xml.XmlUtils;
 import org.apache.muse.ws.notification.Filter;
 import org.apache.muse.ws.notification.NotificationMessage;
 import org.apache.muse.ws.notification.WsnConstants;
+import org.apache.muse.ws.notification.impl.FilterCollection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -40,7 +41,7 @@ import org.w3c.dom.Element;
  * @author Matthes Rieke <m.rieke@uni-muenster.de>
  *
  */
-public class SESFilterCollection implements Filter {
+public class SESFilterCollection extends FilterCollection {
 
 	private Collection<Filter> _filters = new ArrayList<Filter>();
 	
@@ -86,11 +87,11 @@ public class SESFilterCollection implements Filter {
 	 * @param filter a valid {@link Filter}
 	 * @throws Throwable if more than one {@link IConstraintFilter} is added.
 	 */
-	public void addFilter(Filter filter) throws Throwable {
+	public void addFilter(Filter filter) {
 		if (filter instanceof IConstraintFilter && this.constraintFilter == null) {
 			this.constraintFilter = (IConstraintFilter) filter;
 		} else if (filter instanceof IConstraintFilter && this.constraintFilter != null) {
-			throw new Throwable("Only one constraint filter per subscription is allowed.");
+			throw new RuntimeException("Only one constraint filter per subscription is allowed.");
 		}
 		this._filters.add(filter);
 	}
