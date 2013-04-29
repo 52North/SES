@@ -244,7 +244,19 @@ public class SESNotificationProducer extends SimpleNotificationProducer implemen
 		//check for SESConstraintFilter and registers at IFilterEngine
 		if (subMgr.isHasConstraintFilter()) {
 			try {
-				this._filterEngine.registerFilter(subMgr);
+				if (this._filterEngine == null) {
+					synchronized (FIRST_RUN_MUTEX) {
+						if (this._filterEngine == null) {
+							this._filterEngine = ConfigurationRegistry.getInstance().getFilterEngine();
+						}
+					}
+				}
+				
+				if (this._filterEngine == null) {
+					throw new SubscribeCreationFailedFault("Could not access an instanceof IFilterEngine! Subscriptions may not match!");
+				} else {
+					this._filterEngine.registerFilter(subMgr);
+				}
 			} catch (Exception e) {
 				try {
 					/*
