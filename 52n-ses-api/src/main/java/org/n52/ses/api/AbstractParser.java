@@ -23,10 +23,16 @@
  */
 package org.n52.ses.api;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+
+import javax.xml.namespace.QName;
 
 import org.apache.muse.ws.notification.NotificationMessage;
 import org.n52.ses.api.event.MapEvent;
+import org.w3c.dom.Element;
 
 
 /**
@@ -77,5 +83,34 @@ public abstract class AbstractParser {
 		this.unitConverter = con;
 	}
 	
-
+	protected List<Element> extractMessageContent(NotificationMessage message, Set<QName> qnames) {
+		List<Element> result = new ArrayList<Element>();
+		
+		Element content;
+		for (QName qn : qnames) {
+			content = message.getMessageContent(qn);
+			if (content != null) {
+				result.add(content);
+			}
+		}
+		
+		return result;
+	}
+	
+	protected List<Element> extractMessageContent(NotificationMessage message, QName qname) {
+		return extractMessageContent(message, Collections.singleton(qname));
+	}
+	
+	protected boolean hasMessageContent(NotificationMessage message, Set<QName> qnames) {
+		for (QName qName : qnames) {
+			if (message.getMessageContentNames().contains(qName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected boolean hasMessageContent(NotificationMessage message, QName qn) {
+		return hasMessageContent(message, Collections.singleton(qn));
+	}
 }
