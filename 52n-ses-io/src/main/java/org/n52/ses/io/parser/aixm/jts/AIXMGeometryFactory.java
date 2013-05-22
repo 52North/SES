@@ -34,6 +34,8 @@ import net.opengis.gml.x32.BoundingShapeType;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.conversion.gml32.geometry.GeometryWithInterpolation;
 import org.n52.oxf.conversion.gml32.xmlbeans.jts.GMLGeometryFactory;
+import org.n52.oxf.conversion.gml32.xmlbeans.jts.PointFactory;
+import org.n52.oxf.conversion.gml32.xmlbeans.jts.PolygonFactory;
 import org.n52.oxf.conversion.unit.UOMTools;
 import org.n52.ses.io.parser.aixm.ElevatedSurfaceGeometry;
 import org.n52.ses.io.parser.aixm.TimeSliceTools;
@@ -85,7 +87,7 @@ public class AIXMGeometryFactory {
 	}
 	
 	public static GeometryWithInterpolation createElevatedPoint(ElevatedPointType point) {
-		Point geom = GMLGeometryFactory.createPoint(point.getPos(), point.getSrsName());
+		Point geom = PointFactory.createPoint(point.getPos(), point.getSrsName());
 		return new GeometryWithInterpolation(geom, null);
 	}
 
@@ -166,7 +168,7 @@ public class AIXMGeometryFactory {
 
 	private static GeometryWithInterpolation parseBoundedBy(
 			BoundingShapeType boundedBy) {
-		Geometry result = GMLGeometryFactory.createPolygon(boundedBy);
+		Geometry result = PolygonFactory.createPolygon(boundedBy);
 		return new GeometryWithInterpolation(result, null);
 	}
 
