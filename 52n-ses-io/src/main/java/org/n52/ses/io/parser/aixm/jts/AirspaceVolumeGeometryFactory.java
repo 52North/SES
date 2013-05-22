@@ -35,6 +35,7 @@ import org.n52.oxf.conversion.gml32.geometry.AltitudeLimits;
 import org.n52.oxf.conversion.gml32.geometry.GeometryWithInterpolation;
 import org.n52.oxf.conversion.gml32.srs.SRSUtils;
 import org.n52.oxf.conversion.gml32.xmlbeans.jts.GMLGeometryFactory;
+import org.n52.oxf.conversion.gml32.xmlbeans.jts.PolygonFactory;
 import org.n52.ses.io.parser.aixm.AltitudeTools;
 
 import aero.aixm.schema.x51.AirspaceVolumeType;
@@ -89,7 +90,7 @@ public class AirspaceVolumeGeometryFactory {
 		List<GeometryWithInterpolation> result = new ArrayList<GeometryWithInterpolation>();
 		for (AbstractSurfacePatchType patch : surface.getPatches().getAbstractSurfacePatchArray()) {
 			if (patch instanceof PolygonPatchType) {
-				result.add(GMLGeometryFactory.createPolygonPatch((PolygonPatchType) patch, srs));
+				result.add(PolygonFactory.createPolygonPatch((PolygonPatchType) patch, srs));
 			} else if (patch instanceof RectangleType) {
 				result.add(GMLGeometryFactory.createRectangle((RectangleType) patch, srs));
 			} else {
