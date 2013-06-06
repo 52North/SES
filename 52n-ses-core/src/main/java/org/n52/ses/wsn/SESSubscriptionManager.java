@@ -54,6 +54,7 @@ import org.apache.muse.ws.notification.Policy;
 import org.apache.muse.ws.notification.WsnConstants;
 import org.apache.muse.ws.notification.impl.FilterCollection;
 import org.apache.muse.ws.notification.impl.FilterFactory;
+import org.apache.muse.ws.notification.impl.MessagePatternFilterHandler;
 import org.apache.muse.ws.notification.impl.SimpleSubscriptionManager;
 import org.apache.muse.ws.resource.lifetime.ScheduledTermination;
 import org.apache.muse.ws.resource.lifetime.WsrlConstants;
@@ -300,6 +301,8 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		FilterFactory.getInstance().addHandler(new SESConstraintFilterHandler());
 		FilterFactory.getInstance().addHandler(new EPLFilterHandler());
 		FilterFactory.getInstance().addHandler(new StoredFilterHandler());
+		FilterFactory.getInstance().addHandler(new MessagePatternFilterHandler());
+		
 
 		if (logger.isInfoEnabled())
 			logger.info("initializing config from file {}...", getResource().getEnvironment().getDataResource(ConfigurationRegistry.CONFIG_FILE));
