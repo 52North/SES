@@ -48,12 +48,13 @@ public class EposFilterWrapper implements Filter, EngineCoveredFilter {
 		CharSequence xmlString = filter.serialize();
 		XmlObject xo;
 		try {
+			logger.debug("Filter {} serialized as '{}'", filter, xmlString);
 			xo = XmlObject.Factory.parse(xmlString.toString());
 		} catch (XmlException e) {
 			logger.warn(e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
-		return xo.getDomNode().getOwnerDocument().getDocumentElement();
+		return (Element) xo.getDomNode().getFirstChild();
 	}
 
 	@Override
@@ -68,6 +69,11 @@ public class EposFilterWrapper implements Filter, EngineCoveredFilter {
 	public boolean accepts(NotificationMessage message) {
 		//never used
 		return false;
+	}
+	
+	@Override
+	public Object getEngineSpecificFilter() {
+		return this.filter;
 	}
 
 }

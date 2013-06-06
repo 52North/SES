@@ -45,6 +45,7 @@ import org.n52.epos.filter.PassiveFilter;
 import org.n52.epos.rules.Rule;
 import org.n52.epos.rules.RuleListener;
 import org.n52.ses.api.IFilterEngine;
+import org.n52.ses.api.ws.EngineCoveredFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,14 +60,17 @@ public class EposEngineWrapper implements IFilterEngine {
 	
 	@Override
 	public void filter(NotificationMessage message) {
-		logger.info("New message: {}", XmlUtils.toString(message.toXML()));
+		logger.info("here we should insert the new message.");
 	}
 
 	@Override
 	public boolean registerFilter(final SubscriptionManager subMgr) throws Exception {
 		List<EposFilter> filters = findEposFilters(subMgr.getFilter(), new ArrayList<EposFilter>());
 		
-		if (filters.isEmpty()) return false;
+		if (filters.isEmpty()) {
+			logger.info("No Epos filters found ({})", subMgr.getFilter());
+			return false;
+		}
 		
 		RuleInstance rule = new RuleInstance(new RuleListener() {
 			
@@ -95,6 +99,7 @@ public class EposEngineWrapper implements IFilterEngine {
 			}
 		}
 		
+		logger.info("Registering Rule: {}", rule);
 		EposEngine.getInstance().registerRule(rule);
 		
 		synchronized (this) {
@@ -113,8 +118,12 @@ public class EposEngineWrapper implements IFilterEngine {
 	}
 
 	private List<EposFilter> findEposFilters(Filter filter, List<EposFilter> resultList) {
-		if (filter instanceof EposFilter) {
-			resultList.add((EposFilter) filter);
+		if (filter instanceof EngineCoveredFilter) {
+			EngineCoveredFilter ecf = (EngineCoveredFilter) filter;
+			Object specific = ecf.getEngineSpecificFilter();
+			if (specific instanceof EposFilter) {
+				resultList.add((EposFilter) specific);	
+			}
 		}
 		else if (filter instanceof FilterCollection) {
 			for (Object f : ((FilterCollection) filter).getFilters()) {

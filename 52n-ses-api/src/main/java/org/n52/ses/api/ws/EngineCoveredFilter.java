@@ -25,4 +25,6 @@ package org.n52.ses.api.ws;
 
 public interface EngineCoveredFilter {
 
+	Object getEngineSpecificFilter();
+
 }
