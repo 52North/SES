@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2010 rel. 3 sp1 (http://www.altova.com) von Thomas Everding (Wetsfaelische Wilhelms-Universität) bearbeitet -->
+<xs:schema xmlns:b="my.namespace.b" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:a="my.namespace.a" targetNamespace="my.namespace.b" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="my.namespace.a" schemaLocation="Test_Parent.xsd"/>
+	<xs:element name="Child" type="b:ChildType" substitutionGroup="a:Parent">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ChildType">
+		<xs:complexContent>
+			<xs:extension base="a:ParentType">
+				<xs:sequence minOccurs="0">
+					<xs:group ref="b:childGroup" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:group name="childGroup">
+		<xs:sequence>
+			<xs:element name="Something" type="xs:date"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:element name="RestrictedChild" type="b:RestrictedChildType"/>
+	<xs:complexType name="RestrictedChildType">
+		<xs:complexContent>
+			<xs:restriction base="b:ChildType">
+				<xs:sequence>
+					<xs:sequence>
+						<xs:group ref="b:childGroup"/>
+					</xs:sequence>
+				</xs:sequence>
+			</xs:restriction>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

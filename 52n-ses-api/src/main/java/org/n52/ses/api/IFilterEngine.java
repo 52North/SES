@@ -45,8 +45,10 @@ public interface IFilterEngine  {
 	 * register a new subscription filter.
 	 * @param subMgr the subscription manager
 	 * @throws Exception exception if error occurs during the registration
+	 * @return true, if the subscriptionmanager was registered at the engine instance
+	 * with a filter
 	 */
-	public abstract void registerFilter(SubscriptionManager subMgr) throws Exception;
+	public abstract boolean registerFilter(SubscriptionManager subMgr) throws Exception;
 	
 	/**
 	 * remove a subscription from the filter engine 

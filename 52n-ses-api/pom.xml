@@ -51,10 +51,6 @@
 			<artifactId>amused-wsrf-api</artifactId>
 			<groupId>org.n52.amused</groupId>
 		</dependency>
-		<dependency>
-			<groupId>com.espertech</groupId>
-			<artifactId>esper</artifactId>
-		</dependency>
 
 	</dependencies>
 

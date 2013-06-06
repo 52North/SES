@@ -25,13 +25,10 @@ package org.n52.ses.api.ws;
 
 import org.apache.muse.ws.notification.Filter;
 import org.apache.xmlbeans.XmlObject;
-import org.n52.ses.api.event.MapEvent;
 
 public interface ISubscriptionManager {
 
 	void publish(INotificationMessage origMessage);
-
-	XmlObject generateSESEvent(MapEvent resultEvent);
 
 	boolean sendSESNotificationMessge(XmlObject eventDoc);
 

@@ -1,0 +1,5 @@
+<wsnt:MessageContent Dialect="http://www.w3.org/TR/1999/REC-xpath-19991116"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:om="http://www.opengis.net/om/1.0"
+	xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+	//om:Observation/om:procedure/@xlink:href='water_gauge_sensor-1'
+</wsnt:MessageContent>

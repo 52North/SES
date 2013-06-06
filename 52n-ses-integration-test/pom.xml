@@ -55,7 +55,7 @@
 							<artifactItems>
 								<artifactItem>
 									<groupId>org.n52.sensorweb.ses</groupId>
-									<artifactId>52n-ses-core</artifactId>
+									<artifactId>52n-ses-webapp</artifactId>
 									<version>${project.version}</version>
 									<type>war</type>
 									<overWrite>true</overWrite>

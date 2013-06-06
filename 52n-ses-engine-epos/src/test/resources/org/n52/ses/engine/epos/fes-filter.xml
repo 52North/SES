@@ -1,0 +1,24 @@
+<wsnt:MessageContent Dialect="http://www.opengis.net/ses/filter/level2"
+	xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+	<fes:Filter xmlns="http://www.opengis.net/wfs" xmlns:fes="http://www.opengis.net/fes/2.0"
+		xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:ows="http://www.opengis.net/ows"
+		xmlns:swe="http://www.opengis.net/swe/1.0.1">
+		<fes:Within>
+			<fes:ValueReference>horizontalProjection</fes:ValueReference>
+			<fes:Literal>
+				<gml:Polygon gml:id="aoi_01">
+					<gml:exterior>
+						<gml:LinearRing>
+							<gml:posList>
+								58.0 3.0
+								40.0 3.0
+								40.0 -1.0
+								58.0 -1.0
+								58.0 3.0</gml:posList>
+						</gml:LinearRing>
+					</gml:exterior>
+				</gml:Polygon>
+			</fes:Literal>
+		</fes:Within>
+	</fes:Filter>
+</wsnt:MessageContent>

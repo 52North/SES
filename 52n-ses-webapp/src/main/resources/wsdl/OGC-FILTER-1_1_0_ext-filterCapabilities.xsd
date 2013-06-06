@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This OGC work (including software, documents, or other related items) is being
+provided by the copyright holders under the following license. By obtaining,
+using and/or copying this work, you (the licensee) agree that you have read,
+understood, and will comply with the following terms and conditions:
+
+Permission to use, copy, and modify this software and its documentation, with
+or without modification, for any purpose and without fee or royalty is hereby
+granted, provided that you include the following on ALL copies of the software
+and documentation or portions thereof, including modifications, that you make:
+
+   1. The full text of this NOTICE in a location viewable to users of the
+   redistributed or derivative work.
+   2. Any pre-existing intellectual property disclaimers, notices, or terms
+   and conditions. If none exist, a short notice of the following form (hypertext
+   is preferred, text is permitted) should be used within the body of any
+   redistributed or derivative code: "Copyright © [$date-of-document] Open
+   Geospatial Consortium, Inc. All Rights Reserved.
+   http://www.opengeospatial.org/ogc/legal (Hypertext is preferred, but a textual
+   representation is permitted.)
+   3. Notice of any changes or modifications to the OGC files, including the
+   date changes were made. (We recommend you provide URIs to the location from
+   which the code is derived.)
+ 
+
+THIS SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO, WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT
+THE USE OF THE SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS,
+COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+COPYRIGHT HOLDERS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF ANY USE OF THE SOFTWARE OR DOCUMENTATION.
+
+The name and trademarks of copyright holders may NOT be used in advertising or
+publicity pertaining to the software without specific, written prior permission.
+Title to copyright in this software and any associated documentation will at all
+times remain with copyright holders.
+
+
+CHANGES TO ORIGINAL FILE (derived from http://schemas.opengeospatial.net):
+xsd:import's and xsd:include's changed to local one-folder-hierarchy -->
+<!-- Mit XMLSpy v2008 rel. 2 sp1 (http://www.altova.com) von Ingo Simonis (International Geospatial Services Institute GmbH) bearbeitet -->
+<xsd:schema xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:eml="http://www.opengis.net/eml/0.0.1" targetNamespace="http://www.opengis.net/ogc" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+  <xsd:import namespace="http://www.opengis.net/eml/0.0.1" schemaLocation="OGC-EML-0_0_1-emlCapabilities.xsd"/>
+  <xsd:element name="Filter_Capabilities">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Id_Capabilities" type="ogc:Id_CapabilitiesType" minOccurs="0"/>
+        <xsd:element name="Scalar_Capabilities" type="ogc:Scalar_CapabilitiesType" minOccurs="0"/>
+        <xsd:element name="Spatial_Capabilities" type="ogc:Spatial_CapabilitiesType" minOccurs="0"/>
+        <xsd:element name="Temporal_Capabilities" type="ogc:Temporal_CapabilitiesType" minOccurs="0"/>
+        <xsd:element name="UnitConversion_Capabilities" type="ogc:UnitConversion_CapabilitiesType" minOccurs="0"/>
+        <xsd:element name="EML_Capabilities" type="eml:EML_CapabilitiesType" minOccurs="0"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="Spatial_CapabilitiesType">
+    <xsd:sequence>
+      <xsd:element name="GeometryOperands" type="ogc:GeometryOperandsType"/>
+      <xsd:element name="SpatialOperators" type="ogc:SpatialOperatorsType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="GeometryOperandsType">
+    <xsd:sequence>
+      <xsd:element name="GeometryOperand" type="ogc:GeometryOperandType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="GeometryOperandType">
+    <xsd:restriction base="xsd:QName">
+      <xsd:enumeration value="gml:Envelope"/>
+      <xsd:enumeration value="gml:Point"/>
+      <xsd:enumeration value="gml:LineString"/>
+      <xsd:enumeration value="gml:Polygon"/>
+      <xsd:enumeration value="gml:ArcByCenterPoint"/>
+      <xsd:enumeration value="gml:CircleByCenterPoint"/>
+      <xsd:enumeration value="gml:Arc"/>
+      <xsd:enumeration value="gml:Circle"/>
+      <xsd:enumeration value="gml:ArcByBulge"/>
+      <xsd:enumeration value="gml:Bezier"/>
+      <xsd:enumeration value="gml:Clothoid"/>
+      <xsd:enumeration value="gml:CubicSpline"/>
+      <xsd:enumeration value="gml:Geodesic"/>
+      <xsd:enumeration value="gml:OffsetCurve"/>
+      <xsd:enumeration value="gml:Triangle"/>
+      <xsd:enumeration value="gml:PolyhedralSurface"/>
+      <xsd:enumeration value="gml:TriangulatedSurface"/>
+      <xsd:enumeration value="gml:Tin"/>
+      <xsd:enumeration value="gml:Solid"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="SpatialOperatorsType">
+    <xsd:sequence>
+      <xsd:element name="SpatialOperator" type="ogc:SpatialOperatorType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SpatialOperatorType">
+    <xsd:sequence>
+      <xsd:element name="GeometryOperands" type="ogc:GeometryOperandsType" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="ogc:SpatialOperatorNameType"/>
+  </xsd:complexType>
+  <xsd:simpleType name="SpatialOperatorNameType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BBOX"/>
+      <xsd:enumeration value="Equals"/>
+      <xsd:enumeration value="Disjoint"/>
+      <xsd:enumeration value="Intersects"/>
+      <xsd:enumeration value="Touches"/>
+      <xsd:enumeration value="Crosses"/>
+      <xsd:enumeration value="Within"/>
+      <xsd:enumeration value="Contains"/>
+      <xsd:enumeration value="Overlaps"/>
+      <xsd:enumeration value="Beyond"/>
+      <xsd:enumeration value="DWithin"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Temporal_CapabilitiesType">
+    <xsd:sequence>
+      <xsd:element name="TemporalOperands" type="ogc:TemporalOperandsType"/>
+      <xsd:element name="TemporalOperators" type="ogc:TemporalOperatorsType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TemporalOperandsType">
+    <xsd:sequence>
+      <xsd:element name="TemporalOperand" type="ogc:TemporalOperandType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="TemporalOperandType">
+    <xsd:restriction base="xsd:QName">
+      <xsd:enumeration value="gml:validTime"/>
+      <xsd:enumeration value="gml:TimeInstant"/>
+      <xsd:enumeration value="gml:TimePeriod"/>
+      <xsd:enumeration value="gml:timePosition"/>
+      <xsd:enumeration value="gml:timeInterval"/>
+      <xsd:enumeration value="gml:duration"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="TemporalOperatorsType">
+    <xsd:sequence>
+      <xsd:element name="TemporalOperator" type="ogc:TemporalOperatorType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TemporalOperatorType">
+    <xsd:sequence>
+      <xsd:element name="TemporalOperands" type="ogc:TemporalOperandsType" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="ogc:TemporalOperatorNameType"/>
+  </xsd:complexType>
+  <xsd:simpleType name="TemporalOperatorNameType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="TM_After"/>
+      <xsd:enumeration value="TM_Before"/>
+      <xsd:enumeration value="TM_Begins"/>
+      <xsd:enumeration value="TM_BegunBy"/>
+      <xsd:enumeration value="TM_Contains"/>
+      <xsd:enumeration value="TM_During"/>
+      <xsd:enumeration value="TM_Equals"/>
+      <xsd:enumeration value="TM_Overlaps"/>
+      <xsd:enumeration value="TM_Meets"/>
+      <xsd:enumeration value="TM_OverlappedBy"/>
+      <xsd:enumeration value="TM_MetBy"/>
+      <xsd:enumeration value="TM_EndedBy"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Scalar_CapabilitiesType">
+    <xsd:sequence>
+      <xsd:element ref="ogc:LogicalOperators" minOccurs="0"/>
+      <xsd:element name="ComparisonOperators" type="ogc:ComparisonOperatorsType" minOccurs="0"/>
+      <xsd:element name="ArithmeticOperators" type="ogc:ArithmeticOperatorsType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="LogicalOperators">
+    <xsd:complexType/>
+  </xsd:element>
+  <xsd:complexType name="ComparisonOperatorsType">
+    <xsd:sequence maxOccurs="unbounded">
+      <xsd:element name="ComparisonOperator" type="ogc:ComparisonOperatorType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="ComparisonOperatorType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="LessThan"/>
+      <xsd:enumeration value="GreaterThan"/>
+      <xsd:enumeration value="LessThanEqualTo"/>
+      <xsd:enumeration value="GreaterThanEqualTo"/>
+      <xsd:enumeration value="EqualTo"/>
+      <xsd:enumeration value="NotEqualTo"/>
+      <xsd:enumeration value="Like"/>
+      <xsd:enumeration value="Between"/>
+      <xsd:enumeration value="NullCheck"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ArithmeticOperatorsType">
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element ref="ogc:SimpleArithmetic"/>
+      <xsd:element name="Functions" type="ogc:FunctionsType"/>
+    </xsd:choice>
+  </xsd:complexType>
+  <xsd:element name="SimpleArithmetic">
+    <xsd:complexType/>
+  </xsd:element>
+  <xsd:complexType name="FunctionsType">
+    <xsd:sequence>
+      <xsd:element name="FunctionNames" type="ogc:FunctionNamesType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="FunctionNamesType">
+    <xsd:sequence maxOccurs="unbounded">
+      <xsd:element name="FunctionName" type="ogc:FunctionNameType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="FunctionNameType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="nArgs" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="Id_CapabilitiesType">
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element ref="ogc:EID"/>
+      <xsd:element ref="ogc:FID"/>
+    </xsd:choice>
+  </xsd:complexType>
+  <xsd:element name="EID">
+    <xsd:complexType/>
+  </xsd:element>
+  <xsd:element name="FID">
+    <xsd:complexType/>
+  </xsd:element>
+  <xsd:complexType name="UnitConversion_CapabilitiesType">
+    <xsd:sequence>
+      <xsd:element name="UCUM" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>True if conversion of UCUM codes are supported, else false.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="UnitDefinitions" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>If present, the service shall list all additional unit definitions that it supports when performing unit conversion.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="UnitDefinition" type="xsd:anyURI" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

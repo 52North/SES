@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.sensorweb.ses</groupId>
+		<artifactId>52n-ses</artifactId>
+		<version>1.2.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>52n-ses-webapp</artifactId>
+	<description>52North Sensor Event Service webapp Module</description>
+	<packaging>war</packaging>
+
+
+	<build>
+		<finalName>${targetWebappName}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources/sesconfig</directory>
+				<filtering>true</filtering>
+				<targetPath>sesconfig</targetPath>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>logback.xml</include>
+					<include>landing_page.html</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+					<webXml>src/main/config/web.xml</webXml>
+					<webResources>
+						<resource>
+							<directory>src/main/muse-webcontent</directory>
+							<filtering>false</filtering>
+						</resource>
+						<!-- <resource> <directory>src/main/config/sesconfig</directory> <filtering>true</filtering> 
+							<targetPath>WEB-INF/classes/sesconfig</targetPath> </resource> -->
+					</webResources>
+				</configuration>
+
+			</plugin>
+		</plugins>
+
+
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.n52.sensorweb.ses</groupId>
+			<artifactId>52n-ses-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb.ses</groupId>
+			<artifactId>52n-ses-engine-epos</artifactId>
+		</dependency>
+	</dependencies>
+
+
+</project>
