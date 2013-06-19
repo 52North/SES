@@ -25,6 +25,8 @@ package org.n52.ses.common.test;
 
 import org.apache.muse.core.SimpleResource;
 import org.apache.muse.ws.addressing.soap.SoapFault;
+import org.apache.muse.ws.notification.impl.FilterFactory;
+import org.apache.muse.ws.notification.impl.MessagePatternFilterHandler;
 import org.apache.muse.ws.resource.WsResource;
 import org.apache.muse.ws.resource.metadata.MetadataDescriptor;
 import org.apache.muse.ws.resource.properties.ResourcePropertyCollection;
@@ -61,5 +63,6 @@ public class SimpleWSResourceMockup extends SimpleResource implements WsResource
         throws SoapFault
     {
         _properties = createPropertyCollection();
+        FilterFactory.getInstance().addHandler(new MessagePatternFilterHandler());
     }
 }
