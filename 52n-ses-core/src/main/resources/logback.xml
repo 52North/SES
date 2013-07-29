@@ -23,6 +23,7 @@
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 		<encoder>
+			<charset>UTF-8</charset>
 			<pattern>%d{ISO8601} [%t] %m%n%n</pattern>
 		</encoder>
 	</appender>
@@ -40,11 +41,13 @@
 		</rollingPolicy>
 
 		<encoder>
+			<charset>UTF-8</charset>
 			<pattern>%d{ISO8601} [%t] %-5p %c: %m%n</pattern>
 		</encoder>
 	</appender>
 	<appender name="sesconsole" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
+			<charset>UTF-8</charset>
 			<pattern>%d{ISO8601} [%t] %-5p %c: %m%n</pattern>
 		</encoder>
 	</appender>
