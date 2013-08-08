@@ -49,8 +49,8 @@
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 		<buildDate>${maven.build.timestamp}</buildDate>
 		<svnRevision>${buildNumber}</svnRevision>
-		<oxf.version>2.0.0-alpha.3-SNAPSHOT</oxf.version>
-		<n52.xml.version>1.1.5-SNAPSHOT</n52.xml.version>
+		<oxf.version>2.0.0-alpha.4</oxf.version>
+		<n52.xml.version>1.1.5</n52.xml.version>
 	</properties>
 
 	<build>
