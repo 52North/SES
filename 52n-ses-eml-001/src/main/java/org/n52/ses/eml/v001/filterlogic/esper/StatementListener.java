@@ -202,7 +202,7 @@ public class StatementListener implements UpdateListener{
 	 */
 	protected synchronized void handleMatch(EventBean newEvent) {
 		
-		logger.info("Statement {} matched for Event '{}'",
+		logger.debug("Statement {} matched for Event '{}'",
 				this.getStatement().getStatement(), newEvent.getUnderlying().toString());
 		
 		UpdateHandlerThread handler = new UpdateHandlerThread(this, newEvent);
