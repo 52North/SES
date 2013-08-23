@@ -456,15 +456,29 @@ public class EsperController implements ILogicController {
 			StringBuilder sb = new StringBuilder();
 			sb.append("Statements:");
 			
+			String sep = System.getProperty("line.separator").concat("\t");
 			for (String key : this.listeners.keySet()) {
-				sb.append("\n\t" + key);
+				sb.append(sep);
+				String newEvent = this.listeners.get(key).getStatement().getSelectFunction().getNewEventName();
+				if (newEvent != null) {
+					sb.append(newEvent);
+					sb.append(": ");
+				}
+				sb.append(key);
 			}
 			
 			for (String key : this.countingListeners.keySet()) {
-				sb.append("\n\t" + key);
+				sb.append(sep);
+				String newEvent = this.listeners.get(key).getStatement().getSelectFunction().getNewEventName();
+				if (newEvent != null) {
+					sb.append(newEvent);
+					sb.append(": ");
+				}
+				sb.append(key);
 			}
 			
-			sb.append("\n--");
+			sb.append(sep);
+			sb.append("--");
 			logger.info(sb.toString());
 		}
 		
