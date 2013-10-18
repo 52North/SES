@@ -35,6 +35,7 @@ import net.opengis.gml.x32.PolygonPatchType;
 
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.conversion.gml32.xmlbeans.jts.GMLGeometryFactory;
+import org.n52.oxf.conversion.gml32.xmlbeans.jts.PolygonFactory;
 import org.n52.ses.api.exception.GMLParseException;
 
 import aero.aixm.schema.x51.AirportHeliportTimeSlicePropertyType;
@@ -97,7 +98,7 @@ public class AirportHeliportParser {
 		}
 		// parse bounded by
 		if (geometries.size() == 0 && airportHeliport.isSetBoundedBy()){
-			geometries.add(GMLGeometryFactory.createPolygon(airportHeliport.getBoundedBy()));
+			geometries.add(PolygonFactory.createPolygon(airportHeliport.getBoundedBy()));
 		}
 		
 		return geometries;

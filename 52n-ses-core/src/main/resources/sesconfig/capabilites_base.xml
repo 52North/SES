@@ -158,6 +158,18 @@
 				</ows:AllowedValues>
 			</ows:Parameter>
 		</ows:Operation>
+		<ows:Operation name="DescribeSensor">
+			<ows:DCP>
+				<ows:HTTP>
+					<ows:Post xlink:href="${broker}" />
+				</ows:HTTP>
+			</ows:DCP>
+			<ows:Parameter name="Format">
+				<ows:AllowedValues>
+					<ows:Value>application/soap+xml</ows:Value>
+				</ows:AllowedValues>
+			</ows:Parameter>
+		</ows:Operation>
 		<ows:Operation name="SetTerminationTime">
 			<ows:DCP>
 				<ows:HTTP>

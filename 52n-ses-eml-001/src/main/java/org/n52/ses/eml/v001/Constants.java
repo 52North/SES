@@ -213,6 +213,11 @@ public class Constants {
 	public static final String EPL_WHERE = "where";
 	
 	/**
+	 * esper EPL "having" - keyword
+	 */
+	public static final String EPL_HAVING = "having";
+	
+	/**
 	 * esper EPL "select" - keyword
 	 */
 	public static final String EPL_SELECT = "select";

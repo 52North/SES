@@ -1,0 +1,20 @@
+<ns:OM_Observation ns1:id="o_1367225946546"
+	xmlns:ns="http://www.opengis.net/om/2.0" xmlns:ns1="http://www.opengis.net/gml/3.2">
+	<ns:type
+		xlin:href="http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement"
+		xmlns:xlin="http://www.w3.org/1999/xlink" />
+	<ns:phenomenonTime>
+		<ns1:TimeInstant ns1:id="phenomenonTime">
+			<ns1:timePosition>2039-07-31T17:45:15.000Z</ns1:timePosition>
+		</ns1:TimeInstant>
+	</ns:phenomenonTime>
+	<ns:resultTime xlin:href="#phenomenonTime" xmlns:xlin="http://www.w3.org/1999/xlink" />
+	<ns:procedure xlin:href="http://www.52north.org/test/procedure/101"
+		xmlns:xlin="http://www.w3.org/1999/xlink" />
+	<ns:observedProperty xlin:href="http://www.52north.org/test/observableProperty/1"
+		xmlns:xlin="http://www.w3.org/1999/xlink" />
+	<ns:featureOfInterest xlin:href="#ssf_test_feature_7_3"
+		xmlns:xlin="http://www.w3.org/1999/xlink" />
+	<ns2:result uom="test_unit_7_3"
+		xmlns:ns="http://www.opengis.net/gml/3.2" xmlns:ns2="http://www.opengis.net/om/2.0">0.28</ns2:result>
+</ns:OM_Observation>

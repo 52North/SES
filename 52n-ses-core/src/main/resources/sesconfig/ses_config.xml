@@ -53,7 +53,7 @@
 			<Enabled>true</Enabled>
 		</Parser>
 		<Parser>
-			<JavaClass>org.n52.ses.io.parser.AircraftPositionParser</JavaClass>
+			<JavaClass>org.n52.ses.io.parser.OM20Parser</JavaClass>
 			<Enabled>true</Enabled>
 		</Parser>
 		<Parser>
