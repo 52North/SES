@@ -18,9 +18,9 @@
 	<inceptionYear>2012</inceptionYear>
 
 	<scm>
-		<connection>scm:svn:http://svn.52north.org/svn/swe/incubation/SES/Service/trunk/52n-ses/</connection>
-		<developerConnection>scm:svn:https://svn.52north.org/svn/swe/incubation/SES/Service/trunk/52n-ses/</developerConnection>
-		<url>https://svn.52north.org/cgi-bin/viewvc.cgi/incubation/SES/Service/trunk/52n-ses/?root=sensorweb</url>
+		<connection>scm:git:git://github.com/52North/SES.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/52North/SES.git</developerConnection>
+		<url>https://github.com/52North/SES</url>
 	</scm>
 
 	<modules>
