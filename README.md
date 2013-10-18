@@ -1,8 +1,5 @@
-# 52Â°North Sensor Event Service
+# 52°North Sensor Event Service
 
-<<<<<<< HEAD
-For information on this project visit [http://52north.org/ses](http://52north.org/ses).
-=======
 The Sensor Event Service (SES) is used to provide a publish/subscribe
 based access to not only sensor measurements but several other data
 formats (e.g. aviation-specific data). It also provides methods to
@@ -15,14 +12,11 @@ discussion paper (OGC 08-133).
 This project is managed with Maven3. Simply run `mvn clean install`
 to create a deployable .WAR file. `mvn clean install -P integration-test`
 additionally enables integration tests.
->>>>>>> releasing-1.2.0
 
 ## Branches
 
 This project follows the  [Gitflow branching model](http://nvie.com/posts/a-successful-git-branching-model/). "master" reflects the latest stable release.
 Ongoing development is done in branch [develop](../../tree/develop) and dedicated feature branches (feature-*).
-<<<<<<< HEAD
-=======
 
 ## Deployment Hints
 
@@ -34,4 +28,3 @@ be set in the `CATALINA_OPTS` (-Dfile.encoding="UTF-8").
 ## More Information
 
 [http://52north.org/ses](http://52north.org/ses)
->>>>>>> releasing-1.2.0
