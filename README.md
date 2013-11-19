@@ -1,4 +1,4 @@
-# 52Â°North Sensor Event Service
+# 52°North Sensor Event Service
 
 The Sensor Event Service (SES) is used to provide a publish/subscribe
 based access to not only sensor measurements but several other data
