@@ -30,10 +30,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -41,6 +44,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
+import org.n52.oxf.util.web.PreemptiveBasicAuthenticationHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.n52.ses.util.common.ConfigurationRegistry;
 import org.n52.ses.util.common.SESProperties;
@@ -57,6 +61,9 @@ public class StartupInitServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private WakeUpThread thread;
+	private String basicAuthUser;
+	private String sesurl;
+	private String basicAuthPassword;
 
 	@Override
 	public void init() throws ServletException {
@@ -73,10 +80,12 @@ public class StartupInitServlet extends HttpServlet {
 			log(e.getMessage(), e);
 		}
 
-		String sesurl = "http://localhost:8080/ses/services/Broker";
+		sesurl = "http://localhost:8080/ses/services/Broker";
 		
 		try {
 			sesurl = parameters.getProperty(ConfigurationRegistry.SES_INSTANCE).trim();
+			basicAuthUser = parameters.getProperty(ConfigurationRegistry.BASIC_AUTH_USER);
+			basicAuthPassword = parameters.getProperty(ConfigurationRegistry.BASIC_AUTH_PASSWORD);
 		} catch (Exception e) {
 			/*empty*/
 		}
@@ -91,7 +100,7 @@ public class StartupInitServlet extends HttpServlet {
 
 		log("##Startup Init Wakeup## contacting "+ sesurl);
 
-		this.thread = new WakeUpThread(sesurl, time);
+		this.thread = new WakeUpThread(time);
 		this.thread.start();
 
 	}
@@ -133,14 +142,12 @@ public class StartupInitServlet extends HttpServlet {
 
 	private class WakeUpThread extends Thread {
 
-		private String sesurl;
 		private boolean running;
 		private int wakeUpTime;
 		private boolean firstRun = true;
 
-		public WakeUpThread(String url, int time) {
+		public WakeUpThread(int time) {
 			this.wakeUpTime = time;
-			this.sesurl = url;
 			this.running = true;
 			this.setName("SES-WakeUp-Thread");
 		}
@@ -173,7 +180,18 @@ public class StartupInitServlet extends HttpServlet {
 			
 		}
 		
-
+		public HttpClient createClient() throws MalformedURLException {
+			PreemptiveBasicAuthenticationHttpClient httpClient = new PreemptiveBasicAuthenticationHttpClient(new SimpleHttpClient());
+			
+			if (basicAuthUser != null && !basicAuthUser.isEmpty()
+					&& basicAuthPassword != null && !basicAuthPassword.isEmpty()) {
+				httpClient.provideAuthentication(new HttpHost(new URL(sesurl).getHost(), new URL(sesurl).getPort()),
+						basicAuthUser,
+						basicAuthPassword);	
+			}
+			
+			return httpClient;
+		}
 
 		private boolean sendWakeUpPost() throws IOException, InterruptedException, XmlException {
 			if (this.firstRun) {
@@ -190,10 +208,11 @@ public class StartupInitServlet extends HttpServlet {
 					log("WakeUp Try #"+errors);
 					Thread.sleep(1000);
 					
-		            HttpClient httpClient = new SimpleHttpClient();
-                    String payload = getGetCapabilitiesRequest(this.sesurl);
+					HttpClient httpClient = createClient();
+		            
+                    String payload = getGetCapabilitiesRequest(sesurl);
                     
-                    HttpResponse response = httpClient.executePost(this.sesurl, payload, TEXT_XML);
+                    HttpResponse response = httpClient.executePost(sesurl, payload, TEXT_XML);
                     responseCode = response.getStatusLine().getStatusCode();
                     if (responseCode >= HttpURLConnection.HTTP_MULT_CHOICE) {
                         continue;
@@ -224,8 +243,8 @@ public class StartupInitServlet extends HttpServlet {
             /*
              * send an initial wakeup notification -> main resources get initialized
              */
-        	 HttpClient httpClient = new SimpleHttpClient();
-             HttpResponse response = httpClient.executePost(this.sesurl, readNotification(), TEXT_XML);
+        	 HttpClient httpClient = createClient();
+             HttpResponse response = httpClient.executePost(sesurl, readNotification(), TEXT_XML);
              int responseCode = response.getStatusLine().getStatusCode();
              if (responseCode >= HttpURLConnection.HTTP_MULT_CHOICE) {
             	 log("Could not send initial notification (HTTP response code "+ responseCode + ").");
@@ -247,11 +266,14 @@ public class StartupInitServlet extends HttpServlet {
             capsstream.close();
             
             //send service URL (in <wsa.To> element)
-            return sb.toString().replace("${ses_host}", this.sesurl).
+            return sb.toString().replace("${ses_host}", sesurl).
                     replace("${now}", new DateTime().toString(ISODateTimeFormat.dateTime()));
 		}
 
 
 	}
+
+
+
 	
 }

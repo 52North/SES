@@ -86,6 +86,7 @@ public class ServiceConfigurationServlet extends HttpServlet {
 		 */
 		secretParameters = new HashSet<Object>();
 		secretParameters.add(ConfigurationRegistry.POSTGRES_PWD_KEY);
+		secretParameters.add(ConfigurationRegistry.BASIC_AUTH_PASSWORD);
 
 		hiddenParameters = new HashSet<Object>();
 		hiddenParameters.add(ConfigurationRegistry.USED_FILTER_ENGINE);
@@ -123,6 +124,7 @@ public class ServiceConfigurationServlet extends HttpServlet {
 					sb.append(br.readLine());
 				}
 				html = sb.toString();
+				isr.close();
 			}
 
 			generateRowMarkup(props);

@@ -257,6 +257,12 @@ public class ConfigurationRegistry {
 	 */
 	public static final String MINIMUM_GZIP_SIZE = "MINIMUM_GZIP_SIZE";
 
+	/**
+	 * used if the service instance is secured with HTTP basic authentication
+	 */
+	public static final String BASIC_AUTH_USER = "BASIC_AUTH_USER";
+	public static final String BASIC_AUTH_PASSWORD = "BASIC_AUTH_PASSWORD";
+
 	
 	private static ConfigurationRegistry _instance;
 	private SESProperties parameters;
