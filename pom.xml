@@ -56,9 +56,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<version>1.9.0</version>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>2.2</version>
 				<configuration>
 					<header>${license.header.file}</header>
 					<includes>
@@ -70,8 +70,8 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>check-headers</id>
-						<phase>verify</phase>
+	 					<id>check-headers</id>
+						<phase>initialize</phase>
 						<goals>
 							<goal>check</goal>
 						</goals>
