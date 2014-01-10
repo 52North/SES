@@ -31,6 +31,7 @@ import net.opengis.wfs.x20.FeatureCollectionDocument;
 import net.opengis.wfs.x20.FeatureCollectionType;
 import net.opengis.wfs.x20.MemberPropertyType;
 
+import org.apache.http.entity.ContentType;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
@@ -186,7 +187,7 @@ public class WFSConnector {
 			client.setAuthentication(new BasicAuthenticator(username, password));
 		}
 
-		SESHttpResponse resp = client.sendPost(new URL(wfsURL), request, "text/xml; charset=utf-8");
+		SESHttpResponse resp = client.sendPost(new URL(wfsURL), request, ContentType.create("text/xml", "utf-8"));
 		if (resp.getContentType().contains("xml")) {
 			return XmlObject.Factory.parse(resp.getContent());
 		}
