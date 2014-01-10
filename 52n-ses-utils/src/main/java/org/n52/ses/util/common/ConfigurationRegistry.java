@@ -462,7 +462,11 @@ public class ConfigurationRegistry {
 	public void setFilePersistence(ISESFilePersistence fp) {
 		this.filePersistence = fp;
 	}
+	
 
+	public ISESFilePersistence getFilePersistence() {
+		return filePersistence;
+	}
 
 	/**
 	 * Registers the {@link IFilterEngine}

@@ -23,10 +23,14 @@
  */
 package org.n52.ses.api;
 
+import org.apache.muse.ws.addressing.EndpointReference;
+
 public interface ISESFilePersistence {
 
 	int getPersistentPublisherCount();
 	
 	int getPersistentSubscriberCount();
+
+	void removePattern(EndpointReference endpointReference, String patternXpath);
 	
 }

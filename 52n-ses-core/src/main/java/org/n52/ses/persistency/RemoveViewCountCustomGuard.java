@@ -21,18 +21,36 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.ses.api.common;
+package org.n52.ses.persistency;
 
+import org.n52.ses.api.ISESFilePersistence;
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.api.ws.ISubscriptionManager;
+import org.n52.ses.util.common.ConfigurationRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.espertech.esper.client.EventBean;
 
-public interface CustomStatementEvent {
+public class RemoveViewCountCustomGuard implements CustomStatementEvent {
+	
+	private static final Logger logger = LoggerFactory.getLogger(RemoveViewCountCustomGuard.class);
 
-	String REMOVE_VIEW_COUNT_EVENT = "REMOVE_VIEW_COUNT_EVENT";
+	@Override
+	public void eventFired(EventBean[] newEvents, ISubscriptionManager subMgr) {
+		logger.info("Attempting to remove VIEW_COUNT pattern form persistent subscription '{}'.", subMgr.getEndpointReference().toString());
+		
+		ISESFilePersistence fp = ConfigurationRegistry.getInstance().getFilePersistence();
+		
+		if (fp != null) {
+			fp.removePattern(subMgr.getEndpointReference(), 
+					"//eml:SimplePattern/eml:Guard/fes:Filter/fes:PropertyIsEqualTo/fes:ValueReference[@text='VIEW_COUNT']");
+		}
+	}
 
-	void eventFired(EventBean[] newEvents, ISubscriptionManager subMgr);
-
-	boolean bindsToEvent(String eventIdentifier);
+	@Override
+	public boolean bindsToEvent(String eventIdentifier) {
+		return eventIdentifier.equals(REMOVE_VIEW_COUNT_EVENT);
+	}
 
 }

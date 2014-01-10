@@ -606,5 +606,12 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 
 
 
+	@Override
+	public EndpointReference getEndpointReference() {
+		return this.getWsResource() == null ? null : this.getWsResource().getEndpointReference();
+	}
+
+
+
 
 }

@@ -23,8 +23,9 @@
  */
 package org.n52.ses.eml.v001.filter.custom;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -41,14 +42,23 @@ import org.apache.xmlbeans.XmlString;
 import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.eml.v001.Constants;
 import org.n52.ses.eml.v001.filter.IFilterElement;
-import org.slf4j.LoggerFactory;
 
-import com.espertech.esper.client.EventBean;
 
 public class ViewCountGuard extends CustomGuardFilter {
 	
 	private static final QName EQUAL_QNAME = new QName("http://www.opengis.net/fes/2.0", "PropertyIsEqualTo");
+	private static List<CustomStatementEvent> customEvents = new ArrayList<CustomStatementEvent>();
 	private FilterType guard;
+	
+	static {
+		ServiceLoader<CustomStatementEvent> loader = ServiceLoader.load(CustomStatementEvent.class);
+		
+		for (CustomStatementEvent customStatementEvent : loader) {
+			if (customStatementEvent.bindsToEvent(CustomStatementEvent.REMOVE_VIEW_COUNT_EVENT)) {
+				customEvents.add(customStatementEvent);
+			}
+		}
+	}
 
 	public ViewCountGuard(FilterType guard) {
 		this.guard = guard;
@@ -102,13 +112,7 @@ public class ViewCountGuard extends CustomGuardFilter {
 
 	@Override
 	public List<CustomStatementEvent> getCustomStatementEvents() {
-		CustomStatementEvent e = new CustomStatementEvent() {
-			@Override
-			public void eventFired(EventBean[] newEvents) {
-				LoggerFactory.getLogger(getClass()).info("### Got {} Events", newEvents.length);
-			}
-		};
-		return Collections.singletonList(e);
+		return customEvents;
 	}
 	
 	public static class Factory implements CustomGuardFactory {

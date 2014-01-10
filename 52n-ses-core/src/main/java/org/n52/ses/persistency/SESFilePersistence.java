@@ -403,6 +403,14 @@ public class SESFilePersistence extends AbstractFilePersistence implements Route
 		return persSubscribeCount;
 	}
 
+
+	@Override
+	public void removePattern(EndpointReference endpointReference,
+			String patternXpath) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

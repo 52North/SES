@@ -195,7 +195,7 @@ public class StatementListener implements UpdateListener{
 			
 			if (this.statement.hasCustomStatementEvents()) {
 				for (CustomStatementEvent cse : this.statement.getCustomStatementEvents()) {
-					cse.eventFired(newEvents);
+					cse.eventFired(newEvents, this.subMgr);
 				}
 			}
 		}
