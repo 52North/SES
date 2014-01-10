@@ -28,6 +28,10 @@
 
 package org.n52.ses.eml.v001.filter;
 
+import java.util.List;
+
+import org.n52.ses.api.common.CustomStatementEvent;
+
 /**
  * Standard methods for all filter elements
  * 
@@ -50,5 +54,10 @@ public interface IFilterElement {
 	 * 
 	 * @param nodeValue the property name
 	 */
-	public void setUsedProperty(String nodeValue);	
+	public void setUsedProperty(String nodeValue);
+
+	/**
+	 * @return a list of custom events to be triggered when this filter element finds a match
+	 */
+	List<CustomStatementEvent> getCustomStatementEvents();	
 }

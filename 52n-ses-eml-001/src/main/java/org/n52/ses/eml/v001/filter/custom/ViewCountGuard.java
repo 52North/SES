@@ -23,6 +23,8 @@
  */
 package org.n52.ses.eml.v001.filter.custom;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -36,8 +38,12 @@ import net.opengis.swe.x101.CountDocument.Count;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.eml.v001.Constants;
 import org.n52.ses.eml.v001.filter.IFilterElement;
+import org.slf4j.LoggerFactory;
+
+import com.espertech.esper.client.EventBean;
 
 public class ViewCountGuard extends CustomGuardFilter {
 	
@@ -93,6 +99,17 @@ public class ViewCountGuard extends CustomGuardFilter {
 	public String getEPLClauseOperator() {
 		return Constants.EPL_HAVING;
 	}
+
+	@Override
+	public List<CustomStatementEvent> getCustomStatementEvents() {
+		CustomStatementEvent e = new CustomStatementEvent() {
+			@Override
+			public void eventFired(EventBean[] newEvents) {
+				LoggerFactory.getLogger(getClass()).info("### Got {} Events", newEvents.length);
+			}
+		};
+		return Collections.singletonList(e);
+	}
 	
 	public static class Factory implements CustomGuardFactory {
 
@@ -125,5 +142,6 @@ public class ViewCountGuard extends CustomGuardFilter {
 		}
 		
 	}
+
 
 }
