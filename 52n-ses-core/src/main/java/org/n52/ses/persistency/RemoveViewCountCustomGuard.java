@@ -23,6 +23,9 @@
  */
 package org.n52.ses.persistency;
 
+import java.io.IOException;
+
+import org.apache.xmlbeans.XmlException;
 import org.n52.ses.api.ISESFilePersistence;
 import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.api.ws.ISubscriptionManager;
@@ -34,6 +37,14 @@ import com.espertech.esper.client.EventBean;
 
 public class RemoveViewCountCustomGuard implements CustomStatementEvent {
 	
+	private static final String EML_NAMESPACE = "http://www.opengis.net/eml/0.0.1";
+
+	private static final String FES_NAMESPACE = "http://www.opengis.net/fes/2.0";
+
+	private static final String REMOVE_GUARD_XPATH = "declare namespace eml='" +
+			EML_NAMESPACE + "'; declare namespace fes='" +
+			FES_NAMESPACE + "'; .//eml:SimplePattern/eml:Guard/fes:Filter/fes:PropertyIsEqualTo/fes:ValueReference/text()='VIEW_COUNT'";
+	
 	private static final Logger logger = LoggerFactory.getLogger(RemoveViewCountCustomGuard.class);
 
 	@Override
@@ -43,8 +54,13 @@ public class RemoveViewCountCustomGuard implements CustomStatementEvent {
 		ISESFilePersistence fp = ConfigurationRegistry.getInstance().getFilePersistence();
 		
 		if (fp != null) {
-			fp.removePattern(subMgr.getEndpointReference(), 
-					"//eml:SimplePattern/eml:Guard/fes:Filter/fes:PropertyIsEqualTo/fes:ValueReference[@text='VIEW_COUNT']");
+			try {
+				fp.removePattern(subMgr.getEndpointReference(), REMOVE_GUARD_XPATH);
+			} catch (XmlException e) {
+				logger.warn(e.getMessage(), e);
+			} catch (IOException e) {
+				logger.warn(e.getMessage(), e);
+			}
 		}
 	}
 

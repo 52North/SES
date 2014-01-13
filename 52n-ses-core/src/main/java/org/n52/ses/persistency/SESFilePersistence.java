@@ -26,6 +26,7 @@ package org.n52.ses.persistency;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -406,11 +407,62 @@ public class SESFilePersistence extends AbstractFilePersistence implements Route
 
 	@Override
 	public void removePattern(EndpointReference endpointReference,
-			String patternXpath) {
-		// TODO Auto-generated method stub
+			String patternXpath) throws XmlException, IOException {
+		File f = findResourceFile(endpointReference);
 		
+		XmlObject xo = XmlObject.Factory.parse(f);
+		
+		XmlObject[] matchingPatterns = xo.selectPath(patternXpath);
+		
+		if (matchingPatterns != null) {
+			xo.execQuery(createXQuery(patternXpath));
+		}
+		
+		xo.save(f);
 	}
 
-	
+
+	private String createXQuery(String patternXpath) {
+		int i = patternXpath.lastIndexOf(";");
+		StringBuilder sb = new StringBuilder();
+		sb.append(patternXpath.substring(0, i));
+		sb.append(" delete node ");
+		sb.append(patternXpath.substring(i, patternXpath.length()));
+		return sb.toString();
+	}
+
+
+	private File findResourceFile(EndpointReference epr) {
+        String contextPath = getContextPath(epr);
+        
+        Map<?, ?> fileNumbersByEPR = (Map<?, ?>) getFileNumberTables().get(contextPath);
+        Integer fileNumber = (Integer) fileNumbersByEPR.get(epr);
+        FileNumberFilter filter = new FileNumberFilter(fileNumber);
+        
+        File resourceTypeDir = getResourceTypeDirectory(contextPath);
+        File[] results = resourceTypeDir.listFiles(filter);
+        
+		return (results == null || results.length == 0) ? null : results[0];
+	}
+
+    /**
+     * 
+     * FileNumberFilter finds files that end with a given number (excluding 
+     * the file suffix).
+     *
+     * @author Dan Jemiolo (danj)
+     *
+     */
+    private class FileNumberFilter implements FileFilter {
+        private Integer _fileNumber = null;
+        
+        public FileNumberFilter(Integer fileNumber) {
+            _fileNumber = fileNumber;
+        }
+        
+        public boolean accept(File file) {
+            return file.getName().indexOf("-" + _fileNumber + ".xml") >= 0;
+        }
+    }
 
 }
