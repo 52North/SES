@@ -35,6 +35,7 @@ import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.xml.namespace.QName;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -46,6 +47,7 @@ import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
 import org.n52.oxf.util.web.PreemptiveBasicAuthenticationHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.n52.ses.util.common.ConfigurationRegistry;
 import org.n52.ses.util.common.SESProperties;
 
@@ -164,6 +166,7 @@ public class StartupInitServlet extends HttpServlet {
 			while(this.running && errors < 10) {
 				errors++;
 				try {
+					log("WakeUp Try #"+errors);
 					if (sendWakeUpPost()) {
 						sendWakeUpNotification();
 					}
@@ -199,13 +202,8 @@ public class StartupInitServlet extends HttpServlet {
 				this.firstRun = false;
 			}
 			
-			// send data
-			int responseCode = 500;
-			int errors = 0;
-			while (responseCode != 200 && errors < 5) {
-				errors++;
 				try {
-					log("WakeUp Try #"+errors);
+					
 					Thread.sleep(1000);
 					
 					HttpClient httpClient = createClient();
@@ -213,26 +211,32 @@ public class StartupInitServlet extends HttpServlet {
                     String payload = getGetCapabilitiesRequest(sesurl);
                     
                     HttpResponse response = httpClient.executePost(sesurl, payload, TEXT_XML);
-                    responseCode = response.getStatusLine().getStatusCode();
+                    int responseCode = response.getStatusLine().getStatusCode();
                     if (responseCode >= HttpURLConnection.HTTP_MULT_CHOICE) {
-                        continue;
+                        return false;
                     }
                     
                     if (response.getEntity() == null) {
                         log("No content! Retry...");
-                        continue;
+                        return false;
                     }
                     
                     InputStream contentStream = response.getEntity().getContent();
                     XmlObject responseContent = XmlObject.Factory.parse(contentStream);
-                    log("##response from SES:## "+ responseContent.xmlText());
+                    
+                    XmlObject[] fault = XmlUtil.selectPath("declare namespace soap='http://www.w3.org/2003/05/soap-envelope'; //soap:Fault", responseContent);
+                    if (fault != null && fault.length > 0) {
+                    	log("##Fault received from SES:## "+ responseContent.xmlText());
+                    	return false;
+                    }
+                    
+                    log("##Positive response from SES:## "+ responseContent.xmlText());
                     setRunning(false);
                     return true;
                 }
                 catch (HttpClientException e) {
                     log(Thread.currentThread().getName()+"] Wakeup failed. Retrying... Exception was: " + e.getMessage());
                 }
-			}
 
 			return false;
 		}
