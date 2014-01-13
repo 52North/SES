@@ -43,7 +43,7 @@ public class RemoveViewCountCustomGuard implements CustomStatementEvent {
 
 	private static final String REMOVE_GUARD_XPATH = "declare namespace eml='" +
 			EML_NAMESPACE + "'; declare namespace fes='" +
-			FES_NAMESPACE + "'; .//eml:SimplePattern/eml:Guard/fes:Filter/fes:PropertyIsEqualTo/fes:ValueReference/text()='VIEW_COUNT'";
+			FES_NAMESPACE + "'; .//eml:SimplePattern/eml:Guard/fes:Filter/fes:PropertyIsEqualTo/fes:ValueReference[text()='VIEW_COUNT']";
 	
 	private static final Logger logger = LoggerFactory.getLogger(RemoveViewCountCustomGuard.class);
 
@@ -59,6 +59,8 @@ public class RemoveViewCountCustomGuard implements CustomStatementEvent {
 			} catch (XmlException e) {
 				logger.warn(e.getMessage(), e);
 			} catch (IOException e) {
+				logger.warn(e.getMessage(), e);
+			} catch (RuntimeException e) {
 				logger.warn(e.getMessage(), e);
 			}
 		}

@@ -43,6 +43,7 @@ import org.apache.muse.ws.notification.SubscriptionManager;
 import org.apache.muse.ws.notification.WsnConstants;
 import org.apache.muse.ws.resource.impl.SimpleWsResource;
 import org.apache.muse.ws.resource.properties.ResourcePropertyCollection;
+import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
@@ -412,23 +413,31 @@ public class SESFilePersistence extends AbstractFilePersistence implements Route
 		
 		XmlObject xo = XmlObject.Factory.parse(f);
 		
-		XmlObject[] matchingPatterns = xo.selectPath(patternXpath);
+		XmlObject[] matchingPatterns = XmlUtil.selectPath(patternXpath, xo);
 		
-		if (matchingPatterns != null) {
-			xo.execQuery(createXQuery(patternXpath));
+		if (matchingPatterns != null && matchingPatterns.length > 0) {
+			removePatternElements(matchingPatterns, xo);
 		}
 		
 		xo.save(f);
 	}
 
 
-	private String createXQuery(String patternXpath) {
-		int i = patternXpath.lastIndexOf(";");
-		StringBuilder sb = new StringBuilder();
-		sb.append(patternXpath.substring(0, i));
-		sb.append(" delete node ");
-		sb.append(patternXpath.substring(i, patternXpath.length()));
-		return sb.toString();
+	private void removePatternElements(XmlObject[] matchingPatterns,
+			XmlObject xo) {
+		for (XmlObject patt : matchingPatterns) {
+			XmlCursor xoCur = xo.newCursor();
+			xoCur.toFirstContentToken();
+			XmlCursor cur = patt.newCursor();
+			cur.toParent();
+			
+			while (cur.getObject() == null || cur.getObject().getDomNode().getLocalName() != "SimplePattern") {
+				cur.toParent();
+			}
+			
+			xoCur.toCursor(cur);
+			xoCur.removeXml();
+		}
 	}
 
 
