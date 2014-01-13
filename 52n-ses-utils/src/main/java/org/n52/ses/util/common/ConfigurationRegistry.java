@@ -334,8 +334,13 @@ public class ConfigurationRegistry {
 	 * @return The singleton instance of the {@link ConfigurationRegistry}
 	 */
 	public static synchronized ConfigurationRegistry getInstance() {
-		if (_instance == null) {
-			return null;
+		while (_instance == null) {
+			try {
+				logger.info("Thread {} is waiting for the instance...", Thread.currentThread().getName());
+				ConfigurationRegistry.class.wait(5000);
+			} catch (InterruptedException e) {
+				logger.warn(e.getMessage(), e);
+			}
 		}
 		
 		return _instance;
@@ -353,8 +358,10 @@ public class ConfigurationRegistry {
 	public static synchronized void init(InputStream config, Environment env,
 			IUnitConverter unitConverter) {
 		if (_instance == null) {
+			logger.info("Thread {} is initializing the instance...", Thread.currentThread().getName());
 			_instance = new ConfigurationRegistry(config, env == null ? "" : env.getDefaultURI(), unitConverter);
 			_instance.setEnvironment(env);
+			ConfigurationRegistry.class.notifyAll();
 		}
 	}
 	
@@ -461,6 +468,9 @@ public class ConfigurationRegistry {
 	
 	public void setFilePersistence(ISESFilePersistence fp) {
 		this.filePersistence = fp;
+		synchronized (this.rerepubs) {
+			this.rerepubs.notifyAll();
+		}
 	}
 	
 

@@ -35,7 +35,6 @@ import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.xml.namespace.QName;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
