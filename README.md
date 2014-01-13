@@ -1,4 +1,4 @@
-# 52°North Sensor Event Service
+# 52Â°North Sensor Event Service [![Build Status](https://travis-ci.org/52North/SES.png?branch=master)](https://travis-ci.org/52North/SES)
 
 The Sensor Event Service (SES) is used to provide a publish/subscribe
 based access to not only sensor measurements but several other data

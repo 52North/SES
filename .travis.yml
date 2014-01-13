@@ -1,6 +1,7 @@
 language: java
-script: "mvn clean install -Pintegration-test"
+script: "mvn clean install"
 jdk:
   - oraclejdk7
   - openjdk7
+
 
