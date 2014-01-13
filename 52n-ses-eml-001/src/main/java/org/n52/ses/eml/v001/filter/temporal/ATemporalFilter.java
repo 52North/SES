@@ -23,6 +23,8 @@
  */
 package org.n52.ses.eml.v001.filter.temporal;
 
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import net.opengis.fes.x20.BinaryTemporalOpType;
@@ -32,6 +34,7 @@ import org.apache.muse.util.xml.XmlUtils;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.api.exception.FESParseException;
 import org.n52.ses.eml.v001.filter.IFilterElement;
 import org.w3c.dom.Node;
@@ -258,4 +261,8 @@ public abstract class ATemporalFilter implements IFilterElement {
 		return null;
 	}
 
+	@Override
+	public List<CustomStatementEvent> getCustomStatementEvents() {
+		return null;
+	}
 }

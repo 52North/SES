@@ -33,6 +33,7 @@ import java.util.HashMap;
 import net.opengis.eml.x001.EMLDocument.EML;
 
 import org.apache.xmlbeans.XmlObject;
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.api.event.MapEvent;
 import org.n52.ses.api.ws.INotificationMessage;
 import org.n52.ses.api.ws.ISubscriptionManager;
@@ -187,9 +188,15 @@ public class StatementListener implements UpdateListener{
 		 * 
 		 * handle every match
 		 */
-		if (newEvents != null) {
+		if (newEvents != null && newEvents.length > 0) {
 			for (EventBean newEvent : newEvents) {
 				this.handleMatch(newEvent);
+			}
+			
+			if (this.statement.hasCustomStatementEvents()) {
+				for (CustomStatementEvent cse : this.statement.getCustomStatementEvents()) {
+					cse.eventFired(newEvents, this.subMgr);
+				}
 			}
 		}
 	}

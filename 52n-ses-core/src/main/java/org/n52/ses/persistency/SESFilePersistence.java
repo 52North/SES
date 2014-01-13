@@ -26,6 +26,7 @@ package org.n52.ses.persistency;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -42,6 +43,7 @@ import org.apache.muse.ws.notification.SubscriptionManager;
 import org.apache.muse.ws.notification.WsnConstants;
 import org.apache.muse.ws.resource.impl.SimpleWsResource;
 import org.apache.muse.ws.resource.properties.ResourcePropertyCollection;
+import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
@@ -403,6 +405,73 @@ public class SESFilePersistence extends AbstractFilePersistence implements Route
 		return persSubscribeCount;
 	}
 
-	
+
+	@Override
+	public void removePattern(EndpointReference endpointReference,
+			String patternXpath) throws XmlException, IOException {
+		File f = findResourceFile(endpointReference);
+		
+		XmlObject xo = XmlObject.Factory.parse(f);
+		
+		XmlObject[] matchingPatterns = XmlUtil.selectPath(patternXpath, xo);
+		
+		if (matchingPatterns != null && matchingPatterns.length > 0) {
+			removePatternElements(matchingPatterns, xo);
+		}
+		
+		xo.save(f);
+	}
+
+
+	private void removePatternElements(XmlObject[] matchingPatterns,
+			XmlObject xo) {
+		for (XmlObject patt : matchingPatterns) {
+			XmlCursor xoCur = xo.newCursor();
+			xoCur.toFirstContentToken();
+			XmlCursor cur = patt.newCursor();
+			cur.toParent();
+			
+			while (cur.getObject() == null || cur.getObject().getDomNode().getLocalName() != "SimplePattern") {
+				cur.toParent();
+			}
+			
+			xoCur.toCursor(cur);
+			xoCur.removeXml();
+		}
+	}
+
+
+	private File findResourceFile(EndpointReference epr) {
+        String contextPath = getContextPath(epr);
+        
+        Map<?, ?> fileNumbersByEPR = (Map<?, ?>) getFileNumberTables().get(contextPath);
+        Integer fileNumber = (Integer) fileNumbersByEPR.get(epr);
+        FileNumberFilter filter = new FileNumberFilter(fileNumber);
+        
+        File resourceTypeDir = getResourceTypeDirectory(contextPath);
+        File[] results = resourceTypeDir.listFiles(filter);
+        
+		return (results == null || results.length == 0) ? null : results[0];
+	}
+
+    /**
+     * 
+     * FileNumberFilter finds files that end with a given number (excluding 
+     * the file suffix).
+     *
+     * @author Dan Jemiolo (danj)
+     *
+     */
+    private class FileNumberFilter implements FileFilter {
+        private Integer _fileNumber = null;
+        
+        public FileNumberFilter(Integer fileNumber) {
+            _fileNumber = fileNumber;
+        }
+        
+        public boolean accept(File file) {
+            return file.getName().indexOf("-" + _fileNumber + ".xml") >= 0;
+        }
+    }
 
 }

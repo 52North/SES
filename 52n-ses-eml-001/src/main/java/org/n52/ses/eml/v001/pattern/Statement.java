@@ -28,6 +28,9 @@
 
 package org.n52.ses.eml.v001.pattern;
 
+import java.util.List;
+
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.eml.v001.filterlogic.esper.EsperController;
 
 /**
@@ -43,6 +46,8 @@ public class Statement {
 	private SelFunction selectFunction;
 
 	private DataView view;
+
+	private List<CustomStatementEvent> customEvents;
 	
 
 	/**
@@ -91,5 +96,16 @@ public class Statement {
 		return this.view;
 	}
 	
+	public List<CustomStatementEvent> getCustomStatementEvents() {
+		return this.customEvents;
+	}
+	
+	public void setCustomStatementEvents(List<CustomStatementEvent> l) {
+		this.customEvents = l;
+	}
+
+	public boolean hasCustomStatementEvents() {
+		return this.customEvents != null && !this.customEvents.isEmpty();
+	}
 	
 }

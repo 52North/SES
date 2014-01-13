@@ -28,6 +28,9 @@
 
 package org.n52.ses.eml.v001.filter.logical;
 
+import java.util.List;
+
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.eml.v001.filter.IFilterElement;
 
 /**
@@ -51,5 +54,11 @@ public abstract class ALogicFilter implements IFilterElement {
 	@Override
 	public void setUsedProperty(String nodeValue) {
 		this.usedProperty = nodeValue;
+	}
+	
+
+	@Override
+	public List<CustomStatementEvent> getCustomStatementEvents() {
+		return null;
 	}
 }

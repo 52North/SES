@@ -21,25 +21,18 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.ses.api.ws;
+package org.n52.ses.api.common;
 
-import org.apache.muse.ws.addressing.EndpointReference;
-import org.apache.muse.ws.notification.Filter;
-import org.apache.xmlbeans.XmlObject;
-import org.n52.ses.api.event.MapEvent;
+import org.n52.ses.api.ws.ISubscriptionManager;
 
-public interface ISubscriptionManager {
+import com.espertech.esper.client.EventBean;
 
-	void publish(INotificationMessage origMessage);
+public interface CustomStatementEvent {
 
-	XmlObject generateSESEvent(MapEvent resultEvent);
+	String REMOVE_VIEW_COUNT_EVENT = "REMOVE_VIEW_COUNT_EVENT";
 
-	boolean sendSESNotificationMessge(XmlObject eventDoc);
+	void eventFired(EventBean[] newEvents, ISubscriptionManager subMgr);
 
-	Filter getFilter();
-
-	void reRegister();
-	
-	EndpointReference getEndpointReference();
+	boolean bindsToEvent(String eventIdentifier);
 
 }
