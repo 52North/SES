@@ -31,6 +31,7 @@ import net.opengis.wps.x100.ExecuteResponseDocument;
 import net.opengis.wps.x100.ExecuteResponseDocument.ExecuteResponse;
 import net.opengis.wps.x100.ExecuteResponseDocument.ExecuteResponse.ProcessOutputs;
 
+import org.apache.http.entity.ContentType;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.n52.ses.util.http.BasicAuthenticator;
@@ -123,7 +124,7 @@ public class WPSConnector {
 			client.setAuthentication(new BasicAuthenticator(username, password));
 		}
 
-		SESHttpResponse resp = client.sendPost(new URL(wpsURL), request, "text/xml; charset=utf-8");
+		SESHttpResponse resp = client.sendPost(new URL(wpsURL), request, ContentType.create("text/xml", "utf-8"));
 		if (resp.getContentType().contains("xml")) {
 			return XmlObject.Factory.parse(resp.getContent());
 		}

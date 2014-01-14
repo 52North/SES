@@ -29,9 +29,11 @@
 package org.n52.ses.eml.v001.pattern;
 
 import java.util.HashSet;
+import java.util.List;
 
 import net.opengis.fes.x20.FilterType;
 
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.eml.v001.filter.StatementFilter;
 
 
@@ -100,6 +102,11 @@ public class PatternGuard {
 //		}
 		
 		return this.statement.concat(this.filter.createExpressionString(complexPatternGuard));
+	}
+
+
+	public List<CustomStatementEvent> getCustomStatementEvents() {
+		return this.filter.getCustomStatementEvents();
 	}
 
 

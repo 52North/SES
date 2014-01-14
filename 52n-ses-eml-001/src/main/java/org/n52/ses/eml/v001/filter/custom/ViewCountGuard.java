@@ -23,6 +23,9 @@
  */
 package org.n52.ses.eml.v001.filter.custom;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -36,13 +39,26 @@ import net.opengis.swe.x101.CountDocument.Count;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.eml.v001.Constants;
 import org.n52.ses.eml.v001.filter.IFilterElement;
+
 
 public class ViewCountGuard extends CustomGuardFilter {
 	
 	private static final QName EQUAL_QNAME = new QName("http://www.opengis.net/fes/2.0", "PropertyIsEqualTo");
+	private static List<CustomStatementEvent> customEvents = new ArrayList<CustomStatementEvent>();
 	private FilterType guard;
+	
+	static {
+		ServiceLoader<CustomStatementEvent> loader = ServiceLoader.load(CustomStatementEvent.class);
+		
+		for (CustomStatementEvent customStatementEvent : loader) {
+			if (customStatementEvent.bindsToEvent(CustomStatementEvent.REMOVE_VIEW_COUNT_EVENT)) {
+				customEvents.add(customStatementEvent);
+			}
+		}
+	}
 
 	public ViewCountGuard(FilterType guard) {
 		this.guard = guard;
@@ -93,6 +109,11 @@ public class ViewCountGuard extends CustomGuardFilter {
 	public String getEPLClauseOperator() {
 		return Constants.EPL_HAVING;
 	}
+
+	@Override
+	public List<CustomStatementEvent> getCustomStatementEvents() {
+		return customEvents;
+	}
 	
 	public static class Factory implements CustomGuardFactory {
 
@@ -125,5 +146,6 @@ public class ViewCountGuard extends CustomGuardFilter {
 		}
 		
 	}
+
 
 }

@@ -28,6 +28,9 @@
 
 package org.n52.ses.eml.v001.filter.expression;
 
+import java.util.List;
+
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.eml.v001.filter.IFilterElement;
 
 /**
@@ -61,5 +64,10 @@ public abstract class AFilterExpression implements IFilterElement{
 		this.usedProperty = usedProperty;
 	}
 
+
+	@Override
+	public List<CustomStatementEvent> getCustomStatementEvents() {
+		return null;
+	}
 
 }

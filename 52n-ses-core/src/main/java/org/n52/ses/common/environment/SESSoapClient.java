@@ -27,6 +27,7 @@ package org.n52.ses.common.environment;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import org.apache.http.entity.ContentType;
 import org.apache.muse.util.messages.Messages;
 import org.apache.muse.util.messages.MessagesFactory;
 import org.apache.muse.util.xml.XmlUtils;
@@ -122,8 +123,10 @@ public class SESSoapClient extends SimpleSoapClient {
 	}
 
 
-	private Element sendHTTPPost(EndpointReference dest, String soapString) throws IllegalStateException, IOException, URISyntaxException, Exception {
-		SESHttpResponse postResponse = this.httpClient.sendPost(getDestinationURL(dest), soapString, "application/soap+xml;charset=UTF-8");
+	private Element sendHTTPPost(EndpointReference dest, String soapString)
+			throws IllegalStateException, IOException, URISyntaxException, Exception {
+		SESHttpResponse postResponse = this.httpClient.sendPost(getDestinationURL(dest), soapString,
+				ContentType.create("application/soap+xml", "UTF-8"));
 
 		Element soapResponse = null;
 		//
