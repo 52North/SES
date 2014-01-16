@@ -51,7 +51,7 @@ public class SESHttpClient {
 	}
 
 
-	public SESHttpResponse sendPost(URL destination, String content, String contentType) throws Exception {
+	public SESHttpResponse sendPost(URL destination, String content, ContentType contentType) throws Exception {
 		checkSetup();
 		
 		if (this.authenticator != null) {
@@ -62,7 +62,7 @@ public class SESHttpClient {
 		}
 		
 		HttpResponse postResponse = this.httpClient.executePost(destination.toString(),
-				content, ContentType.create(contentType));
+				content, contentType);
 
 		SESHttpResponse response = null;
 		if (postResponse != null && postResponse.getEntity() != null) {

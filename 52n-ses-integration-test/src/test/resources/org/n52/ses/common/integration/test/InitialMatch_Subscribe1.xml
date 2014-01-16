@@ -1,0 +1,200 @@
+<EML xmlns="http://www.opengis.net/eml/0.0.1">
+	<SimplePatterns>
+		<SimplePattern inputName="input" patternID="wasserstand_initial_count">
+			<SelectFunctions>
+				<SelectFunction newEventName="wasserstand_initial_count_stream">
+					<SelectEvent eventName="input" />
+				</SelectFunction>
+			</SelectFunctions>
+			<View>
+				<LengthView>
+					<EventCount>2</EventCount>
+				</LengthView>
+			</View>
+			<Guard>
+				<fes:Filter xmlns:fes="http://www.opengis.net/fes/2.0">
+					<fes:PropertyIsEqualTo>
+						<fes:ValueReference>VIEW_COUNT</fes:ValueReference>
+						<ns:Literal xmlns:ns="http://www.opengis.net/fes/2.0">
+							<ns1:Count xmlns:ns1="http://www.opengis.net/swe/1.0.1">
+								<ns1:value>1</ns1:value>
+							</ns1:Count>
+						</ns:Literal>
+					</fes:PropertyIsEqualTo>
+				</fes:Filter>
+			</Guard>
+			<PropertyRestrictions>
+				<PropertyRestriction>
+					<name>observedProperty</name>
+					<value>Wasserstand</value>
+				</PropertyRestriction>
+				<PropertyRestriction>
+					<name>sensorID</name>
+					<value>Wasserstand_Opladen__Tagesmittelwert_um_17-00_Uhr</value>
+				</PropertyRestriction>
+			</PropertyRestrictions>
+		</SimplePattern>
+		<SimplePattern inputName="input"
+			patternID="Wasserstand_Opladen_u55cm_undershoot">
+			<SelectFunctions>
+				<SelectFunction createCausality="false"
+					newEventName="Wasserstand_Opladen_u55cm_undershoot_stream">
+					<SelectEvent eventName="input" />
+				</SelectFunction>
+			</SelectFunctions>
+			<View>
+				<LengthView>
+					<EventCount>1</EventCount>
+				</LengthView>
+			</View>
+			<Guard>
+				<fes:Filter xmlns:fes="http://www.opengis.net/fes/2.0">
+					<fes:PropertyIsLessThanOrEqualTo>
+						<fes:ValueReference>input/doubleValue</fes:ValueReference>
+						<ns:Literal xmlns:ns="http://www.opengis.net/fes/2.0">
+							<ns1:Quantity xmlns:ns1="http://www.opengis.net/swe/1.0.1">
+								<ns1:uom code="cm" />
+								<ns1:value>55.0</ns1:value>
+							</ns1:Quantity>
+						</ns:Literal>
+					</fes:PropertyIsLessThanOrEqualTo>
+				</fes:Filter>
+			</Guard>
+			<PropertyRestrictions>
+				<PropertyRestriction>
+					<name>observedProperty</name>
+					<value>Wasserstand</value>
+				</PropertyRestriction>
+				<PropertyRestriction>
+					<name>sensorID</name>
+					<value>Wasserstand_Opladen__Tagesmittelwert_um_17-00_Uhr</value>
+				</PropertyRestriction>
+			</PropertyRestrictions>
+		</SimplePattern>
+		<SimplePattern inputName="input"
+			patternID="Wasserstand_Opladen_u55cm_overshoot">
+			<SelectFunctions>
+				<SelectFunction createCausality="false"
+					newEventName="Wasserstand_Opladen_u55cm_overshoot_stream">
+					<SelectEvent eventName="input" />
+				</SelectFunction>
+			</SelectFunctions>
+			<View>
+				<LengthView>
+					<EventCount>1</EventCount>
+				</LengthView>
+			</View>
+			<Guard>
+				<fes:Filter xmlns:fes="http://www.opengis.net/fes/2.0">
+					<fes:PropertyIsGreaterThan>
+						<fes:ValueReference>input/doubleValue</fes:ValueReference>
+						<ns:Literal xmlns:ns="http://www.opengis.net/fes/2.0">
+							<ns1:Quantity xmlns:ns1="http://www.opengis.net/swe/1.0.1">
+								<ns1:uom code="cm" />
+								<ns1:value>55.0</ns1:value>
+							</ns1:Quantity>
+						</ns:Literal>
+					</fes:PropertyIsGreaterThan>
+				</fes:Filter>
+			</Guard>
+			<PropertyRestrictions>
+				<PropertyRestriction>
+					<name>observedProperty</name>
+					<value>Wasserstand</value>
+				</PropertyRestriction>
+				<PropertyRestriction>
+					<name>sensorID</name>
+					<value>Wasserstand_Opladen__Tagesmittelwert_um_17-00_Uhr</value>
+				</PropertyRestriction>
+			</PropertyRestrictions>
+		</SimplePattern>
+	</SimplePatterns>
+	<ComplexPatterns>
+		<ComplexPattern patternID="wasserstand_initial_overshoot_count">
+			<SelectFunctions>
+				<SelectFunction createCausality="true"
+					newEventName="Wasserstand_Opladen_u55cm_overshoot_notification"
+					outputName="Wasserstand_Opladen_u55cm_enter">
+					<NotifyOnSelect>
+						<Message>Einstiegsklausel</Message>
+					</NotifyOnSelect>
+				</SelectFunction>
+			</SelectFunctions>
+			<Guard>
+				<fes:Filter xmlns:fes="http://www.opengis.net/fes/2.0">
+					<fes:PropertyIsGreaterThanOrEqualTo>
+						<fes:ValueReference>wasserstand_initial_count_stream/doubleValue
+						</fes:ValueReference>
+						<ns:Literal xmlns:ns="http://www.opengis.net/fes/2.0">
+							<ns1:Quantity xmlns:ns1="http://www.opengis.net/swe/1.0.1">
+								<ns1:uom code="cm" />
+								<ns1:value>55.0</ns1:value>
+							</ns1:Quantity>
+						</ns:Literal>
+					</fes:PropertyIsGreaterThanOrEqualTo>
+				</fes:Filter>
+			</Guard>
+			<StructuralOperator>
+				<CAUSE />
+			</StructuralOperator>
+			<FirstPattern>
+				<PatternReference>wasserstand_initial_count</PatternReference>
+				<SelectFunctionNumber>0</SelectFunctionNumber>
+			</FirstPattern>
+			<SecondPattern>
+				<PatternReference>wasserstand_initial_count</PatternReference>
+				<SelectFunctionNumber>0</SelectFunctionNumber>
+			</SecondPattern>
+		</ComplexPattern>
+		<ComplexPattern patternID="Wasserstand_Opladen_u55cm_overshoot_notification">
+			<SelectFunctions>
+				<SelectFunction createCausality="true"
+					newEventName="Wasserstand_Opladen_u55cm_overshoot_notification_stream"
+					outputName="Wasserstand_Opladen_u55cm_enter">
+					<NotifyOnSelect>
+						<Message>Einstiegsklausel</Message>
+					</NotifyOnSelect>
+				</SelectFunction>
+			</SelectFunctions>
+			<StructuralOperator>
+				<BEFORE />
+			</StructuralOperator>
+			<FirstPattern>
+				<PatternReference>Wasserstand_Opladen_u55cm_undershoot
+				</PatternReference>
+				<SelectFunctionNumber>0</SelectFunctionNumber>
+			</FirstPattern>
+			<SecondPattern>
+				<PatternReference>Wasserstand_Opladen_u55cm_overshoot
+				</PatternReference>
+				<SelectFunctionNumber>0</SelectFunctionNumber>
+			</SecondPattern>
+		</ComplexPattern>
+		<ComplexPattern patternID="Wasserstand_Opladen_u55cm_undershoot_notification">
+			<SelectFunctions>
+				<SelectFunction createCausality="true"
+					newEventName="Wasserstand_Opladen_u55cm_undershoot_notification_stream"
+					outputName="Wasserstand_Opladen_u55cm_exit">
+					<NotifyOnSelect>
+						<Message>Ausstiegsklausel</Message>
+					</NotifyOnSelect>
+				</SelectFunction>
+			</SelectFunctions>
+			<StructuralOperator>
+				<BEFORE />
+			</StructuralOperator>
+			<FirstPattern>
+				<PatternReference>Wasserstand_Opladen_u55cm_overshoot
+				</PatternReference>
+				<SelectFunctionNumber>0</SelectFunctionNumber>
+			</FirstPattern>
+			<SecondPattern>
+				<PatternReference>Wasserstand_Opladen_u55cm_undershoot
+				</PatternReference>
+				<SelectFunctionNumber>0</SelectFunctionNumber>
+			</SecondPattern>
+		</ComplexPattern>
+	</ComplexPatterns>
+	<TimerPatterns />
+	<RepetitivePatterns />
+</EML>

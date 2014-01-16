@@ -257,6 +257,12 @@ public class ConfigurationRegistry {
 	 */
 	public static final String MINIMUM_GZIP_SIZE = "MINIMUM_GZIP_SIZE";
 
+	/**
+	 * used if the service instance is secured with HTTP basic authentication
+	 */
+	public static final String BASIC_AUTH_USER = "BASIC_AUTH_USER";
+	public static final String BASIC_AUTH_PASSWORD = "BASIC_AUTH_PASSWORD";
+
 	
 	private static ConfigurationRegistry _instance;
 	private SESProperties parameters;
@@ -328,8 +334,13 @@ public class ConfigurationRegistry {
 	 * @return The singleton instance of the {@link ConfigurationRegistry}
 	 */
 	public static synchronized ConfigurationRegistry getInstance() {
-		if (_instance == null) {
-			return null;
+		while (_instance == null) {
+			try {
+				logger.info("Thread {} is waiting for the instance...", Thread.currentThread().getName());
+				ConfigurationRegistry.class.wait(5000);
+			} catch (InterruptedException e) {
+				logger.warn(e.getMessage(), e);
+			}
 		}
 		
 		return _instance;
@@ -347,8 +358,10 @@ public class ConfigurationRegistry {
 	public static synchronized void init(InputStream config, Environment env,
 			IUnitConverter unitConverter) {
 		if (_instance == null) {
+			logger.info("Thread {} is initializing the instance...", Thread.currentThread().getName());
 			_instance = new ConfigurationRegistry(config, env == null ? "" : env.getDefaultURI(), unitConverter);
 			_instance.setEnvironment(env);
+			ConfigurationRegistry.class.notifyAll();
 		}
 	}
 	
@@ -455,8 +468,15 @@ public class ConfigurationRegistry {
 	
 	public void setFilePersistence(ISESFilePersistence fp) {
 		this.filePersistence = fp;
+		synchronized (this.rerepubs) {
+			this.rerepubs.notifyAll();
+		}
 	}
+	
 
+	public ISESFilePersistence getFilePersistence() {
+		return filePersistence;
+	}
 
 	/**
 	 * Registers the {@link IFilterEngine}

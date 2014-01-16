@@ -315,7 +315,7 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		 * 
 		 */
 		ConfigurationRegistry.init(config, getEnvironment(), unitConverter);
-		ConfigurationRegistry.getInstance().setFilePersistence(new SESFilePersistence());
+//		ConfigurationRegistry.getInstance().setFilePersistence(new SESFilePersistence());
 
 		SoapClient soapClient = getEnvironment().getSoapClient();
 		if (soapClient instanceof SESSoapClient) {
@@ -602,6 +602,13 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 			sent = true;
 		}	    
 		return sent;
+	}
+
+
+
+	@Override
+	public EndpointReference getEndpointReference() {
+		return this.getWsResource() == null ? null : this.getWsResource().getEndpointReference();
 	}
 
 

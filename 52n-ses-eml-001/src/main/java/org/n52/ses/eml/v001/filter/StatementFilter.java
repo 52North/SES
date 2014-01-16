@@ -30,9 +30,11 @@ package org.n52.ses.eml.v001.filter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.ServiceLoader;
 import java.util.Set;
 
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.eml.v001.Constants;
 import org.n52.ses.eml.v001.filter.comparison.AComparisonFilter;
 import org.n52.ses.eml.v001.filter.custom.CustomGuardFactory;
@@ -150,6 +152,11 @@ public class StatementFilter implements IFilterElement {
 	@Override
 	public void setUsedProperty(String nodeValue) {
 		this.usedProperty = nodeValue;
+	}
+
+	@Override
+	public List<CustomStatementEvent> getCustomStatementEvents() {
+		return this.child == null ? null : this.child.getCustomStatementEvents();
 	}
 
 }
