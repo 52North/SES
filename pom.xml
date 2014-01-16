@@ -9,7 +9,7 @@
 	<groupId>org.n52.sensorweb.ses</groupId>
 	<artifactId>52n-ses</artifactId>
 	<packaging>pom</packaging>
-	<version>1.2.1-SNAPSHOT</version>
+	<version>1.2.1</version>
 
 	<name>${targetPublicName}</name>
 	<description>52°North Sensor Event Service - for details see
@@ -49,7 +49,7 @@
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 		<buildDate>${maven.build.timestamp}</buildDate>
 		<svnRevision>${buildNumber}</svnRevision>
-		<oxf.version>2.0.0-alpha.4-SNAPSHOT</oxf.version>
+		<oxf.version>2.0.0-alpha.3</oxf.version>
 		<n52.xml.version>1.1.5</n52.xml.version>
 	</properties>
 
