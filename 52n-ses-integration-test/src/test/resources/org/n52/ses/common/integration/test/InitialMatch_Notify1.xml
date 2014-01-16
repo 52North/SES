@@ -1,0 +1,58 @@
+<om:Observation gml:id="ot_279501-4" xmlns:gml="http://www.opengis.net/gml"
+	xmlns:om="http://www.opengis.net/om/1.0" xmlns:sa="http://www.opengis.net/sampling/1.0"
+	xmlns:swe="http://www.opengis.net/swe/1.0.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<om:samplingTime>
+		<gml:TimePeriod>
+			<gml:beginPosition>2011-09-10T01:54:00.000+02:00</gml:beginPosition>
+			<gml:endPosition>2011-09-10T01:54:00.000+02:00</gml:endPosition>
+		</gml:TimePeriod>
+	</om:samplingTime>
+	<om:procedure xlink:href="Wasserstand_Opladen__Tagesmittelwert_um_17-00_Uhr" />
+	<om:observedProperty xlink:href="Wasserstand" />
+	<om:featureOfInterest>
+		<gml:FeatureCollection>
+			<gml:featureMember>
+				<sa:SamplingPoint gml:id="water_gauge_sensor-1">
+					<gml:name>Wasserstand_Opladen__Tagesmittelwert_um_17-00_Uhr
+					</gml:name>
+					<sa:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown" />
+					<sa:position>
+						<gml:Point>
+							<gml:pos srsName="urn:ogc:def:crs:EPSG:31466">56.023 2.581</gml:pos>
+						</gml:Point>
+					</sa:position>
+				</sa:SamplingPoint>
+			</gml:featureMember>
+		</gml:FeatureCollection>
+	</om:featureOfInterest>
+	<om:result>
+		<swe:DataArray>
+			<swe:elementCount>
+				<swe:Count>
+					<swe:value>1</swe:value>
+				</swe:Count>
+			</swe:elementCount>
+			<swe:elementType name="Components">
+				<swe:DataRecord>
+					<swe:field name="Time">
+						<swe:Time definition="urn:ogc:data:time:iso8601" />
+					</swe:field>
+					<swe:field name="feature">
+						<swe:Text definition="urn:ogc:data:feature" />
+					</swe:field>
+					<swe:field name="water_gauge">
+						<swe:Quantity definition="water_gauge">
+							<swe:uom code="m" />
+						</swe:Quantity>
+					</swe:field>
+				</swe:DataRecord>
+			</swe:elementType>
+			<swe:encoding>
+				<swe:TextBlock blockSeparator=";" decimalSeparator="."
+					tokenSeparator="," />
+			</swe:encoding>
+			<swe:values>2011-09-10T01:54:00.000+02:00,Wasserstand_Opladen__Tagesmittelwert_um_17-00_Uhr,0.56;
+			</swe:values>
+		</swe:DataArray>
+	</om:result>
+</om:Observation>

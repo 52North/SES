@@ -42,6 +42,15 @@
 			<Name>CONCURRENT_MINIMUM_TIMEOUT</Name>
 			<Value>500</Value>
 		</Parameter>
+		<!-- Uncomment the following if you have secured the service instance with HTTP authentication-->
+		<!-- <Parameter>
+			<Name>BASIC_AUTH_USER</Name>
+			<Value>user</Value>
+		</Parameter>
+		<Parameter>
+			<Name>BASIC_AUTH_PASSWORD</Name>
+			<Value>password</Value>
+		</Parameter> -->
 	</Parameters>
 	<RegisteredParsers>
 		<Parser>

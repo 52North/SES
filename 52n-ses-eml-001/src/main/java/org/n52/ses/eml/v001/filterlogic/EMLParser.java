@@ -221,13 +221,13 @@ public class EMLParser {
 		complexPattern.setOperator(this.parsePatternOperator(pattern));
 		
 		//set first pattern ID
-		complexPattern.setFirstPatternID(pattern.getFirstPattern().getPatternReference().toString());
+		complexPattern.setFirstPatternID(pattern.getFirstPattern().getPatternReference().trim());
 		
 		//set select function to use
 		complexPattern.setFirstSelectFunctionNumber(pattern.getFirstPattern().getSelectFunctionNumber());
 		
 		//set second pattern
-		complexPattern.setSecondPatternID(pattern.getSecondPattern().getPatternReference().toString());
+		complexPattern.setSecondPatternID(pattern.getSecondPattern().getPatternReference().trim());
 		
 		//set select function to use
 		complexPattern.setSecondSelectFunctionNumber(pattern.getSecondPattern().getSelectFunctionNumber());
@@ -351,7 +351,7 @@ public class EMLParser {
 		repetitivePattern.setRepetitionCount(pattern.getEventCount().intValue());
 		
 		//set pattern to repeat
-		repetitivePattern.setPatternToRepeatID(pattern.getPatternToRepeat().getPatternReference().toString());
+		repetitivePattern.setPatternToRepeatID(pattern.getPatternToRepeat().getPatternReference().trim());
 		
 		//set select function to use
 		repetitivePattern.setSelectFunctionToUse(pattern.getPatternToRepeat().getSelectFunctionNumber());
@@ -383,7 +383,7 @@ public class EMLParser {
 		/*
 		 * set pattern ID
 		 */
-		representation.setPatternID(bean.getPatternID().toString());
+		representation.setPatternID(bean.getPatternID().trim());
 		
 		/*
 		 * set description
@@ -487,7 +487,7 @@ public class EMLParser {
 		
 		//set output name
 		if (selectFunction.isSetOutputName()) {
-			result.setOutputName(selectFunction.getOutputName().toString());
+			result.setOutputName(selectFunction.getOutputName().trim());
 		}
 		
 		//set create causality

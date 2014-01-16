@@ -44,6 +44,8 @@
 		<url-pattern>*.js</url-pattern>
 		<url-pattern>*.css</url-pattern>
 		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.gif</url-pattern>
+		<url-pattern>*.jpg</url-pattern>
 	</servlet-mapping>
 
 	<security-constraint>
@@ -63,7 +65,26 @@
 			<transport-guarantee>NONE</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
-
+	
+	<!-- uncomment the following section if you want to secure the service via HTTP basic authencation.
+	the credentials have to be set up within the servlet container (e.g. tomcat-users.xml). For the service
+	being able to start, they have to be provided in the Service config (e.g. via the Config frontend)-->
+	<!-- <security-constraint>
+		<display-name>publisher basic authentication</display-name>
+		<web-resource-collection>
+			<web-resource-name>publisher</web-resource-name>
+			<url-pattern>/</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>publisher</role-name>
+			<role-name>consumer</role-name>
+		</auth-constraint>
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint> -->
 
 	<login-config>
 		<auth-method>BASIC</auth-method>
@@ -72,5 +93,7 @@
 	<security-role>
 		<role-name>ses-admins</role-name>
 		<role-name>admin</role-name>
+		<role-name>publisher</role-name>
+		<role-name>consumer</role-name>
 	</security-role>
 </web-app>

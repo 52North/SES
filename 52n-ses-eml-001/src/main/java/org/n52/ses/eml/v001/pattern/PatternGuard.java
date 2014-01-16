@@ -29,10 +29,11 @@
 package org.n52.ses.eml.v001.pattern;
 
 import java.util.HashSet;
+import java.util.List;
 
 import net.opengis.fes.x20.FilterType;
 
-import org.n52.ses.eml.v001.Constants;
+import org.n52.ses.api.common.CustomStatementEvent;
 import org.n52.ses.eml.v001.filter.StatementFilter;
 
 
@@ -55,6 +56,7 @@ public class PatternGuard {
 	 * @param propertyNames all found property names of this pattern
 	 */
 	public void setFilter(FilterType filter, HashSet<Object> propertyNames) {
+		
 		this.filter = new StatementFilter(filter, propertyNames);
 	}
 	
@@ -82,8 +84,8 @@ public class PatternGuard {
 //		}
 		
 		//create statement for simple patterns
-		this.statement = Constants.EPL_WHERE
-						 + " ";
+//		this.statement = Constants.EPL_WHERE
+//						 + " ";
 		
 //		if (propertyName != null) {
 //			String usedEvent = "";
@@ -98,9 +100,13 @@ public class PatternGuard {
 //			this.statement += "(" + MethodNames.PROPERTY_EXISTS_NAME + "("+ usedEvent +"this, \"" + usedField + "\")) AND "; 
 //		
 //		}
-		this.statement += this.filter.createExpressionString(complexPatternGuard);
 		
-		return this.statement;
+		return this.statement.concat(this.filter.createExpressionString(complexPatternGuard));
+	}
+
+
+	public List<CustomStatementEvent> getCustomStatementEvents() {
+		return this.filter.getCustomStatementEvents();
 	}
 
 

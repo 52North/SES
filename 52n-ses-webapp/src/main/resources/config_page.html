@@ -4,12 +4,12 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <link type="text/css" rel="stylesheet" href="GWTTestsuiteModule.css"/>
-    <script type="text/javascript" src="GWTTestsuiteModule/GWTTestsuiteModule.nocache.js"></script>
-		<title>52&deg;North Sensor Event Service</title>
-		<link href="http://52north.org/templates/52n/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-		<link rel="stylesheet" href="http://52north.org/templates/52n/css/external-sites-template/external-site_52n-template-2011_site.css" type="text/css" media="all" />
-		<link rel="stylesheet" href="http://52north.org/templates/52n/css/external-sites-template/external-site_52n-template-2011_print.css" type="text/css" media="print" />
-		<link rel="stylesheet" href="http://52north.org/templates/52n/52n_menus/52n_cssmenu/52n.cssmenu.css" type="text/css"/>
+  
+		<title>Config</title>
+		<link rel="stylesheet" href="css/52n.css" type="text/css" />
+		<link rel="stylesheet" href="css/52n.cssmenu.css" type="text/css"/>
+		<link rel="stylesheet" href="static/lib/bootstrap-2.3.1.min.css" type="text/css" />
+		<link rel="stylesheet" href="static/css/application.css" type="text/css" />
   <style type="text/css">
   th, td {
     text-align:left }
@@ -27,48 +27,37 @@ width: 250px;
 		<meta http-equiv="Content-Language" content="en" />
 	</head>
 	<body class="composite">
-		<div id="bg_h"></div>
-		<div id="navigation_h">
-			<div id="wopper" class="wopper">
-				<div id="ja-mainnavwrap">
-					<div id="ja-mainnav">
-						<ul id="ja-cssmenu" class="clearfix">
-							<li class="active">
-							<!-- Durch die Klasse "active" für das Element <li> und <a> wird diese Menu hervorgehoben angezeigt -->
-								<a href="http://52north.org" class="menu-item0 first-item active" id="menu0" title="52north.org"><span class="menu-title">52north.org</span></a>
-							</li>
-							<li class="active"><a href="${SES_URL}"><span class="menu-title" style="margin-left: 130px; font-size: 24px; font-weight: bold;">52&deg;North Sensor Event Service</span></a></li>
-							<!-- <li class="menu-item1">
-								<a href="http://52north.org/" class="menu-item1" id="menu1" title="Link"><span class="menu-title">Link</span></a>
-							</li> 
-							<li class="havechild">
-								<a href="" class="menu-item2" id="menu2" title="Menu item with Submenu"><span class="menu-title">Menu item w/ Submenu</span></a>
-								<ul>
-									<li><a href="" class=" first-item" id="menu20" title="Submenu Item 1"><span class="menu-title">Submenu Item 1</span></a></li> 
-									<li><a href=""  id="menu21" title="Submenu Item 2"><span class="menu-title">Submenu Item 2</span></a></li> 
-									<li><a href=""  id="menu22" title="Submenu Item 3"><span class="menu-title">Submenu Item 3</span></a></li> 
-								</ul>
-							</li> 
-							<li class="havesubschild">
-								<a href="" class="menu-item3" id="menu3" title="Menu 3"><span class="menu-title">Menu 3 w/ Subsubmenu</span></a>
-								<ul>
+				<div id="navigation_h">
+					<div id="wopper" class="wopper">
+						<div id="ja-mainnavwrap">
+							<div id="ja-mainnav">
+								<ul id="ja-cssmenu" class="clearfix">
 									<li>
-										<a href="" class="havesubchild first-item" id="menu30" title="Submenu Item 1"><span class="menu-title">Submenu Item 1 /w subsubmenu</span></a>
-										<ul>
-											<li><a href="" class=" first-item" id="menu300" title="Subsubmenu Item 1"><span class="menu-title">Subsubmenu Item 1</span></a></li> 
-											<li><a href=""  id="menu301" title="Subsubmenu Item 2"><span class="menu-title">Subsubmenu Item 2</span></a></li> 
-											<li><a href=""  id="menu302" title="Submenu Item 3"><span class="menu-title">Submenu Item 3</span></a></li> 
-										</ul>
-									</li> 
-									<li><a href=""  id="menu31" title="Submenu Item 2"><span class="menu-title">Submenu Item 2</span></a></li>
-								</ul>
-							</li>--> 
-						</ul>                                
-						<div class="published-date_h"><span id="publishDate">Last Published: ${buildDate} #${buildNumber}</span></div>
+										<a id="home-menuitem" class="menu-item0" href="${SES_URL}">
+											<span class="menu-title">Home</span>
+										</a>
+                                    </li>
+                                    
+                                        <li>
+                                            <a id="client-menuitem" class="menu-item1 active" href="${SES_URL}/config">
+                                                <span class="menu-title">Config</span>
+                                            </a>
+                                        </li>
+                                    
+                                    
+                                        <li>
+                                            <a id="admin-menuitem" class="menu-item2" href="http://52north.org">
+                                                <span class="menu-title">52°North</span>
+                                            </a>
+                                            
+                                        </li>
+                                    
+                                    
+								</ul>                                   
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>
 		<div id="wrapper">  
 			<!-- LeftColumn kann deaktiviert werden, aber dann sollte in dieser Datei die Eigenschaft padding der Klasse #bodyColumn angepasst werden. Z.B. padding: 0 10px 0 10px; -->
 			<!-- <div id="leftColumn">
@@ -91,7 +80,7 @@ width: 250px;
 					<div class="section">
 					<!-- hier kommt der eigentliche Inhalt der Seite -->
 
-<p>This is an instance of the IfGI/52North Sensor Event Service implementation. You can use this
+<p>This is an instance of the 52°North Sensor Event Service implementation. You can use this
  page to configure the specific parameters of the service.
  </p>
  <p>An overview of the configuration paramters can be found at <a href="https://wiki.52north.org/bin/view/Sensornet/SensorEventServiceConfiguration">https://wiki.52north.org/bin/view/Sensornet/SensorEventServiceConfiguration</a>
@@ -107,7 +96,7 @@ ${config_rows}
 <table>
 ${default_rows}
 </table>
-<div><input type="submit" value="Save" style="width:100px"/></div>
+<div><input type="submit" value="Save" style="width:200px; height: 50px"/></div>
 </form>
 <div style="margin-bottom: 100px"></div>
 

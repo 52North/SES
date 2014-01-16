@@ -31,7 +31,6 @@ import org.apache.muse.core.Resource;
 import org.apache.muse.core.SimpleResource;
 import org.apache.muse.ws.addressing.EndpointReference;
 import org.apache.muse.ws.addressing.soap.SoapFault;
-import org.apache.muse.ws.resource.impl.SimpleWsResource;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.ses.common.test.SimpleWSResourceMockup;

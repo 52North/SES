@@ -23,10 +23,18 @@
  */
 package org.n52.ses.api;
 
+import java.io.IOException;
+
+import org.apache.muse.ws.addressing.EndpointReference;
+import org.apache.xmlbeans.XmlException;
+
 public interface ISESFilePersistence {
 
 	int getPersistentPublisherCount();
 	
 	int getPersistentSubscriberCount();
+
+	void removePattern(EndpointReference endpointReference, String patternXpath)
+			throws XmlException, IOException;
 	
 }

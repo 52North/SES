@@ -23,6 +23,7 @@
  */
 package org.n52.ses.api.ws;
 
+import org.apache.muse.ws.addressing.EndpointReference;
 import org.apache.muse.ws.notification.Filter;
 import org.apache.xmlbeans.XmlObject;
 
@@ -35,5 +36,7 @@ public interface ISubscriptionManager {
 	Filter getFilter();
 
 	void reRegister();
+	
+	EndpointReference getEndpointReference();
 
 }

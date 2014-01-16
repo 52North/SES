@@ -283,7 +283,7 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		 * 
 		 */
 		ConfigurationRegistry.init(getEnvironment());
-		ConfigurationRegistry.getInstance().setFilePersistence(new SESFilePersistence());
+		//ConfigurationRegistry.getInstance().setFilePersistence(new SESFilePersistence());
 
 		SoapClient soapClient = getEnvironment().getSoapClient();
 		if (soapClient instanceof SESSoapClient) {

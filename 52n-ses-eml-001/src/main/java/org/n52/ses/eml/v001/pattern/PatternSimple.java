@@ -117,6 +117,7 @@ public class PatternSimple extends AGuardedViewPattern implements IPatternSimple
 		 * one statement per select function is built
 		 */
 
+		Statement[] result;
 		if (this.selectFunctions.size() <= 0) {
 			//no select function specified
 			String statement = Constants.EPL_SELECT 
@@ -134,43 +135,53 @@ public class PatternSimple extends AGuardedViewPattern implements IPatternSimple
 			
 			s.setSelectFunction(sel);
 			
-			return new Statement[] { s };
+			result = new Statement[] { s };
+		}
+		else {
+			this.statements = new Statement[this.selectFunctions.size()];
+			
+			//get from and where clause first, they do not change
+			String fromClause = this.createFromClause();
+			String whereClause = this.createWhereClause(false);
+			
+			//get insert and select clause for every select function
+			String statement;
+			Statement s;
+			SelFunction sel;
+			for (int i = 0; i < this.statements.length; i++) {
+				sel = this.selectFunctions.get(i);
+				
+				//			//insert into
+				//			statement = this.createInsertClause(sel);
+				
+				//select
+				statement = this.createSelectClause(sel);
+				
+				//from
+				statement += " " + fromClause;
+				
+				//where
+				statement += " " + whereClause;
+				
+				//add to list
+				s = new Statement();
+				s.setSelectFunction(sel);
+				s.setStatement(statement);
+				s.setView(this.view);
+				this.statements[i] = s;
+			}
+			
+			result = this.statements;
 		}
 		
-		this.statements = new Statement[this.selectFunctions.size()];
-		
-		//get from and where clause first, they do not change
-		String fromClause = this.createFromClause();
-		String whereClause = this.createWhereClause(false);
-		
-		//get insert and select clause for every select function
-		String statement;
-		Statement s;
-		SelFunction sel;
-		for (int i = 0; i < this.statements.length; i++) {
-			sel = this.selectFunctions.get(i);
-			
-			//			//insert into
-			//			statement = this.createInsertClause(sel);
-			
-			//select
-			statement = this.createSelectClause(sel);
-			
-			//from
-			statement += " " + fromClause;
-			
-			//where
-			statement += " " + whereClause;
-			
-			//add to list
-			s = new Statement();
-			s.setSelectFunction(sel);
-			s.setStatement(statement);
-			s.setView(this.view);
-			this.statements[i] = s;
+		/*
+		 * Workaround to include the CustomStatementEvents (e.g. persistent XML manipulation)
+		 */
+		if (result != null && result.length > 0 && this.guard != null) {
+			result[0].setCustomStatementEvents(this.guard.getCustomStatementEvents());
 		}
 		
-		return this.statements;
+		return result;
 	}
 	
 
