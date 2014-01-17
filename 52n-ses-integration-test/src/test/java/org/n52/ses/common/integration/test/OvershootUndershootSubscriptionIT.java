@@ -98,7 +98,7 @@ public class OvershootUndershootSubscriptionIT extends AbstractSubscriptionWorkf
 	public List<String> readNotifications() throws XmlException, IOException {
 		List<String> result = new ArrayList<String>();
 		result.add(readXmlContent("Overshoot_Notify1.xml"));
-//		result.add(readXmlContent("Overshoot_Notify2.xml"));
+		result.add(readXmlContent("Overshoot_Notify2.xml"));
 		return result;
 	}
 
