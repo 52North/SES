@@ -23,16 +23,20 @@
  */
 package org.n52.ses.engine.epos;
 
+import java.io.IOException;
+
+import org.apache.muse.util.xml.XmlUtils;
 import org.apache.muse.ws.notification.Filter;
 import org.apache.muse.ws.notification.NotificationMessage;
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
+import org.apache.muse.ws.notification.WsnConstants;
 import org.n52.epos.filter.EposFilter;
+import org.n52.ses.api.common.SesConstants;
 import org.n52.ses.api.ws.EngineCoveredFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 public class EposFilterWrapper implements Filter, EngineCoveredFilter {
 
@@ -45,29 +49,37 @@ public class EposFilterWrapper implements Filter, EngineCoveredFilter {
 
 	@Override
 	public Element toXML() {
-		CharSequence xmlString = filter.serialize();
-		XmlObject xo;
-		try {
-			logger.debug("Filter {} serialized as '{}'", filter, xmlString);
-			xo = XmlObject.Factory.parse(xmlString.toString());
-		} catch (XmlException e) {
-			logger.warn(e.getMessage(), e);
-			throw new RuntimeException(e);
-		}
-		return (Element) xo.getDomNode().getFirstChild();
+		return toXML(XmlUtils.createDocument());
 	}
 
 	@Override
-	public Element toXML(Document factory) {
-		Element result = toXML();
-		factory.appendChild(factory.importNode(result, true));
-		return factory.getDocumentElement();
+	public Element toXML(Document doc) {
+		Element filter = XmlUtils.createElement(doc, WsnConstants.FILTER_QNAME);
+
+		String xmlText = "<MessageContent>"+System.getProperty("line.separator");
+		xmlText += this.filter.serialize();
+		xmlText += System.getProperty("line.separator")+"</MessageContent>";
+
+		Element message = null;
+		try {
+			Element node = XmlUtils.createDocument(xmlText).getDocumentElement();
+			message = XmlUtils.createElement(doc, WsnConstants.MESSAGE_CONTENT_QNAME,
+					node);
+			message.setAttribute(WsnConstants.DIALECT, SesConstants.SES_FILTER_LEVEL_3_DIALECT);
+		} catch (IOException e) {
+			logger.warn(e.getMessage(), e);
+		} catch (SAXException e) {
+			logger.warn(e.getMessage(), e);
+		}
+
+		filter.appendChild(message);
+
+		return filter;
 	}
 
 	@Override
 	public boolean accepts(NotificationMessage message) {
-		//never used
-		return false;
+		return true;
 	}
 	
 	@Override

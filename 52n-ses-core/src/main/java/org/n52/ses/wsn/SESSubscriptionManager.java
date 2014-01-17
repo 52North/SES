@@ -210,6 +210,21 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		if (logger.isDebugEnabled())
 			logger.debug("resubscribing from router-entries: " +ids);
 
+        /* first get filters */
+        QName filQN = WsnConstants.FILTER_QNAME;
+        NodeList filter = persSub.getElementsByTagNameNS(filQN.getNamespaceURI(),
+                        filQN.getLocalPart());
+
+        if (filter.getLength() == 1) {
+        	Filter fil = FilterFactory.getInstance().newInstance((Element) filter.item(0));
+
+        	//                fil = SESNotificationProducer.getSESFilterCollectionFromCollection(fil);
+
+        	if (fil != null) {
+        		this.setFilter(fil);
+        	}
+        }
+		
 		/* set Consumer */
 		QName consQN = WsnConstants.CONSUMER_QNAME;
 		NodeList consumer = persSub.getElementsByTagNameNS(consQN.getNamespaceURI(),
@@ -268,6 +283,7 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		 */
 		ConfigurationRegistry reg = ConfigurationRegistry.getInstance();
 		reg.addReregisteredSubMgr(this);
+		this.pauseSubscription();
 	}
 
 

@@ -59,7 +59,6 @@ import org.n52.ses.api.common.GlobalConstants;
 import org.n52.ses.api.ws.EngineCoveredFilter;
 import org.n52.ses.api.ws.INotificationMessage;
 import org.n52.ses.api.ws.ISubscriptionManager;
-import org.n52.ses.api.ws.SESFilterCollection;
 import org.n52.ses.requestlogger.RequestLoggerWrapper;
 import org.n52.ses.util.common.ConfigurationRegistry;
 import org.n52.ses.util.concurrent.NamedThreadFactory;
@@ -202,9 +201,6 @@ public class SESNotificationProducer extends SimpleNotificationProducer
 
 		// Filter f = getSESFilterCollectionFromCollection(filter);
 
-		FilterCollection amusedFilters = findAmusedFilters(filter,
-				new FilterCollection());
-		
 		FilterCollection engineCoveredFilters = findEngineCoveredFilters(filter,
 				new FilterCollection());
 
@@ -264,19 +260,6 @@ public class SESNotificationProducer extends SimpleNotificationProducer
 		}
 
 		return result;
-	}
-
-	private FilterCollection findAmusedFilters(Filter filter,
-			FilterCollection candidates) {
-		if (filter instanceof FilterCollection) {
-			for (Object f : ((FilterCollection) filter).getFilters()) {
-				findAmusedFilters((Filter) f, candidates);
-			}
-		} else if (!(filter instanceof EngineCoveredFilter)) {
-			candidates.addFilter(filter);
-		}
-
-		return candidates;
 	}
 	
 	private FilterCollection findEngineCoveredFilters(Filter filter,
@@ -375,6 +358,7 @@ public class SESNotificationProducer extends SimpleNotificationProducer
 										logger.warn(e.getMessage(), e);
 									}
 								}
+								sessm.resumeSubscription();
 							}
 						}
 					}
