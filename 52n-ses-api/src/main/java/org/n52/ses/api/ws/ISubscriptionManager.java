@@ -24,12 +24,14 @@
 package org.n52.ses.api.ws;
 
 import org.apache.muse.ws.addressing.EndpointReference;
+import org.apache.muse.ws.addressing.soap.SoapFault;
 import org.apache.muse.ws.notification.Filter;
 import org.apache.xmlbeans.XmlObject;
+import org.n52.epos.rules.RuleListener;
 
-public interface ISubscriptionManager {
+public interface ISubscriptionManager extends RuleListener {
 
-	void publish(INotificationMessage origMessage);
+	void publish(INotificationMessage origMessage) throws SoapFault;
 
 	boolean sendSESNotificationMessge(XmlObject eventDoc);
 

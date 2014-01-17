@@ -59,6 +59,7 @@ import org.apache.muse.ws.resource.lifetime.ScheduledTermination;
 import org.apache.muse.ws.resource.lifetime.WsrlConstants;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
+import org.n52.epos.event.EposEvent;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.n52.ses.api.common.GlobalConstants;
@@ -129,7 +130,7 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 	 * @return <code>true</code> if there is a constraint filter available
 	 */
 	public boolean isHasConstraintFilter() {
-		return this.hasConstraintFilter;
+		return this.hasConstraintFilter || hasEngineCoveredFilter;
 	}
 
 
@@ -540,7 +541,48 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		return hasEngineCoveredFilter;
 	}
 
+	@Override
+	public void onMatchingEvent(EposEvent event, Object desiredOutputToConsumer) {
+		this.publish(wrapWithNotificationMessage(desiredOutputToConsumer));
+	}
+	
+	@Override
+	public void onMatchingEvent(EposEvent event) {
+		INotificationMessage serialized = wrapWithNotificationMessage(event.getOriginalObject());
+		onMatchingEvent(event, serialized);
+	}
+	
+	protected INotificationMessage wrapWithNotificationMessage(
+			Object desiredOutputToConsumer) {
+		if (desiredOutputToConsumer instanceof INotificationMessage) {
+			return (INotificationMessage) desiredOutputToConsumer;
+		}
+		else if (desiredOutputToConsumer instanceof XmlObject) {
+			final SimpleNotificationMessage result = new SimpleNotificationMessage();
+			Node content = ((XmlObject) desiredOutputToConsumer).getDomNode();
+			result.addMessageContent(content.getFirstChild().getOwnerDocument().getDocumentElement());
+			return new INotificationMessage() {
+				
+				@Override
+				public String xmlToString() {
+					return XmlUtil.toString(result.toXML());
+				}
+				
+				@Override
+				public Object getNotificationMessage() {
+					return result;
+				}
+			};
+		}
+		
+		return null;
 
+	}
 
-
+	@Override
+	public EndpointReference getEndpointReference() {
+		return getResource().getEndpointReference();
+	}
+	
 }
+

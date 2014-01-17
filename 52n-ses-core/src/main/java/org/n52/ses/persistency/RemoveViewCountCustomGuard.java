@@ -25,15 +25,15 @@ package org.n52.ses.persistency;
 
 import java.io.IOException;
 
+import org.apache.muse.ws.addressing.EndpointReference;
 import org.apache.xmlbeans.XmlException;
+import org.n52.epos.pattern.CustomStatementEvent;
+import org.n52.epos.rules.Rule;
 import org.n52.ses.api.ISESFilePersistence;
-import org.n52.ses.api.common.CustomStatementEvent;
-import org.n52.ses.api.ws.ISubscriptionManager;
 import org.n52.ses.util.common.ConfigurationRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.espertech.esper.client.EventBean;
 
 public class RemoveViewCountCustomGuard implements CustomStatementEvent {
 	
@@ -48,14 +48,16 @@ public class RemoveViewCountCustomGuard implements CustomStatementEvent {
 	private static final Logger logger = LoggerFactory.getLogger(RemoveViewCountCustomGuard.class);
 
 	@Override
-	public void eventFired(EventBean[] newEvents, ISubscriptionManager subMgr) {
-		logger.info("Attempting to remove VIEW_COUNT pattern form persistent subscription '{}'.", subMgr.getEndpointReference().toString());
+	public void eventFired(Object[] newEvents, Rule subMgr) {
+		logger.info("Attempting to remove VIEW_COUNT pattern form persistent subscription '{}'.",
+				subMgr.getRuleListener().getEndpointReference().toString());
 		
 		ISESFilePersistence fp = ConfigurationRegistry.getInstance().getFilePersistence();
 		
 		if (fp != null) {
 			try {
-				fp.removePattern(subMgr.getEndpointReference(), REMOVE_GUARD_XPATH);
+				fp.removePattern((EndpointReference) subMgr.getRuleListener().getEndpointReference(),
+						REMOVE_GUARD_XPATH);
 			} catch (XmlException e) {
 				logger.warn(e.getMessage(), e);
 			} catch (IOException e) {

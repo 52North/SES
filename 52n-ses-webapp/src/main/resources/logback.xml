@@ -55,6 +55,7 @@
 		<appender-ref ref="sesrequestfileAppender" />
 	</logger>
 	<logger name="org.n52.ses" level="INFO" />
+	<logger name="org.n52.epos" level="DEBUG" />
 	<logger name="org.n52.ses.filter.epl.EPLFilterController" level="DEBUG" />
 	<root level="INFO">
 		<appender-ref ref="sesfile" />

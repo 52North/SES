@@ -52,10 +52,12 @@ import org.apache.muse.ws.notification.impl.FilterCollection;
 import org.apache.muse.ws.notification.impl.SimpleNotificationProducer;
 import org.apache.muse.ws.notification.topics.Topic;
 import org.apache.muse.ws.resource.WsResource;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.n52.ses.api.IFilterEngine;
 import org.n52.ses.api.common.FreeResourceListener;
 import org.n52.ses.api.common.GlobalConstants;
 import org.n52.ses.api.ws.EngineCoveredFilter;
+import org.n52.ses.api.ws.INotificationMessage;
 import org.n52.ses.api.ws.ISubscriptionManager;
 import org.n52.ses.api.ws.SESFilterCollection;
 import org.n52.ses.requestlogger.RequestLoggerWrapper;
@@ -202,11 +204,14 @@ public class SESNotificationProducer extends SimpleNotificationProducer
 
 		FilterCollection amusedFilters = findAmusedFilters(filter,
 				new FilterCollection());
+		
+		FilterCollection engineCoveredFilters = findEngineCoveredFilters(filter,
+				new FilterCollection());
 
 		/*
 		 * create SESSubscriptionManager
 		 */
-		WsResource result = super.subscribe(er, amusedFilters, date, policy);
+		WsResource result = super.subscribe(er, filter, date, policy);
 
 		// add metadata element to endpoint
 		// TODO: get from wsdl?
@@ -230,7 +235,7 @@ public class SESNotificationProducer extends SimpleNotificationProducer
 				throw new SubscribeCreationFailedFault(
 						"Could not access an instanceof IFilterEngine! Subscriptions may not match!");
 			} else {
-				if (filterEngine.registerFilter(subMgr)) {
+				if (filterEngine.registerFilter(subMgr, engineCoveredFilters)) {
 					subMgr.setHasEngineCoveredFilter(true);
 				}
 			}
@@ -268,6 +273,19 @@ public class SESNotificationProducer extends SimpleNotificationProducer
 				findAmusedFilters((Filter) f, candidates);
 			}
 		} else if (!(filter instanceof EngineCoveredFilter)) {
+			candidates.addFilter(filter);
+		}
+
+		return candidates;
+	}
+	
+	private FilterCollection findEngineCoveredFilters(Filter filter,
+			FilterCollection candidates) {
+		if (filter instanceof FilterCollection) {
+			for (Object f : ((FilterCollection) filter).getFilters()) {
+				findEngineCoveredFilters((Filter) f, candidates);
+			}
+		} else if ((filter instanceof EngineCoveredFilter)) {
 			candidates.addFilter(filter);
 		}
 
@@ -342,18 +360,19 @@ public class SESNotificationProducer extends SimpleNotificationProducer
 								addSubscription(sessm.getWsResource());
 
 								/* check if registering at esper is need */
-								if (sessm.getFilter() instanceof SESFilterCollection) {
-									SESFilterCollection sfc = (SESFilterCollection) sessm
+								if (sessm.getFilter() instanceof FilterCollection) {
+									FilterCollection sfc = (FilterCollection) sessm
 											.getFilter();
+									
+									FilterCollection filters = findEngineCoveredFilters(sfc, new FilterCollection());
 
-									if (sfc.getConstraintFilter() != null) {
-										try {
-											ConfigurationRegistry.getInstance()
-													.getFilterEngine()
-													.registerFilter(sessm);
-										} catch (Exception e) {
-											logger.warn(e.getMessage(), e);
+									try {
+										if (ConfigurationRegistry.getInstance().getFilterEngine()
+												.registerFilter(sessm, filters)) {
+											sessm.setHasEngineCoveredFilter(true);
 										}
+									} catch (Exception e) {
+										logger.warn(e.getMessage(), e);
 									}
 								}
 							}
@@ -392,7 +411,18 @@ public class SESNotificationProducer extends SimpleNotificationProducer
 		if (filterEngine == null) {
 			logger.warn("Could not access an instanceof IFilterEngine! Subscriptions may not match!");
 		} else {
-			filterEngine.filter(message);
+			filterEngine.filter(new INotificationMessage() {
+				
+				@Override
+				public String xmlToString() {
+					return XmlUtil.toString(message.toXML());
+				}
+				
+				@Override
+				public Object getNotificationMessage() {
+					return message;
+				}
+			});
 		}
 
 		/*

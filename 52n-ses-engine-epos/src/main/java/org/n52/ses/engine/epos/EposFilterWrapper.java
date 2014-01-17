@@ -60,8 +60,7 @@ public class EposFilterWrapper implements Filter, EngineCoveredFilter {
 	@Override
 	public Element toXML(Document factory) {
 		Element result = toXML();
-		factory.importNode(result, true);
-		factory.appendChild(result);
+		factory.appendChild(factory.importNode(result, true));
 		return factory.getDocumentElement();
 	}
 

@@ -30,6 +30,12 @@
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-oxf-conversion</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.n52.epos</groupId>
+			<artifactId>epos-all</artifactId>
+			<type>pom</type>
+		</dependency>
 
 		<dependency>
 			<artifactId>amused-wsn-impl</artifactId>

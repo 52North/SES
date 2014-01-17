@@ -26,16 +26,18 @@ package org.n52.ses.engine.epos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.muse.util.xml.XmlUtils;
-import org.apache.muse.ws.addressing.soap.SoapFault;
+import javax.xml.namespace.QName;
+
 import org.apache.muse.ws.notification.Filter;
 import org.apache.muse.ws.notification.NotificationMessage;
-import org.apache.muse.ws.notification.SubscriptionManager;
 import org.apache.muse.ws.notification.impl.FilterCollection;
 import org.apache.muse.ws.notification.impl.FilterFactory;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 import org.n52.epos.engine.EposEngine;
 import org.n52.epos.engine.rules.RuleInstance;
 import org.n52.epos.event.EposEvent;
@@ -43,52 +45,59 @@ import org.n52.epos.filter.ActiveFilter;
 import org.n52.epos.filter.EposFilter;
 import org.n52.epos.filter.PassiveFilter;
 import org.n52.epos.rules.Rule;
-import org.n52.epos.rules.RuleListener;
+import org.n52.epos.transform.TransformationException;
+import org.n52.epos.transform.TransformationRepository;
 import org.n52.ses.api.IFilterEngine;
 import org.n52.ses.api.ws.EngineCoveredFilter;
+import org.n52.ses.api.ws.INotificationMessage;
+import org.n52.ses.api.ws.ISubscriptionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
 
 public class EposEngineWrapper implements IFilterEngine {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EposEngineWrapper.class);
-	private Map<SubscriptionManager, Rule> rules = new HashMap<SubscriptionManager, Rule>();
+	private Map<ISubscriptionManager, Rule> rules = new HashMap<ISubscriptionManager, Rule>();
 
 	public EposEngineWrapper() {
 		FilterFactory.getInstance().addHandler(new EposFilterFactory());
 	}
 	
 	@Override
-	public void filter(NotificationMessage message) {
-		logger.info("here we should insert the new message.");
+	public void filter(INotificationMessage message) {
+		if (message.getNotificationMessage() instanceof NotificationMessage) {
+			NotificationMessage notific = (NotificationMessage) message.getNotificationMessage();
+			
+			Iterator<?> it = notific.getMessageContentNames().iterator();
+			while (it.hasNext()) {
+				QName mcn = (QName) it.next();
+				Element content = notific.getMessageContent(mcn);
+				EposEvent event;
+				try {
+					event = (EposEvent) TransformationRepository.Instance.transform(XmlObject.Factory.parse(content), EposEvent.class);
+					EposEngine.getInstance().filterEvent(event);
+				} catch (TransformationException e) {
+					logger.warn(e.getMessage(), e);
+				} catch (XmlException e) {
+					logger.warn(e.getMessage(), e);
+				}
+			}
+		}
+		
+		
 	}
 
 	@Override
-	public boolean registerFilter(final SubscriptionManager subMgr) throws Exception {
-		List<EposFilter> filters = findEposFilters(subMgr.getFilter(), new ArrayList<EposFilter>());
+	public boolean registerFilter(final ISubscriptionManager subMgr, FilterCollection engineFilters) throws Exception {
+		List<EposFilter> filters = findEposFilters(engineFilters, new ArrayList<EposFilter>());
 		
 		if (filters.isEmpty()) {
 			logger.info("No Epos filters found ({})", subMgr.getFilter());
 			return false;
 		}
 		
-		RuleInstance rule = new RuleInstance(new RuleListener() {
-			
-			@Override
-			public void onMatchingEvent(EposEvent event, Object desiredOutputToConsumer) {
-				try {
-					subMgr.publish(wrapWithNotificationMessage(desiredOutputToConsumer));
-				} catch (SoapFault e) {
-					logger.warn(e.getMessage(), e);
-				}
-			}
-			
-			@Override
-			public void onMatchingEvent(EposEvent event) {
-				NotificationMessage serialized = wrapWithNotificationMessage(event.getOriginalObject());
-				onMatchingEvent(event, serialized);
-			}
-		});
+		RuleInstance rule = new RuleInstance(subMgr);
 		
 		for (EposFilter eposFilter : filters) {
 			if (eposFilter instanceof PassiveFilter) {
@@ -109,13 +118,6 @@ public class EposEngineWrapper implements IFilterEngine {
 		return true;
 	}
 
-	protected NotificationMessage wrapWithNotificationMessage(
-			Object desiredOutputToConsumer) {
-		if (desiredOutputToConsumer instanceof NotificationMessage)
-			return (NotificationMessage) desiredOutputToConsumer;
-		
-		return null;
-	}
 
 	private List<EposFilter> findEposFilters(Filter filter, List<EposFilter> resultList) {
 		if (filter instanceof EngineCoveredFilter) {
@@ -134,7 +136,7 @@ public class EposEngineWrapper implements IFilterEngine {
 	}
 
 	@Override
-	public void unregisterFilter(SubscriptionManager subMgr) throws Exception {
+	public void unregisterFilter(ISubscriptionManager subMgr) throws Exception {
 		synchronized (this) {
 			this.rules.remove(subMgr);
 		}		
