@@ -138,8 +138,10 @@ public class EposEngineWrapper implements IFilterEngine {
 	@Override
 	public void unregisterFilter(ISubscriptionManager subMgr) throws Exception {
 		synchronized (this) {
-			EposEngine.getInstance().unregisterRule(this.rules.get(subMgr));
-			this.rules.remove(subMgr);
+			if (this.rules.containsKey(subMgr)) {
+				EposEngine.getInstance().unregisterRule(this.rules.get(subMgr));
+				this.rules.remove(subMgr);	
+			}
 		}		
 	}
 
