@@ -84,23 +84,26 @@ public class ConcurrentSubscriptionsIT {
 	public void
 	testConcurrentSubscriptionWorkflow()
 			throws IOException, InterruptedException, OXFException, ExceptionReport, XmlException {
-		initializeConsumer();
-		
-		ServiceInstance.getInstance().waitUntilAvailable();
-		
-		subscribeA();
-		subscribeB();
-		
-		notifications();
-		
-		waitForNotificationArrival();
-		
-		String error = evaluate();
-		Assert.assertNull(error, error);
-		
-		unsubscribe();
+		int runs = 3;
+		logger.info("Running {} cycles of concurrent message matching...", runs);
+		for (int i = 0; i < runs; i++) {
+			initializeConsumer();
+			
+			ServiceInstance.getInstance().waitUntilAvailable();
+			
+			subscribeA();
+			subscribeB();
+			
+			notifications();
+			
+			waitForNotificationArrival();
+			
+			String error = evaluate();
+			Assert.assertNull(error, error);
+			
+			unsubscribe();	
+		}
 	}
-
 	
 	private void unsubscribe() throws OXFException, ExceptionReport, XmlException, IOException {
 		unsubscribeById(subscriptionA.getResourceID(), subscriptionA.getManager().getHost());
@@ -178,7 +181,8 @@ public class ConcurrentSubscriptionsIT {
 
 	private void waitForNotificationArrival() throws InterruptedException {
 		long start = System.currentTimeMillis();
-		while (!allArrived() && System.currentTimeMillis() - start < IntegrationTestConfig.getInstance().getNotificationTimeout()) {
+		while (!allArrived() && System.currentTimeMillis() - start <
+				IntegrationTestConfig.getInstance().getNotificationTimeout()) {
 			logger.info("waiting for all notifications to arrive...");
 			Thread.sleep(1000);
 		}

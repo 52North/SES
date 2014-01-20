@@ -1,0 +1,18 @@
+<SOAP-ENV:Envelope xmlns:ses="http://www.opengis.net/ses/0.0" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:essf="http://www.opengis.net/es-sf/0.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl-soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsrf-r="http://docs.oasis-open.org/wsrf/r-2" xmlns:wsrf-rl="http://docs.oasis-open.org/wsrf/rl-2" xmlns:wsrf-bf="http://docs.oasis-open.org/wsrf/bf-2" xmlns:wsrf-rp="http://docs.oasis-open.org/wsrf/rp-2" xmlns:wsrmd="http://docs.oasis-open.org/wsrf/rmd-1" xmlns:wsn-b="http://docs.oasis-open.org/wsn/b-2" xmlns:wsn-br="http://docs.oasis-open.org/wsn/br-2" xmlns:wsntw="http://docs.oasis-open.org/wsn/bw-2" xmlns:wsn-t="http://docs.oasis-open.org/wsn/t-1" xmlns:muws1="http://docs.oasis-open.org/wsdm/muws1-2.xsd" xmlns:muws2="http://docs.oasis-open.org/wsdm/muws2-2.xsd" xmlns:sml="http://www.opengis.net/sensorML/1.0.1" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SOAP-ENV:Header>
+    <wsa:Action>http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest</wsa:Action>
+    <wsa:To>${ses_host}</wsa:To>
+    <wsa:From>
+      <wsa:Address>http://www.w3.org/2005/08/addressing/role/anonymous</wsa:Address>
+    </wsa:From>
+    <wsa:MessageID>39b08fa9-bbe9-4949-8eab-46a9c62b38b6</wsa:MessageID>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <wsn-b:Subscribe>
+      <wsn-b:ConsumerReference>
+        <wsa:Address>${consumer}</wsa:Address>
+      </wsn-b:ConsumerReference>
+      <wsn-b:Filter />
+    </wsn-b:Subscribe>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

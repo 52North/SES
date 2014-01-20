@@ -24,41 +24,42 @@
 package org.n52.ses.common.integration.test;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.URL;
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
+import org.apache.http.HttpResponse;
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ses.adapter.client.Subscription;
+import org.n52.oxf.util.web.HttpClient;
+import org.n52.oxf.util.web.HttpClientException;
+import org.n52.oxf.util.web.SimpleHttpClient;
 import org.n52.ses.common.test.TestWSNEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class OvershootUndershootSubscriptionIT extends AbstractSubscriptionWorkflow {
-
-	private static final Logger logger = LoggerFactory.getLogger(OvershootUndershootSubscriptionIT.class);
-
+public class AllMessageFilterIT extends AbstractSubscriptionWorkflow {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AllMessageFilterIT.class);
 	private TestWSNEndpoint endpoint;
-
 	private NotificationReceiver notificationReceiver;
 
-
-	@Test
-	public void shouldCompleteRoundtripForNotification() throws IOException, InterruptedException,
-				OXFException, ExceptionReport, XmlException, ExecutionException, TimeoutException {
+	@Test public void
+	testAllMessagesSubscription()
+			throws Exception {
 		notificationReceiver = initializeConsumer();
 		
 		ServiceInstance.getInstance().waitUntilAvailable();
 		
-		Subscription subscription = subscribe();
+		Subscription subscription = subscribe(endpoint.getPublicURL()+notificationReceiver.getPath());
 		
 		Thread.sleep(1000);
 		
@@ -77,45 +78,49 @@ public class OvershootUndershootSubscriptionIT extends AbstractSubscriptionWorkf
 		
 		Thread.sleep(1000);
 		
-		evaluate(hasReceived);
+		Assert.assertNull("Noticiation not received!", hasReceived);
 	}
-
-
-
-	protected void evaluate(Object hasReceived) {
-		Assert.assertNull("Noticiation not received!", hasReceived);		
+	
+	@Override
+	protected Subscription subscribe(String consumerURL) throws OXFException,
+			ExceptionReport, XmlException, IOException {
+		String xml = readXmlContent("AllMessagesSubscription.xml").replace("${consumer}", consumerURL);
+	
+		URL host = ServiceInstance.getInstance().getHost();
+		
+		xml = xml.replace("${ses_host}", host.toExternalForm());
+		logger.info("Subscription: {}", xml);
+		
+		HttpClient client = new SimpleHttpClient();
+		HttpResponse result;
+		try {
+			result = client.executePost(host.toExternalForm(), xml);
+		} catch (HttpClientException e) {
+			throw new IOException(e);
+		}
+		
+		XmlObject xo = XmlObject.Factory.parse(result.getEntity().getContent());
+		logger.info(xo.xmlText());
+		Subscription sub = new Subscription(null);
+		sub.parseResponse(xo);
+		return sub;
 	}
-
-
-
+	
 	private NotificationReceiver initializeConsumer() throws IOException, InterruptedException {
 		endpoint = TestWSNEndpoint.getInstance(IntegrationTestConfig.getInstance().getConsumerPort());
-		NotificationReceiver notificationReceiver = new NotificationReceiver("over-under");
+		NotificationReceiver notificationReceiver = new NotificationReceiver("stored-filter");
 		endpoint.addListener(notificationReceiver);
 		return notificationReceiver;
 	}
 
-	protected Subscription subscribe() throws OXFException, ExceptionReport, XmlException, IOException {
-		return super.subscribe(getConsumerUrl(),
-				"http://www.opengis.net/ses/filter/level3");
-	}
-
-
-	protected String getConsumerUrl() {
-		return endpoint.getPublicURL()+notificationReceiver.getPath();
-	}
-
-
+	@Override
 	public List<String> readNotifications() throws XmlException, IOException {
-		List<String> result = new ArrayList<String>();
-		result.add(readXmlContent("Overshoot_Notify1.xml"));
-		result.add(readXmlContent("Overshoot_Notify2.xml"));
-		return result;
+		return Collections.singletonList(readXmlContent("StoredFilter_Notify1.xml"));
 	}
 
+	@Override
 	public String readSubscription() throws XmlException, IOException {
-		return readXmlContent("Overshoot_Subscribe1.xml");
+		return "";
 	}
-
 
 }
