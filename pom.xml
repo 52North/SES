@@ -28,16 +28,15 @@
 		<module>52n-ses-utils</module>
 		<module>52n-ses-io</module>
 		<module>52n-ses-service-access</module>
-		<module>52n-ses-eml-001</module>
-		<module>52n-ses-eml-002</module>
 		<module>52n-ses-tests</module>
 		<module>52n-ses-core</module>
+		<module>52n-ses-engine-epos</module>
+		<module>52n-ses-webapp</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<license.header.file>${basedir}/src/main/config/52n_license_header.txt</license.header.file>
-		<esper.version>4.5.0</esper.version>
 		<muse.version>1.0.1</muse.version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<logback.version>1.0.7</logback.version>
@@ -51,6 +50,7 @@
 		<svnRevision>${buildNumber}</svnRevision>
 		<oxf.version>2.0.0-alpha.4-SNAPSHOT</oxf.version>
 		<n52.xml.version>1.1.5</n52.xml.version>
+		<epos.version>0.0.1-SNAPSHOT</epos.version>
 	</properties>
 
 	<build>
@@ -227,6 +227,16 @@
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb.ses</groupId>
+				<artifactId>52n-ses-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb.ses</groupId>
+				<artifactId>52n-ses-engine-epos</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb.ses</groupId>
 				<artifactId>52n-ses-xmlbeans</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -239,6 +249,13 @@
 				<groupId>org.n52.sensorweb.ses</groupId>
 				<artifactId>52n-xml-ses-config</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.n52.epos</groupId>
+				<artifactId>epos-all</artifactId>
+				<version>${epos.version}</version>
+				<type>pom</type>
 			</dependency>
 
 			<dependency>
@@ -396,12 +413,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.espertech</groupId>
-				<artifactId>esper</artifactId>
-				<version>${esper.version}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sensorML-v101</artifactId>
 				<version>${n52.xml.version}</version>
@@ -543,30 +554,6 @@
 					<filter>${local.configfile}</filter>
 				</filters>
 			</build>
-		</profile>
-
-		<profile>
-			<id>eml_001</id>
-			<modules>
-				<module>52n-ses-eml-001</module>
-			</modules>
-			<properties>
-				<conf.ses.eml.controller>org.n52.ses.eml.v001.filterlogic.esper.EsperController</conf.ses.eml.controller>
-			</properties>
-			<activation>
-				<property>
-					<name>!disable-eml-001</name>
-				</property>
-			</activation>
-		</profile>
-		<profile>
-			<id>eml_002</id>
-			<modules>
-				<module>52n-ses-eml-002</module>
-			</modules>
-			<properties>
-				<conf.ses.eml.controller>org.n52.ses.eml.v002.filterlogic.esper.EsperController</conf.ses.eml.controller>
-			</properties>
 		</profile>
 
 		<profile>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Definitions xmlns="http://docs.oasis-open.org/wsrf/rmd-1"
+    targetNamespace="http://www.opengis.net/ses/0.0" xmlns:ses="http://www.opengis.net/ses/0.0"
+    xmlns:wsn-b="http://docs.oasis-open.org/wsn/b-2"
+    xmlns:wsn-t="http://docs.oasis-open.org/wsn/t-1">
+
+    <MetadataDescriptor name="ses:SesMetadataDescriptor" interface="ses:SesPortType"
+        wsdlLocation="http://www.opengis.net/ses/0.0 SESallinone.wsdl">
+
+        <Property name="wsn-b:FixedTopicSet" modifiability="read-only" mutability="constant"/>
+
+        <Property name="wsn-t:TopicSet" modifiability="read-only" mutability="mutable"/>
+
+        <Property name="wsn-b:TopicExpression" modifiability="read-only" mutability="mutable"/>
+
+        <Property name="wsn-b:TopicExpressionDialect" modifiability="read-only" mutability="mutable"/>
+
+    </MetadataDescriptor>
+
+</Definitions>

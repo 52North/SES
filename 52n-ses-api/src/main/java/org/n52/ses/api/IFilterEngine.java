@@ -23,8 +23,9 @@
  */
 package org.n52.ses.api;
 
-import org.apache.muse.ws.notification.NotificationMessage;
-import org.apache.muse.ws.notification.SubscriptionManager;
+import org.apache.muse.ws.notification.impl.FilterCollection;
+import org.n52.ses.api.ws.INotificationMessage;
+import org.n52.ses.api.ws.ISubscriptionManager;
 
 /**
  * 
@@ -39,21 +40,24 @@ public interface IFilterEngine  {
 	 * 
 	 * @param message the notification message to filter
 	 */
-	public abstract void filter(NotificationMessage message);
+	public abstract void filter(INotificationMessage message);
 	
 	/**
 	 * register a new subscription filter.
 	 * @param subMgr the subscription manager
+	 * @param engineCoveredFilters 
 	 * @throws Exception exception if error occurs during the registration
+	 * @return true, if the subscriptionmanager was registered at the engine instance
+	 * with a filter
 	 */
-	public abstract void registerFilter(SubscriptionManager subMgr) throws Exception;
+	public abstract boolean registerFilter(ISubscriptionManager subMgr, FilterCollection engineCoveredFilters) throws Exception;
 	
 	/**
 	 * remove a subscription from the filter engine 
 	 * @param subMgr the subscription manager responsible for the subscription
 	 * @throws Exception if error occurs during unregistration
 	 */
-	public abstract void unregisterFilter(SubscriptionManager subMgr) throws Exception;
+	public abstract void unregisterFilter(ISubscriptionManager subMgr) throws Exception;
 
 	
 	/**

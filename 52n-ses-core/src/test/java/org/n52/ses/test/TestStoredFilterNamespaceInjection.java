@@ -30,12 +30,25 @@ import org.apache.muse.ws.notification.Filter;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.n52.ses.common.test.ConfigurationRegistryMockup;
 import org.n52.ses.storedfilters.StoredFilterHandler;
+import org.n52.ses.util.common.ConfigurationRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 public class TestStoredFilterNamespaceInjection {
 
+	private static final Logger logger = LoggerFactory.getLogger(TestStoredFilterNamespaceInjection.class);
+	
+	@Before
+	public void init() {
+		ConfigurationRegistryMockup.init();
+		if (ConfigurationRegistry.getInstance().getFilterEngine() == null)
+			throw new IllegalStateException("FilterEngine is required for this test.");
+	}
 	
 	@Test public void
 	shouldInjectNamespaceIntoTemplate()
@@ -44,7 +57,9 @@ public class TestStoredFilterNamespaceInjection {
 		
 		StoredFilterHandler handler = new StoredFilterHandler();
 		Filter instance = handler.newInstance(readXml());
+		logger.info("Filter toXML: {}", instance.toXML());
 		XmlObject instanceXml = XmlObject.Factory.parse(instance.toXML());
+		logger.info("Filter XML via XMLBeans: {}", instanceXml.xmlText());
 		Assert.assertTrue("Prefix om: not injected!", instanceXml.xmlText().contains("xmlns:om"));
 	}
 

@@ -25,7 +25,6 @@ package org.n52.ses.wsn;
 
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -54,18 +53,16 @@ import org.apache.muse.ws.notification.Policy;
 import org.apache.muse.ws.notification.WsnConstants;
 import org.apache.muse.ws.notification.impl.FilterCollection;
 import org.apache.muse.ws.notification.impl.FilterFactory;
-import org.apache.muse.ws.notification.impl.MessagePatternFilterHandler;
+import org.apache.muse.ws.notification.impl.SimpleNotificationMessage;
 import org.apache.muse.ws.notification.impl.SimpleSubscriptionManager;
 import org.apache.muse.ws.resource.lifetime.ScheduledTermination;
 import org.apache.muse.ws.resource.lifetime.WsrlConstants;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
+import org.n52.epos.event.EposEvent;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
-import org.n52.ses.api.IClassProvider;
-import org.n52.ses.api.IFilterEngine;
 import org.n52.ses.api.common.GlobalConstants;
-import org.n52.ses.api.event.MapEvent;
 import org.n52.ses.api.ws.INotificationMessage;
 import org.n52.ses.api.ws.ISubscriptionManager;
 import org.n52.ses.api.ws.SESFilterCollection;
@@ -73,14 +70,10 @@ import org.n52.ses.common.SESResourceIdFactory;
 import org.n52.ses.common.environment.SESSoapClient;
 import org.n52.ses.common.https.AcceptAllSocketFactory;
 import org.n52.ses.common.https.HTTPSConnectionHandler;
-import org.n52.ses.filter.SESConstraintFilterHandler;
 import org.n52.ses.filter.dialects.SelectiveMetadataFilter;
-import org.n52.ses.filter.epl.EPLFilterHandler;
 import org.n52.ses.persistency.SESFilePersistence;
 import org.n52.ses.storedfilters.StoredFilterHandler;
 import org.n52.ses.util.common.ConfigurationRegistry;
-import org.n52.ses.util.unitconversion.SESUnitConverter;
-import org.n52.ses.util.xml.SESEventGenerator;
 import org.n52.ses.util.xml.XMLHelper;
 import org.n52.ses.wsn.contentfilter.MessageContentFiler;
 import org.n52.ses.wsn.contentfilter.PropertyExclusionContentFilter;
@@ -128,6 +121,8 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 
 	private List<MessageContentFiler> messageContentFilters = new ArrayList<MessageContentFiler>();
 
+	private boolean hasEngineCoveredFilter;
+
 
 	/**
 	 * Flag is true if the SESSubscriptionManager has a
@@ -135,7 +130,7 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 	 * @return <code>true</code> if there is a constraint filter available
 	 */
 	public boolean isHasConstraintFilter() {
-		return this.hasConstraintFilter;
+		return this.hasConstraintFilter || hasEngineCoveredFilter;
 	}
 
 
@@ -215,23 +210,21 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		if (logger.isDebugEnabled())
 			logger.debug("resubscribing from router-entries: " +ids);
 
-		/* first get filters */
-		QName filQN = WsnConstants.FILTER_QNAME;
-		NodeList filter = persSub.getElementsByTagNameNS(filQN.getNamespaceURI(),
-				filQN.getLocalPart());
+        /* first get filters */
+        QName filQN = WsnConstants.FILTER_QNAME;
+        NodeList filter = persSub.getElementsByTagNameNS(filQN.getNamespaceURI(),
+                        filQN.getLocalPart());
 
-		if (filter.getLength() == 1) {
-			Filter fil = FilterFactory.getInstance().newInstance((Element) filter.item(0));
+        if (filter.getLength() == 1) {
+        	Filter fil = FilterFactory.getInstance().newInstance((Element) filter.item(0));
 
-			fil = SESNotificationProducer.getSESFilterCollectionFromCollection(fil);
+        	//                fil = SESNotificationProducer.getSESFilterCollectionFromCollection(fil);
 
-			if (fil != null) {
-				this.setFilter(fil);
-			}
-
-		}
-
-
+        	if (fil != null) {
+        		this.setFilter(fil);
+        	}
+        }
+		
 		/* set Consumer */
 		QName consQN = WsnConstants.CONSUMER_QNAME;
 		NodeList consumer = persSub.getElementsByTagNameNS(consQN.getNamespaceURI(),
@@ -290,6 +283,7 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		 */
 		ConfigurationRegistry reg = ConfigurationRegistry.getInstance();
 		reg.addReregisteredSubMgr(this);
+		this.pauseSubscription();
 	}
 
 
@@ -298,62 +292,21 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		//add the SESConstraintFilter and EPLFilter
 		if (logger.isInfoEnabled())
 			logger.info("initializing SES Resources...");
-		FilterFactory.getInstance().addHandler(new SESConstraintFilterHandler());
-		FilterFactory.getInstance().addHandler(new EPLFilterHandler());
 		FilterFactory.getInstance().addHandler(new StoredFilterHandler());
-		FilterFactory.getInstance().addHandler(new MessagePatternFilterHandler());
-		
-
-		if (logger.isInfoEnabled())
-			logger.info("initializing config from file {}...", getResource().getEnvironment().getDataResource(ConfigurationRegistry.CONFIG_FILE));
-		InputStream config = getResource().getEnvironment().getDataResourceStream(ConfigurationRegistry.CONFIG_FILE);
-		SESUnitConverter unitConverter = new SESUnitConverter();
 
 		/*
 		 * 
 		 * init the registry
 		 * 
 		 */
-		ConfigurationRegistry.init(config, getEnvironment(), unitConverter);
-//		ConfigurationRegistry.getInstance().setFilePersistence(new SESFilePersistence());
+		ConfigurationRegistry.init(getEnvironment());
+		//ConfigurationRegistry.getInstance().setFilePersistence(new SESFilePersistence());
 
 		SoapClient soapClient = getEnvironment().getSoapClient();
 		if (soapClient instanceof SESSoapClient) {
 			((SESSoapClient) soapClient).initialize();
 		}
 
-
-		ConfigurationRegistry confReg = ConfigurationRegistry.getInstance();
-
-		// get the filter engine with reflections
-		String feString = confReg.getPropertyForKey(ConfigurationRegistry.USED_FILTER_ENGINE);
-		if (logger.isInfoEnabled())
-			logger.info("Init Filter Engine: {}", feString);
-		
-		IFilterEngine filterEngine = null;
-		if (feString != null) {
-			Class<?> c;
-			IClassProvider prov = null;
-			try {
-				c = Class.forName(feString);
-				prov = (IClassProvider) c.newInstance();
-			} catch (ClassNotFoundException e) {
-				throw new SoapFault(e);
-			} catch (InstantiationException e) {
-				throw new SoapFault(e);
-			} catch (IllegalAccessException e) {
-				throw new SoapFault(e);
-			}
-
-			filterEngine = prov.getFilterEngine(unitConverter);
-		}
-
-		if (filterEngine == null) {
-			throw new SoapFault("could not initialize FilterEngine (used IClassProvider: "
-					+ feString);
-		}
-
-		confReg.setFilterEngine(filterEngine);
 
 		/* let the filter listen for new sensor registrations */
 		//TODO: check if needed for resource management!
@@ -363,9 +316,8 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		/*
 		 * add a HTTPSConnectionHandler
 		 */
-		SoapClient client = getResource().getEnvironment().getSoapClient();
-		if (client instanceof SimpleSoapClient) {
-			((SimpleSoapClient) client).setConnectionHandler(
+		if (soapClient instanceof SimpleSoapClient) {
+			((SimpleSoapClient) soapClient).setConnectionHandler(
 					new HTTPSConnectionHandler());
 		}
 		try {
@@ -407,8 +359,6 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 			if (filterColl.getConstraintFilter() != null || filterColl.hasEPLFilter()) {
 				this.hasConstraintFilter = true;
 			}
-
-			
 		}
 		
 		lookupMessageContentFilters(filter);
@@ -567,17 +517,10 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 	}
 
 
-	@Override
-	public XmlObject generateSESEvent(MapEvent resultEvent) {
-		SESEventGenerator gen = new SESEventGenerator(resultEvent);
-		return gen.generateEventDocument();
-	}
-
-
 
 	@Override
 	public boolean sendSESNotificationMessge(XmlObject eventDoc) {
-		SESNotificationMessage message = new SESNotificationMessage();
+		SimpleNotificationMessage message = new SimpleNotificationMessage();
 
 		//remove duplicate gml:ids
 		eventDoc = XMLHelper.removeIDDublications(eventDoc);
@@ -606,12 +549,56 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 
 
 
-	@Override
-	public EndpointReference getEndpointReference() {
-		return this.getWsResource() == null ? null : this.getWsResource().getEndpointReference();
+	public void setHasEngineCoveredFilter(boolean b) {
+		this.hasEngineCoveredFilter = b;
 	}
 
+	public boolean isHasEngineCoveredFilter() {
+		return hasEngineCoveredFilter;
+	}
 
+	@Override
+	public void onMatchingEvent(EposEvent event, Object desiredOutputToConsumer) {
+		this.publish(wrapWithNotificationMessage(desiredOutputToConsumer));
+	}
+	
+	@Override
+	public void onMatchingEvent(EposEvent event) {
+		INotificationMessage serialized = wrapWithNotificationMessage(event.getOriginalObject());
+		onMatchingEvent(event, serialized);
+	}
+	
+	protected INotificationMessage wrapWithNotificationMessage(
+			Object desiredOutputToConsumer) {
+		if (desiredOutputToConsumer instanceof INotificationMessage) {
+			return (INotificationMessage) desiredOutputToConsumer;
+		}
+		else if (desiredOutputToConsumer instanceof XmlObject) {
+			final SimpleNotificationMessage result = new SimpleNotificationMessage();
+			Node content = ((XmlObject) desiredOutputToConsumer).getDomNode();
+			result.addMessageContent(content.getFirstChild().getOwnerDocument().getDocumentElement());
+			return new INotificationMessage() {
+				
+				@Override
+				public String xmlToString() {
+					return XmlUtil.toString(result.toXML());
+				}
+				
+				@Override
+				public Object getNotificationMessage() {
+					return result;
+				}
+			};
+		}
+		
+		return null;
 
+	}
 
+	@Override
+	public EndpointReference getEndpointReference() {
+		return getResource().getEndpointReference();
+	}
+	
 }
+

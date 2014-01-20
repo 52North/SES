@@ -31,6 +31,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceLoader;
 
 import org.apache.muse.core.Environment;
 import org.apache.muse.ws.addressing.EndpointReference;
@@ -46,6 +47,7 @@ import org.n52.ses.api.ws.IRegisterPublisher;
 import org.n52.ses.api.ws.ISubscriptionManager;
 import org.n52.ses.util.concurrent.IConcurrentNotificationHandler;
 import org.n52.ses.util.concurrent.ITimeoutEstimation;
+import org.n52.ses.util.unitconversion.SESUnitConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -305,12 +307,26 @@ public class ConfigurationRegistry {
 			logger.warn(e1.getMessage(), e1);
 		}
 		
+		/*
+		 * init parameters
+		 */
 		this.parameters = new SESProperties();
 		try {
 			this.parameters.load(config);
 		} catch (IOException e) {
 			logger.warn(e.getMessage(), e);
 		}
+		
+		/*
+		 * init filter engine
+		 */
+		IFilterEngine filterEngine = null;
+		ServiceLoader<IFilterEngine> loader = ServiceLoader.load(IFilterEngine.class);
+		for (IFilterEngine iFilterEngine : loader) {
+			filterEngine = iFilterEngine;
+			break;
+		}
+		this.filterEngine = filterEngine;
 
 		/*
 		 * register lax validation cases 
@@ -355,10 +371,21 @@ public class ConfigurationRegistry {
 	 * @param defaultURI Default muse-environment URI
 	 * @param unitConverter converter for units of measurement
 	 */
-	public static synchronized void init(InputStream config, Environment env,
-			IUnitConverter unitConverter) {
+	public static synchronized void init(Environment env) {
+		InputStream config = env.getDataResourceStream(ConfigurationRegistry.CONFIG_FILE);
+		init(config, env);
+	}
+	
+	public static synchronized void init(InputStream config, Environment env) {
 		if (_instance == null) {
-			logger.info("Thread {} is initializing the instance...", Thread.currentThread().getName());
+			if (logger.isInfoEnabled()) {
+				logger.info("initializing config from file {}...",
+						env.getDataResource(ConfigurationRegistry.CONFIG_FILE));
+			}
+			
+			
+			SESUnitConverter unitConverter = new SESUnitConverter();
+			
 			_instance = new ConfigurationRegistry(config, env == null ? "" : env.getDefaultURI(), unitConverter);
 			_instance.setEnvironment(env);
 			ConfigurationRegistry.class.notifyAll();
@@ -472,7 +499,6 @@ public class ConfigurationRegistry {
 			this.rerepubs.notifyAll();
 		}
 	}
-	
 
 	public ISESFilePersistence getFilePersistence() {
 		return filePersistence;

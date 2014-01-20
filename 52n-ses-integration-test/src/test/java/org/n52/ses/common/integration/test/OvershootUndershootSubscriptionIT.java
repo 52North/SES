@@ -77,7 +77,13 @@ public class OvershootUndershootSubscriptionIT extends AbstractSubscriptionWorkf
 		
 		Thread.sleep(1000);
 		
-		Assert.assertNull("Noticiation not received!", hasReceived);
+		evaluate(hasReceived);
+	}
+
+
+
+	protected void evaluate(Object hasReceived) {
+		Assert.assertNull("Noticiation not received!", hasReceived);		
 	}
 
 
@@ -89,9 +95,14 @@ public class OvershootUndershootSubscriptionIT extends AbstractSubscriptionWorkf
 		return notificationReceiver;
 	}
 
-	private Subscription subscribe() throws OXFException, ExceptionReport, XmlException, IOException {
-		return super.subscribe(endpoint.getPublicURL()+notificationReceiver.getPath(),
+	protected Subscription subscribe() throws OXFException, ExceptionReport, XmlException, IOException {
+		return super.subscribe(getConsumerUrl(),
 				"http://www.opengis.net/ses/filter/level3");
+	}
+
+
+	protected String getConsumerUrl() {
+		return endpoint.getPublicURL()+notificationReceiver.getPath();
 	}
 
 
