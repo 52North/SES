@@ -64,7 +64,9 @@ public class AIXMJaxbTransformer implements EposTransformer {
 			JAXBElement<AIXMBasicMessageType> aixm = (JAXBElement<AIXMBasicMessageType>) 
 					marshaller.unmarshal(new DOMSource((Element) input), AIXMBasicMessageType.class);
 			
-			return parseAIXM(aixm.getValue());
+			EposEvent result = parseAIXM(aixm.getValue());
+			result.setOriginalObject(input);
+			return result;
 		} catch (JAXBException e) {
 			throw new TransformationException(e);
 		}
