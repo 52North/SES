@@ -121,7 +121,7 @@ public class AIXMParser extends AbstractParser {
 	 */
 	public static final String AERO_FEATURE_KEY = "aeronauticalFeature";
 
-	private static final String DNOTAM_TYPE_KEY = "aixmType";
+	public static final String DNOTAM_TYPE_KEY = "aixmType";
 //	private static final QName GML_POS = new QName(GML_NAMESPACE, "pos");
 	
 
