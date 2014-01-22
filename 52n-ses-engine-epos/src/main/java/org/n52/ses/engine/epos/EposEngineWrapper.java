@@ -36,8 +36,6 @@ import org.apache.muse.ws.notification.Filter;
 import org.apache.muse.ws.notification.NotificationMessage;
 import org.apache.muse.ws.notification.impl.FilterCollection;
 import org.apache.muse.ws.notification.impl.FilterFactory;
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
 import org.n52.epos.engine.EposEngine;
 import org.n52.epos.engine.rules.RuleInstance;
 import org.n52.epos.event.EposEvent;
@@ -75,11 +73,9 @@ public class EposEngineWrapper implements IFilterEngine {
 				Element content = notific.getMessageContent(mcn);
 				EposEvent event;
 				try {
-					event = (EposEvent) TransformationRepository.Instance.transform(XmlObject.Factory.parse(content), EposEvent.class);
+					event = (EposEvent) TransformationRepository.Instance.transform(content, EposEvent.class);
 					EposEngine.getInstance().filterEvent(event);
 				} catch (TransformationException e) {
-					logger.warn(e.getMessage(), e);
-				} catch (XmlException e) {
 					logger.warn(e.getMessage(), e);
 				}
 			}
