@@ -511,7 +511,7 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 
 	@Override
 	public void publish(INotificationMessage origMessage) {
-		if (origMessage.getNotificationMessage() != null) {
+		if (origMessage != null && origMessage.getNotificationMessage() != null) {
 			publish((NotificationMessage) origMessage.getNotificationMessage());
 		}
 	}
@@ -577,6 +577,22 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 			final SimpleNotificationMessage result = new SimpleNotificationMessage();
 			Node content = ((XmlObject) desiredOutputToConsumer).getDomNode();
 			result.addMessageContent(content.getFirstChild().getOwnerDocument().getDocumentElement());
+			return new INotificationMessage() {
+				
+				@Override
+				public String xmlToString() {
+					return XmlUtil.toString(result.toXML());
+				}
+				
+				@Override
+				public Object getNotificationMessage() {
+					return result;
+				}
+			};
+		}
+		else if (desiredOutputToConsumer instanceof Element) {
+			final SimpleNotificationMessage result = new SimpleNotificationMessage();
+			result.addMessageContent((Element) desiredOutputToConsumer);
 			return new INotificationMessage() {
 				
 				@Override
