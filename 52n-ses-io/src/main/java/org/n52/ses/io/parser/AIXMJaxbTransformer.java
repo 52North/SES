@@ -23,6 +23,7 @@
  */
 package org.n52.ses.io.parser;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
@@ -55,6 +56,7 @@ import aero.aixm.v510.message.BasicMessageMemberAIXMPropertyType;
 public class AIXMJaxbTransformer implements EposTransformer {
 
 	private static final QName BASIC_MESSAGE_QNAME = new QName("http://www.aixm.aero/schema/5.1/message", "AIXMBasicMessage");
+	private static final String THE_EVENT_KEY = "theEvent";
 
 	@Override
 	public EposEvent transform(Object input) throws TransformationException {
@@ -65,6 +67,12 @@ public class AIXMJaxbTransformer implements EposTransformer {
 					marshaller.unmarshal(new DOMSource((Element) input), AIXMBasicMessageType.class);
 			
 			EposEvent result = parseAIXM(aixm.getValue());
+			
+			if (result == null) {
+				Date now = new Date();
+				result = new MapEposEvent(now.getTime(), now.getTime());
+			}
+			
 			result.setOriginalObject(input);
 			return result;
 		} catch (JAXBException e) {
@@ -75,14 +83,23 @@ public class AIXMJaxbTransformer implements EposTransformer {
 	private EposEvent parseAIXM(AIXMBasicMessageType message) {
 		EventType event = findEventType(message);
 		
+		MapEposEvent result;
 		if (event == null) {
-			return null;
+			result = parseFeatureData(message.getHasMember());
+		}
+		else {
+			result = parseEvent(event);
+			
+			includeMemberData(message.getHasMember(), result);	
 		}
 		
-		MapEposEvent result = parseEvent(event);
-		
-		includeMemberData(message.getHasMember(), result);
-		
+		return result;
+	}
+
+	private MapEposEvent parseFeatureData(
+			List<BasicMessageMemberAIXMPropertyType> hasMember) {
+		MapEposEvent result = new MapEposEvent(0, 0);
+		includeMemberData(hasMember, result);
 		return result;
 	}
 
@@ -102,13 +119,16 @@ public class AIXMJaxbTransformer implements EposTransformer {
 	private void includeNavaidData(NavaidType value, MapEposEvent result) {
 		List<NavaidTimeSlicePropertyType> slice = value.getTimeSlice();
 		
-		if (slice != null && !slice.isEmpty()) {
+		if (slice != null && !slice.isEmpty() && slice.get(0).isSetNavaidTimeSlice()) {
 			NavaidTimeSliceType timeSlice = slice.get(0).getNavaidTimeSlice();
 			
 			NavaidExtensionType extension = (NavaidExtensionType)
 					timeSlice.getExtension().get(0).getAbstractNavaidExtension().getValue();
 			
-			if (extension.getTheEvent().get(0).getHref().endsWith((String) result.get("theEvent"))) {
+			if (!result.containsKey(THE_EVENT_KEY) ||
+					(extension != null && extension.isSetTheEvent() && !extension.getTheEvent().isEmpty() &&
+					extension.getTheEvent().get(0).isSetHref() && 
+					extension.getTheEvent().get(0).getHref().endsWith((String) result.get(THE_EVENT_KEY)))) {
 				result.put("interpretation", timeSlice.getInterpretation());
 				result.put(AIXMParser.DNOTAM_TYPE_KEY, "aixm:Navaid");
 				result.put("identifier", value.getIdentifier().getValue());
@@ -130,7 +150,7 @@ public class AIXMJaxbTransformer implements EposTransformer {
 				DateTime end = new DateTime(period.getEndPosition().getValue().get(0));
 				
 				MapEposEvent result = new MapEposEvent(begin.getMillis(), end.getMillis());
-				result.put("theEvent", event.getIdentifier().getValue());
+				result.put(THE_EVENT_KEY, event.getIdentifier().getValue());
 				
 				return result;
 			}
@@ -160,6 +180,11 @@ public class AIXMJaxbTransformer implements EposTransformer {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public short getPriority() {
+		return -5;
 	}
 
 }
