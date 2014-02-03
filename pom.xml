@@ -15,13 +15,20 @@
 	<description>52°North Sensor Event Service - for details see
 		https://wiki.52north.org/bin/view/Sensornet/SensorEventService
 	</description>
-	<inceptionYear>2012</inceptionYear>
+	<inceptionYear>2008</inceptionYear>
 
 	<scm>
 		<connection>scm:git:git://github.com/52North/SES.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/52North/SES.git</developerConnection>
 		<url>https://github.com/52North/SES</url>
 	</scm>
+	
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.html</url>
+		</license>
+	</licenses>
 
 	<modules>
 		<module>52n-ses-api</module>
@@ -51,6 +58,7 @@
 		<oxf.version>2.0.0-alpha.4-SNAPSHOT</oxf.version>
 		<n52.xml.version>1.1.5</n52.xml.version>
 		<epos.version>0.0.1-SNAPSHOT</epos.version>
+		<currentYear>2014</currentYear>	
 	</properties>
 
 	<build>
@@ -59,13 +67,16 @@
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
 				<version>2.2</version>
+				<inherited>false</inherited>
 				<configuration>
 					<header>${license.header.file}</header>
+					<aggregate>true</aggregate>
 					<includes>
 						<include>**/src/**/*.java</include>
 					</includes>
 					<properties>
-						<year>${project.inceptionYear}</year>
+						<inceptionYear>${project.inceptionYear}</inceptionYear>
+						<latestYearOfContribution>${currentYear}</latestYearOfContribution>
 					</properties>
 				</configuration>
 				<executions>
