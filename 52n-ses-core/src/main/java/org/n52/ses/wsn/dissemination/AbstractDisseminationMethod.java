@@ -65,8 +65,8 @@ public abstract class AbstractDisseminationMethod {
 		message.setSubscriptionReference(subscriptionReference);
 		
 		for (int n = 0; n < numberOfTries; ++n) {
-			if (logger.isDebugEnabled())
-				logger.debug("(Try #{}) Sending matched message to: {}", n+1, consumerReference.getAddress().toString());
+			if (logger.isInfoEnabled())
+				logger.info("(Try #{}) Sending matched message to: {}", n+1, consumerReference.getAddress().toString());
 			try	{
 				client.notify(new NotificationMessage[] {message});
 				return true;

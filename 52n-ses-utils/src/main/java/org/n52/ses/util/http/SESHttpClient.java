@@ -65,6 +65,14 @@ public class SESHttpClient {
 
 		SESHttpResponse response = null;
 		if (postResponse != null && postResponse.getEntity() != null) {
+			/*
+			 * some WSN Consumers might return 0 content on HTTP OK
+			 */
+			if (postResponse.getEntity().getContent() == null ||
+					postResponse.getEntity().getContentLength() == 0) {
+				return SESHttpResponse.NO_CONTENT_RESPONSE;	
+			}
+			
 			response = new SESHttpResponse(postResponse.getEntity().getContent(),
 					postResponse.getEntity().getContentType().getValue());
 		} else if (postResponse != null &&
