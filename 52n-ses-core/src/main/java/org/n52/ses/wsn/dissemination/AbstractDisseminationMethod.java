@@ -73,6 +73,7 @@ public abstract class AbstractDisseminationMethod {
 			}
 
 			catch (SoapFault error) {
+				logger.warn(error.getMessage(), error);
 				logger.warn("LastPublishFailed: Could not send message to consumer at {}.",
 						client.getConsumerReference().getAddress().toString());
 			}
