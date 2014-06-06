@@ -67,7 +67,7 @@ public class StoredFilterIT extends AbstractSubscriptionWorkflow {
 		Object hasReceived = new Object();
 		try {
 			//null upon success
-			hasReceived = future.get(IntegrationTestConfig.getInstance().getNotificationTimeout(), TimeUnit.MILLISECONDS);
+			hasReceived = future.get(IntegrationTestConfig.getInstance().getNotificationTimeout()*2, TimeUnit.MILLISECONDS);
 		} catch (Exception e) {
 			logger.warn(e.getMessage(), e);
 		}
