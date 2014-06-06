@@ -26,7 +26,6 @@ package org.n52.ses.util.http;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -41,9 +40,9 @@ import org.n52.ses.util.common.ConfigurationRegistry;
 
 public class SESHttpClient {
 
-	private BasicAuthenticationHttpClient httpClient;
 	private BasicAuthenticator authenticator;
-	private AtomicBoolean firstRun = new AtomicBoolean(true);
+	private Boolean useGzip = null;
+	private int timeout;
 
 	public SESHttpClient() {
 		//init is done at time of first request
@@ -52,20 +51,28 @@ public class SESHttpClient {
 
 
 	public SESHttpResponse sendPost(URL destination, String content, ContentType contentType) throws Exception {
-		checkSetup();
+		BasicAuthenticationHttpClient httpClient = checkSetup();
 		
 		if (this.authenticator != null) {
 			URI uri = destination.toURI();
 			HttpHost host = new HttpHost(uri.getHost(), uri.getPort());
-			this.httpClient.provideAuthentication(host, this.authenticator.getUsername(),
+			httpClient.provideAuthentication(host, this.authenticator.getUsername(),
 					this.authenticator.getPassword());
 		}
 		
-		HttpResponse postResponse = this.httpClient.executePost(destination.toString(),
+		HttpResponse postResponse = httpClient.executePost(destination.toString(),
 				content, contentType);
 
 		SESHttpResponse response = null;
 		if (postResponse != null && postResponse.getEntity() != null) {
+			/*
+			 * some WSN Consumers might return 0 content on HTTP OK
+			 */
+			if (postResponse.getEntity().getContent() == null ||
+					postResponse.getEntity().getContentLength() == 0) {
+				return SESHttpResponse.NO_CONTENT_RESPONSE;	
+			}
+			
 			response = new SESHttpResponse(postResponse.getEntity().getContent(),
 					postResponse.getEntity().getContentType().getValue());
 		} else if (postResponse != null &&
@@ -77,20 +84,22 @@ public class SESHttpClient {
 	}
 
 
-	private void checkSetup() {
-		if (firstRun.getAndSet(false)) {
-			ConfigurationRegistry conf = ConfigurationRegistry.getInstance();
-			
-			int timeout = Integer.parseInt(conf.getPropertyForKey(
+	private BasicAuthenticationHttpClient checkSetup() {
+		ConfigurationRegistry conf = ConfigurationRegistry.getInstance();
+		
+		if (useGzip == null) {
+			useGzip = Boolean.parseBoolean(ConfigurationRegistry.getInstance().getPropertyForKey(ConfigurationRegistry.USE_GZIP));
+			timeout = Integer.parseInt(conf.getPropertyForKey(
 					ConfigurationRegistry.NOTIFY_TIMEOUT));
-			
-			HttpClient client = new PoolingConnectionManagerHttpClient(timeout);
-			if (Boolean.parseBoolean(ConfigurationRegistry.getInstance().getPropertyForKey(ConfigurationRegistry.USE_GZIP))) {
-				client = new GzipEnabledHttpClient(client);
-			}
-			
-			this.httpClient = new PreemptiveBasicAuthenticationHttpClient(client);
 		}
+		
+		
+		HttpClient client = new PoolingConnectionManagerHttpClient(timeout);
+		if (useGzip) {
+			client = new GzipEnabledHttpClient(client);
+		}
+		
+		return new PreemptiveBasicAuthenticationHttpClient(client);
 	}
 
 
