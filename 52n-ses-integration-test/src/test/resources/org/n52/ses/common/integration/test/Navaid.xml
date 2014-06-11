@@ -1,0 +1,65 @@
+<aixm-message:AIXMBasicMessage gml:id="gmlID14717" xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:aixm-message="http://www.aixm.aero/schema/5.1/message" xmlns:dnotam="http://www.aixm.aero/schema/5.1/event" xmlns:gml="http://www.opengis.net/gml/3.2">
+	<aixm-message:hasMember>
+		<dnotam:Event>
+			<gml:identifier>BCB4F904-9AEA-4F2E-97AE-2D4A4344BD6B</gml:identifier>
+			<dnotam:timeSlice>
+				<dnotam:EventTimeSlice gml:id="gmlID14718">
+					<gml:validTime>
+						<gml:TimePeriod gml:id="gmlID14719">
+							<gml:beginPosition>2011-08-01T00:00:00.000Z</gml:beginPosition>
+							<gml:endPosition>2011-10-31T23:59:59.000Z</gml:endPosition>
+						</gml:TimePeriod>
+					</gml:validTime>
+					<aixm:interpretation xmlns:aixm="http://www.aixm.aero/schema/5.1">BASELINE
+					</aixm:interpretation>
+					<aixm:sequenceNumber xmlns:aixm="http://www.aixm.aero/schema/5.1">1
+					</aixm:sequenceNumber>
+					<aixm:correctionNumber xmlns:aixm="http://www.aixm.aero/schema/5.1">0
+					</aixm:correctionNumber>
+					<aixm:featureLifetime xmlns:aixm="http://www.aixm.aero/schema/5.1">
+						<gml:TimePeriod gml:id="gmlID14720">
+							<gml:beginPosition>2011-08-01T00:00:00.000Z</gml:beginPosition>
+							<gml:endPosition>2011-10-31T23:59:59.000Z</gml:endPosition>
+						</gml:TimePeriod>
+					</aixm:featureLifetime>
+					<dnotam:encoding>DIGITAL</dnotam:encoding>
+				</dnotam:EventTimeSlice>
+			</dnotam:timeSlice>
+		</dnotam:Event>
+	</aixm-message:hasMember>
+	<aixm-message:hasMember>
+		<aixm:Navaid gml:id="gmlID14721" xmlns:aixm="http://www.aixm.aero/schema/5.1">
+			<gml:identifier codeSpace="http://www.comsoft.aero/cadas-aimdb/generated">BCB4F904-9AEA-4F2E-97AE-2D4A4344BD6C</gml:identifier>
+			<aixm:timeSlice>
+				<aixm:NavaidTimeSlice gml:id="gmlID14722">
+					<gml:validTime>
+						<gml:TimePeriod gml:id="gmlID14723">
+							<gml:beginPosition>2011-08-01T00:00:00.000Z</gml:beginPosition>
+							<gml:endPosition>2011-10-31T23:59:59.000Z</gml:endPosition>
+						</gml:TimePeriod>
+					</gml:validTime>
+					<aixm:interpretation>TEMPDELTA</aixm:interpretation>
+					<aixm:sequenceNumber>1</aixm:sequenceNumber>
+					<aixm:correctionNumber>4999</aixm:correctionNumber>
+					<aixm:featureLifetime>
+						<gml:TimePeriod gml:id="gmlID14724">
+							<gml:beginPosition />
+							<gml:endPosition />
+						</gml:TimePeriod>
+					</aixm:featureLifetime>
+					<aixm:availability>
+						<aixm:NavaidOperationalStatus gml:id="gmlID14725">
+							<aixm:operationalStatus>OPERATIONAL</aixm:operationalStatus>
+						</aixm:NavaidOperationalStatus>
+					</aixm:availability>
+					<aixm:extension>
+						<dnotam:NavaidExtension gml:id="ex01">
+							<dnotam:theEvent xlink:href="#BCB4F904-9AEA-4F2E-97AE-2D4A4344BD6B" />
+						</dnotam:NavaidExtension>
+					</aixm:extension>
+				</aixm:NavaidTimeSlice>
+			</aixm:timeSlice>
+		</aixm:Navaid>
+	</aixm-message:hasMember>
+</aixm-message:AIXMBasicMessage>

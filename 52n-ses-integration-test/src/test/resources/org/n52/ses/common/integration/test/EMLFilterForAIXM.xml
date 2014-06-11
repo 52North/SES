@@ -1,0 +1,32 @@
+<EML xmlns="http://www.opengis.net/eml/0.0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.opengis.net/eml/0.0.1 3111_XSDeml0.0.1OGC-EML-0_0_1-eml.xsd">
+	<SimplePatterns>
+		<SimplePattern inputName="input"
+			patternID="aixm_navaid_stream">
+			<SelectFunctions>
+				<SelectFunction createCausality="false"
+					newEventName="aixm_navaid_notification"
+					outputName="aixm_navaid_output">
+					<SelectEvent eventName="input" />
+				</SelectFunction>
+			</SelectFunctions>
+			<View>
+				<LengthView>
+					<EventCount>1</EventCount>
+				</LengthView>
+			</View>
+			<Guard>
+				<fes:Filter xmlns:fes="http://www.opengis.net/fes/2.0">
+					<fes:PropertyIsEqualTo>
+						<fes:ValueReference>input/aixmType</fes:ValueReference>
+						<fes:Literal>aixm:Navaid</fes:Literal>
+					</fes:PropertyIsEqualTo>
+				</fes:Filter>
+			</Guard>
+			<PropertyRestrictions/>
+		</SimplePattern>
+	</SimplePatterns>
+	<ComplexPatterns />
+	<TimerPatterns />
+	<RepetitivePatterns />
+</EML>
