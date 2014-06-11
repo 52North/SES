@@ -29,35 +29,41 @@
 package org.n52.ses.common.integration.test;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.xmlbeans.XmlException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.n52.oxf.OXFException;
+import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ses.adapter.client.Subscription;
 import org.n52.ses.common.test.TestWSNEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StoredFilterIT extends AbstractSubscriptionWorkflow {
-	
-	private static final Logger logger = LoggerFactory.getLogger(StoredFilterIT.class);
+public class EMLForAIXMSubscriptionIT extends AbstractSubscriptionWorkflow {
+
+	private static final Logger logger = LoggerFactory.getLogger(EMLForAIXMSubscriptionIT.class);
+
 	private TestWSNEndpoint endpoint;
+
 	private NotificationReceiver notificationReceiver;
 
-	@Test public void
-	testStoredFilterSubscription()
-			throws Exception {
+
+	@Test
+	public void shouldCompleteRoundtripForNotification() throws IOException, InterruptedException,
+				OXFException, ExceptionReport, XmlException, ExecutionException, TimeoutException {
 		notificationReceiver = initializeConsumer();
 		
 		ServiceInstance.getInstance().waitUntilAvailable();
 		
-		Subscription subscription = subscribe(endpoint.getPublicURL()+notificationReceiver.getPath(),
-				"http://www.opengis.net/es-sf/0.0");
+		Subscription subscription = subscribe();
 		
 		Thread.sleep(1000);
 		
@@ -67,7 +73,7 @@ public class StoredFilterIT extends AbstractSubscriptionWorkflow {
 		Object hasReceived = new Object();
 		try {
 			//null upon success
-			hasReceived = future.get(IntegrationTestConfig.getInstance().getNotificationTimeout()*2, TimeUnit.MILLISECONDS);
+			hasReceived = future.get(IntegrationTestConfig.getInstance().getNotificationTimeout(), TimeUnit.MILLISECONDS);
 		} catch (Exception e) {
 			logger.warn(e.getMessage(), e);
 		}
@@ -76,24 +82,44 @@ public class StoredFilterIT extends AbstractSubscriptionWorkflow {
 		
 		Thread.sleep(1000);
 		
-		Assert.assertNull("Noticiation not received!", hasReceived);
+		evaluate(hasReceived);
 	}
-	
+
+
+
+	protected void evaluate(Object hasReceived) {
+		Assert.assertNull("Noticiation not received!", hasReceived);		
+	}
+
+
+
 	private NotificationReceiver initializeConsumer() throws IOException, InterruptedException {
 		endpoint = TestWSNEndpoint.getInstance(IntegrationTestConfig.getInstance().getConsumerPort());
-		NotificationReceiver notificationReceiver = new NotificationReceiver("stored-filter");
+		NotificationReceiver notificationReceiver = new NotificationReceiver("aixm-consumer");
 		endpoint.addListener(notificationReceiver);
 		return notificationReceiver;
 	}
 
-	@Override
-	public List<String> readNotifications() throws XmlException, IOException {
-		return Collections.singletonList(readXmlContent("StoredFilter_Notify1.xml"));
+	protected Subscription subscribe() throws OXFException, ExceptionReport, XmlException, IOException {
+		return super.subscribe(getConsumerUrl(),
+				"http://www.opengis.net/ses/filter/level3");
 	}
 
-	@Override
-	public String readSubscription() throws XmlException, IOException {
-		return readXmlContent("StoredFilter_Subscribe1.xml");
+
+	protected String getConsumerUrl() {
+		return endpoint.getPublicURL()+notificationReceiver.getPath();
 	}
+
+
+	public List<String> readNotifications() throws XmlException, IOException {
+		List<String> result = new ArrayList<String>();
+		result.add(readXmlContent("Navaid.xml"));
+		return result;
+	}
+
+	public String readSubscription() throws XmlException, IOException {
+		return readXmlContent("EMLFilterForAIXM.xml");
+	}
+
 
 }
