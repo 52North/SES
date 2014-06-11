@@ -33,8 +33,8 @@
 	<modules>
 		<module>52n-ses-api</module>
 		<module>52n-ses-utils</module>
-		<module>52n-ses-io</module>
-		<module>52n-ses-service-access</module>
+<!-- 		<module>52n-ses-io</module> -->
+<!-- 		<module>52n-ses-service-access</module> -->
 		<module>52n-ses-tests</module>
 		<module>52n-ses-core</module>
 		<module>52n-ses-engine-epos</module>
@@ -206,21 +206,21 @@
 				<artifactId>52n-ses-bindings</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb.ses</groupId>
-				<artifactId>52n-ses-io</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.n52.sensorweb.ses</groupId> -->
+<!-- 				<artifactId>52n-ses-io</artifactId> -->
+<!-- 				<version>${project.version}</version> -->
+<!-- 			</dependency> -->
 			<dependency>
 				<groupId>org.n52.sensorweb.ses</groupId>
 				<artifactId>52n-ses-utils</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb.ses</groupId>
-				<artifactId>52n-ses-service-access</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.n52.sensorweb.ses</groupId> -->
+<!-- 				<artifactId>52n-ses-service-access</artifactId> -->
+<!-- 				<version>${project.version}</version> -->
+<!-- 			</dependency> -->
 			<dependency>
 				<groupId>org.n52.sensorweb.ses</groupId>
 				<artifactId>52n-ses-eml-002</artifactId>
