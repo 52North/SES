@@ -26,10 +26,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  */
-package org.n52.ses.filter.dialects;
+package org.n52.ses.api.ws;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceLoader;
 
 import net.opengis.fes.x20.FilterDocument;
 
@@ -43,7 +44,11 @@ public abstract class CustomFESFilter implements Filter {
 	private static List<Class<? extends CustomFESFilter>> customFilters = new ArrayList<Class<? extends CustomFESFilter>>();
 	
 	static {
-		registerCustomFilter(SimpleAltitudeQueryFilter.class);
+		ServiceLoader<CustomFESFilter> loader = ServiceLoader.load(CustomFESFilter.class);
+		
+		for (CustomFESFilter customFESFilter : loader) {
+			registerCustomFilter(customFESFilter.getClass());	
+		}
 	}
 	
 	public static synchronized void registerCustomFilter(Class<? extends CustomFESFilter> class1) {

@@ -145,7 +145,7 @@ public class SESSoapClient extends SimpleSoapClient {
 			soapResponse = XmlUtils.getFirstElement(responseDoc);	
 		} 
 		else {
-			logger.warn("received a null or unsupported response.");
+			logger.warn("received a null or unsupported response when trying to Notify to "+ dest.getAddress());
 		}
 
 		postResponse.getContent().close();

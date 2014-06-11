@@ -26,9 +26,10 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  */
-package org.n52.ses.filter.dialects;
+package org.n52.ses.services.wfs;
 
 import java.util.List;
+
 
 
 import org.apache.muse.util.xml.XmlUtils;
@@ -38,6 +39,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.ses.api.AbstractParser;
 import org.n52.ses.api.common.SesConstants;
 import org.n52.ses.api.event.MapEvent;
+import org.n52.ses.api.ws.CustomFESFilter;
 import org.n52.ses.io.parser.OWS8Parser;
 import org.n52.ses.services.enrichment.WFSHandler;
 import org.n52.ses.services.wfs.WFSQuery;

@@ -116,24 +116,24 @@
 			<groupId>org.n52.sensorweb.ses</groupId>
 			<artifactId>52n-ses-api</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb.ses</groupId>
-			<artifactId>52n-ses-io</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>jai_codec</artifactId>
-					<groupId>javax.media</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jai_core</artifactId>
-					<groupId>javax.media</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb.ses</groupId>
-			<artifactId>52n-ses-service-access</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.n52.sensorweb.ses</groupId> -->
+<!-- 			<artifactId>52n-ses-io</artifactId> -->
+<!-- 			<exclusions> -->
+<!-- 				<exclusion> -->
+<!-- 					<artifactId>jai_codec</artifactId> -->
+<!-- 					<groupId>javax.media</groupId> -->
+<!-- 				</exclusion> -->
+<!-- 				<exclusion> -->
+<!-- 					<artifactId>jai_core</artifactId> -->
+<!-- 					<groupId>javax.media</groupId> -->
+<!-- 				</exclusion> -->
+<!-- 			</exclusions> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.n52.sensorweb.ses</groupId> -->
+<!-- 			<artifactId>52n-ses-service-access</artifactId> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.n52.sensorweb.ses</groupId>
 			<artifactId>52n-ses-tests</artifactId>
@@ -143,6 +143,10 @@
 			<groupId>org.n52.sensorweb.ses</groupId>
 			<artifactId>52n-ses-engine-epos</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb.ses</groupId>
+			<artifactId>52n-ses-utils</artifactId>
 		</dependency>
 
 		<dependency>
