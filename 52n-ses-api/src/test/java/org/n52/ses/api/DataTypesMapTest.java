@@ -44,6 +44,7 @@ public class DataTypesMapTest {
 		Assert.assertTrue(dtm.getDataType("test").equals(String.class));
 		Assert.assertTrue(dtm.getTypes().isEmpty());
 		Assert.assertTrue(dtm.registerNewDataType("test", AtomicBoolean.class));
+		Assert.assertFalse(dtm.registerNewDataType("test", AtomicBoolean.class));
 		Assert.assertTrue(dtm.getDataType("test").equals(AtomicBoolean.class));
 	}
 	
