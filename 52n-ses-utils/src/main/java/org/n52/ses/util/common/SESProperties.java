@@ -39,7 +39,6 @@ import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlOptions;
 import org.n52.ses.api.common.GlobalConstants;
-import org.n52.ses.util.concurrent.FIFOWorker;
 import org.n52.ses.util.concurrent.PredictedTimeoutEstimation.IDWTimeoutEstimation;
 import org.n52.ses.util.geometry.ICreateBuffer;
 import org.n52.ses.util.postgres.PostGisBuffer;
@@ -102,7 +101,6 @@ public class SESProperties extends Properties {
 		this.defaults.setProperty(ConfigurationRegistry.REQUEST_LOGGER_URL, "");
 		this.defaults.setProperty(ConfigurationRegistry.EML_CONTROLLER, ConfigurationRegistry.EML_002_IMPL);
 		this.defaults.setProperty(ConfigurationRegistry.MAX_THREADS, "5");
-		this.defaults.setProperty(ConfigurationRegistry.CONCURRENT_WORKER, FIFOWorker.class.getName());
 		this.defaults.setProperty(ConfigurationRegistry.TIMEOUT_ESTIMATION, IDWTimeoutEstimation.class.getName());
 		this.defaults.setProperty(ConfigurationRegistry.CONCURRENT_MAXIMUM_TIMEOUT, "5000");
 		this.defaults.setProperty(ConfigurationRegistry.CONCURRENT_MINIMUM_TIMEOUT, "500");

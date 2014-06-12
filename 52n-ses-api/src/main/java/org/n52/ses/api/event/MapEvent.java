@@ -47,8 +47,9 @@ import org.n52.ses.api.ws.INotificationMessage;
  * Representation of events. Used in the esper engine for every event.
  * 
  * @author Thomas Everding, Matthes Rieke
- * 
+ * @deprecated replaced by EPOS
  */
+@Deprecated
 public class MapEvent implements Map<String, Object> {
 
 

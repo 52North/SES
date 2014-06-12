@@ -50,7 +50,6 @@ import org.n52.ses.api.common.GlobalConstants;
 import org.n52.ses.api.ws.IPublisherEndpoint;
 import org.n52.ses.api.ws.IRegisterPublisher;
 import org.n52.ses.api.ws.ISubscriptionManager;
-import org.n52.ses.util.concurrent.IConcurrentNotificationHandler;
 import org.n52.ses.util.concurrent.ITimeoutEstimation;
 import org.n52.ses.util.unitconversion.SESUnitConverter;
 import org.slf4j.Logger;

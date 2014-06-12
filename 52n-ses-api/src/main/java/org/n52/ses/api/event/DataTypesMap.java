@@ -65,7 +65,7 @@ public class DataTypesMap {
 	 * @param type Data type (e.g. Double.class)
 	 * @return true if phenomenon was not registered before. false else.
 	 */
-	public synchronized boolean registerNewDataType(String phenomenon, Object type) {
+	public synchronized boolean registerNewDataType(String phenomenon, Class<?> type) {
 //		logger.info("adding new data type for phenomenon: " + phenomenon);
 		
 		if (this.types.containsKey(phenomenon)) {
@@ -81,7 +81,7 @@ public class DataTypesMap {
 	/**
 	 * 
 	 * @param phenomenon the phenomenon
-	 * @return Returns the data type for a phenomenon. Returns  'Object' if nothing registered.
+	 * @return Returns the data type for a phenomenon. Returns  'String' if nothing registered.
 	 */
 	public synchronized Object getDataType(String phenomenon) {
 //		logger.info("Data type requested for phenomenon: " + phenomenon);

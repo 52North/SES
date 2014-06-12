@@ -48,8 +48,9 @@ import org.w3c.dom.Element;
  * by the {@link IFilterEngine} implementation.
  * 
  * @author Matthes Rieke <m.rieke@uni-muenster.de>
- *
+ * @deprecated replaced by EPOS
  */
+@Deprecated
 public abstract class AbstractParser {
 	
 	protected IUnitConverter unitConverter;

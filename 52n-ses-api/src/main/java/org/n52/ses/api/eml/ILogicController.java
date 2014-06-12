@@ -39,8 +39,9 @@ import org.n52.ses.api.ws.ISubscriptionManager;
 
 /**
  * interface for EML logic controllers (e.g. esper controller)
- *
+ * @deprecated replaced by EPOS
  */
+@Deprecated
 public interface ILogicController {
 
 	
