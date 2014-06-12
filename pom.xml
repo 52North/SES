@@ -277,6 +277,37 @@
 				<version>${epos.version}</version>
 				<type>pom</type>
 			</dependency>
+			<dependency>
+				<groupId>org.n52.epos</groupId>
+				<artifactId>epos-api</artifactId>
+				<version>${epos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.epos</groupId>
+				<artifactId>epos-core</artifactId>
+				<version>${epos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.epos</groupId>
+				<artifactId>epos-filter-basic</artifactId>
+				<version>${epos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.epos</groupId>
+				<artifactId>epos-pattern-eml</artifactId>
+				<version>${epos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.epos</groupId>
+				<artifactId>epos-pattern-esper</artifactId>
+				<version>${epos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.epos</groupId>
+				<artifactId>epos-transform-xmlbeans</artifactId>
+				<version>${epos.version}</version>
+			</dependency>
+			
 
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>

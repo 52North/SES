@@ -22,8 +22,15 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.n52.epos</groupId>
-			<artifactId>epos-all</artifactId>
-			<type>pom</type>
+			<artifactId>epos-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.epos</groupId>
+			<artifactId>epos-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.epos</groupId>
+			<artifactId>epos-filter-basic</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb.ses</groupId>
@@ -38,5 +45,46 @@
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.n52.epos</groupId>
+			<artifactId>epos-pattern-eml</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.epos</groupId>
+			<artifactId>epos-pattern-esper</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.epos</groupId>
+			<artifactId>epos-transform-xmlbeans</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>epos-all</id>
+			<activation>
+				<property>
+					<name>!epos-minimal</name>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.n52.epos</groupId>
+					<artifactId>epos-pattern-eml</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.n52.epos</groupId>
+					<artifactId>epos-pattern-esper</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.n52.epos</groupId>
+					<artifactId>epos-transform-xmlbeans</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>

@@ -31,7 +31,7 @@ package org.n52.ses.api;
 import java.util.List;
 
 import net.opengis.fes.x20.FilterDocument;
-import net.opengis.sensorML.x101.SensorMLDocument;
+import net.opengis.gml.x32.AbstractFeatureDocument;
 
 import org.apache.muse.ws.notification.NotificationMessage;
 import org.apache.muse.ws.notification.impl.SimpleNotificationMessage;
@@ -75,10 +75,10 @@ public class CustomFESFilterTest {
 	private NotificationMessage createMessage() {
 		SimpleNotificationMessage result = new SimpleNotificationMessage();
 		
-		SensorMLDocument sml = SensorMLDocument.Factory.newInstance();
-		sml.addNewSensorML();
+		AbstractFeatureDocument sml = AbstractFeatureDocument.Factory.newInstance();
+		sml.addNewAbstractFeature();
 		
-		result.addMessageContent((Element) sml.getSensorML().getDomNode());
+		result.addMessageContent((Element) sml.getAbstractFeature().getDomNode());
 		
 		return result;
 	}
@@ -93,10 +93,10 @@ public class CustomFESFilterTest {
 
 		@Override
 		public Element toXML() {
-			SensorMLDocument sml = SensorMLDocument.Factory.newInstance();
-			sml.addNewSensorML();
+			AbstractFeatureDocument sml = AbstractFeatureDocument.Factory.newInstance();
+			sml.addNewAbstractFeature();
 			
-			return (Element) sml.getSensorML().getDomNode();
+			return (Element) sml.getAbstractFeature().getDomNode();
 		}
 
 		@Override

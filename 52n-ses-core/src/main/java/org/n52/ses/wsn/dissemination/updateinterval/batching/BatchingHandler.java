@@ -48,7 +48,7 @@ public abstract class BatchingHandler {
 	
 	static {
 		availableHandlers = new ArrayList<Class<? extends BatchingHandler>>();
-		availableHandlers.add(AIXMBatchingHandler.class);
+//		availableHandlers.add(AIXMBatchingHandler.class);
 	}
 	
 	public static BatchingHandler createBatchingHandler(NotificationMessage message) {

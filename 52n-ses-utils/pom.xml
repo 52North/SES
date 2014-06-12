@@ -29,23 +29,23 @@
 			<artifactId>52n-xml-ses-config</artifactId>
 		</dependency>
 		<!-- XML BINDINGS -->
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-filter-v20</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-eml-v001</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-sweCommon-v101</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.n52.sensorweb</groupId> -->
+<!-- 			<artifactId>52n-xml-filter-v20</artifactId> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.n52.sensorweb</groupId> -->
+<!-- 			<artifactId>52n-xml-eml-v001</artifactId> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.n52.sensorweb</groupId> -->
+<!-- 			<artifactId>52n-xml-sweCommon-v101</artifactId> -->
+<!-- 		</dependency> -->
 		<!-- DISRUPTOR -->
-		<dependency>
-			<groupId>com.googlecode.disruptor</groupId>
-			<artifactId>disruptor</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.googlecode.disruptor</groupId> -->
+<!-- 			<artifactId>disruptor</artifactId> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-oxf-conversion</artifactId>
