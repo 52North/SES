@@ -36,10 +36,9 @@ import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 import org.apache.muse.util.xml.XmlUtils;
 import org.n52.ses.util.common.ConfigurationRegistry;
-import org.n52.ses.util.concurrent.NamedThreadFactory;
+import org.n52.ses.util.common.NamedThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;

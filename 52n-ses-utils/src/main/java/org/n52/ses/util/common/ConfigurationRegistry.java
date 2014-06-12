@@ -42,7 +42,6 @@ import org.apache.muse.core.Environment;
 import org.apache.muse.ws.addressing.EndpointReference;
 import org.n52.oxf.xmlbeans.parser.GMLAbstractFeatureCase;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
-import org.n52.ses.api.IUnitConverter;
 import org.n52.ses.api.IFilterEngine;
 import org.n52.ses.api.ISESFilePersistence;
 import org.n52.ses.api.common.FreeResourceListener;
@@ -50,8 +49,6 @@ import org.n52.ses.api.common.GlobalConstants;
 import org.n52.ses.api.ws.IPublisherEndpoint;
 import org.n52.ses.api.ws.IRegisterPublisher;
 import org.n52.ses.api.ws.ISubscriptionManager;
-import org.n52.ses.util.concurrent.ITimeoutEstimation;
-import org.n52.ses.util.unitconversion.SESUnitConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -273,7 +270,6 @@ public class ConfigurationRegistry {
 	private static ConfigurationRegistry _instance;
 	private SESProperties parameters;
 	private EndpointReference sesPortTypeEPR;
-	private IUnitConverter unitConverter;
 	private List<ISubscriptionManager> reresubs;
 	private List<IPublisherEndpoint> rerepubs;
 
@@ -297,10 +293,7 @@ public class ConfigurationRegistry {
 	 * @param defaultURI the default URI of the service
 	 * @param unitConverter 
 	 */
-	private ConfigurationRegistry(InputStream config, String defaultURI,
-			IUnitConverter unitConverter) {
-		this.unitConverter = unitConverter;
-		
+	private ConfigurationRegistry(InputStream config, String defaultURI) {
 		try {
 			this.sesPortTypeEPR = new EndpointReference(new URI("http://localhost/URIfailure"));
 			
@@ -387,10 +380,7 @@ public class ConfigurationRegistry {
 						env.getDataResource(ConfigurationRegistry.CONFIG_FILE));
 			}
 			
-			
-			SESUnitConverter unitConverter = new SESUnitConverter();
-			
-			_instance = new ConfigurationRegistry(config, env == null ? "" : env.getDefaultURI(), unitConverter);
+			_instance = new ConfigurationRegistry(config, env == null ? "" : env.getDefaultURI());
 			_instance.setEnvironment(env);
 			ConfigurationRegistry.class.notifyAll();
 		}
@@ -433,12 +423,6 @@ public class ConfigurationRegistry {
 		return this.sesPortTypeEPR;
 	}
 
-	/** 
-	 * @return the global UnitConverter
-	 */
-	public IUnitConverter getUnitConverter() {
-		return this.unitConverter;
-	}
 
 	/**
 	 * adds a registered subscription manager

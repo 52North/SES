@@ -34,7 +34,9 @@ package org.n52.ses.util.concurrent;
  * 
  * @author matthes rieke <m.rieke@52north.org>
  *
+ * @deprecated replaced by EPOS
  */
+@Deprecated
 public interface ITimeoutEstimation {
 
 	/**
