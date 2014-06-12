@@ -37,7 +37,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.n52.ses.common.test.ConfigurationRegistryMockup;
 import org.n52.ses.storedfilters.StoredFilterHandler;
 import org.n52.ses.util.common.ConfigurationRegistry;
 import org.slf4j.Logger;

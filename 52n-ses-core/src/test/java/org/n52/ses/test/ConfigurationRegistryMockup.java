@@ -26,8 +26,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  */
-package org.n52.ses.common.test;
+package org.n52.ses.test;
 
+import org.n52.ses.common.test.EnvironmentMockup;
 import org.n52.ses.util.common.ConfigurationRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

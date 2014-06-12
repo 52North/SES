@@ -40,7 +40,7 @@ import org.apache.muse.ws.notification.Policy;
 import org.apache.muse.ws.notification.WsnConstants;
 import org.apache.muse.ws.notification.impl.TopicFilter;
 import org.junit.Test;
-import org.n52.ses.common.test.ConfigurationRegistryMockup;
+import org.n52.ses.test.ConfigurationRegistryMockup;
 import org.n52.ses.wsn.dissemination.DisseminationMethodFactory;
 import org.n52.ses.wsn.dissemination.updateinterval.NoNewMessagesMessage;
 import org.n52.ses.wsn.dissemination.updateinterval.UpdateIntervalDisseminationMethod;
