@@ -38,7 +38,7 @@ import org.apache.muse.ws.notification.impl.SimpleNotificationMessage;
 import org.apache.muse.ws.notification.remote.NotificationConsumerClient;
 import org.junit.Test;
 import org.n52.ses.common.environment.SESSoapClient;
-import org.n52.ses.common.test.ConfigurationRegistryMockup;
+import org.n52.ses.test.ConfigurationRegistryMockup;
 import org.n52.ses.wsn.dissemination.DefaultDisseminationMethod;
 
 public class DisseminationTest {
