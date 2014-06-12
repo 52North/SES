@@ -44,8 +44,9 @@ import org.w3c.dom.Element;
 /**
  * 
  * @author Matthes Rieke <m.rieke@uni-muenster.de>
- *
+ * @deprecated replaced by EPOS
  */
+@Deprecated
 public class SESFilterCollection extends FilterCollection {
 
 	private Collection<Filter> _filters = new ArrayList<Filter>();

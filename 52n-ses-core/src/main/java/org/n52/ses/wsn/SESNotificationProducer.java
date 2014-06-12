@@ -66,7 +66,7 @@ import org.n52.ses.api.ws.INotificationMessage;
 import org.n52.ses.api.ws.ISubscriptionManager;
 import org.n52.ses.requestlogger.RequestLoggerWrapper;
 import org.n52.ses.util.common.ConfigurationRegistry;
-import org.n52.ses.util.concurrent.NamedThreadFactory;
+import org.n52.ses.util.common.NamedThreadFactory;
 import org.n52.ses.wsbr.SesTopicFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,7 +147,7 @@ public class SESNotificationProducer extends SimpleNotificationProducer
 
 		while (i.hasNext()) {
 			SESSubscriptionManager sub = (SESSubscriptionManager) i.next();
-			if (!sub.isHasConstraintFilter()) {
+			if (!sub.isHasEngineCoveredFilter()) {
 				sub.publish(message);
 			}
 		}

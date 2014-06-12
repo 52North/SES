@@ -26,7 +26,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  */
-package org.n52.ses.util.concurrent;
+package org.n52.ses.util.common;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;

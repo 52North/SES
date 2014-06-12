@@ -37,8 +37,9 @@ import org.n52.ses.api.event.MapEvent;
  * Thin AIXM Events can be enriched with addtiional information.
  * 
  * @author Matthes Rieke <m.rieke@uni-muenster.de>
- *
+ * @deprecated concept deprecated, alternative has to be designed from scratch
  */
+@Deprecated
 public interface IEnrichment {
 
 	/**

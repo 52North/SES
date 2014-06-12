@@ -34,8 +34,9 @@ import org.n52.oxf.conversion.unit.ucum.UCUMTools.UnitConversionFailedException;
 /**
  * 
  * @author Matthes Rieke <m.rieke@uni-muenster.de>
- *
+ * @deprecated replaced by EPOS
  */
+@Deprecated
 public interface IUnitConverter {
 	
 	/**

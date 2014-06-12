@@ -26,43 +26,26 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  */
-package org.n52.ses.util.geometry;
+package org.n52.ses.api;
 
-import org.n52.ses.util.common.ConfigurationRegistry;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.junit.Assert;
+import org.junit.Test;
+import org.n52.ses.api.event.DataTypesMap;
 
-public class SpatialAnalysisTools {
-	
+public class DataTypesMapTest {
 
-	private static ICreateBuffer bufferAnalysis;
-
-	public static Geometry buffer(Geometry geom, double distance, String ucumUom, String crs) {
-		synchronized (SpatialAnalysisTools.class) {
-			if (bufferAnalysis == null) {
-				bufferAnalysis = (ICreateBuffer) initializeImplementation(ICreateBuffer.class);
-			}	
-		}
+	@Test
+	public void testWorkflow() {
+		DataTypesMap dtm = DataTypesMap.getInstance();
 		
-		return bufferAnalysis.buffer(geom, distance, ucumUom, crs);
-	}
-
-	private static Object initializeImplementation(Class<ICreateBuffer> clazz) {
-		String impl = ConfigurationRegistry.getInstance().getPropertyForKey(clazz.getName());
-		try {
-			Class<?> implClazz = Class.forName(impl);
-			if (clazz.isAssignableFrom(implClazz)) {
-				return implClazz.newInstance();
-			} else {
-				throw new IllegalStateException(impl + " is not implementing "+clazz.getName());
-			}
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException(e);
-		} catch (InstantiationException e) {
-			throw new IllegalStateException(e);
-		} catch (IllegalAccessException e) {
-			throw new IllegalStateException(e);
-		}
+		Assert.assertFalse(dtm.containsDataType("test"));
+		Assert.assertTrue(dtm.getDataType("test").equals(String.class));
+		Assert.assertTrue(dtm.getTypes().isEmpty());
+		Assert.assertTrue(dtm.registerNewDataType("test", AtomicBoolean.class));
+		Assert.assertFalse(dtm.registerNewDataType("test", AtomicBoolean.class));
+		Assert.assertTrue(dtm.getDataType("test").equals(AtomicBoolean.class));
 	}
 	
 }

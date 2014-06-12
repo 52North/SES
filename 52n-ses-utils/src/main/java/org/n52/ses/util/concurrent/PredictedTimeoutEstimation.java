@@ -35,8 +35,9 @@ package org.n52.ses.util.concurrent;
  * in the worst case lead to loss of messages but provides adequate performance.
  * 
  * @author matthes rieke <m.rieke@52north.org> 
- *
+ * @deprecated replaced by EPOS
  */
+@Deprecated
 public abstract class PredictedTimeoutEstimation implements ITimeoutEstimation {
 
 	protected static final int ARRAY_SIZE = 50;

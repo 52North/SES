@@ -44,7 +44,7 @@ import org.apache.muse.ws.notification.NotificationMessageListener;
 import org.apache.muse.ws.notification.impl.SimpleNotificationConsumer;
 import org.n52.ses.api.common.FreeResourceListener;
 import org.n52.ses.util.common.ConfigurationRegistry;
-import org.n52.ses.util.concurrent.NamedThreadFactory;
+import org.n52.ses.util.common.NamedThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

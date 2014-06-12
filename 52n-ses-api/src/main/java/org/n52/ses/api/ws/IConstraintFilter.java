@@ -28,6 +28,7 @@
  */
 package org.n52.ses.api.ws;
 
+@Deprecated
 public interface IConstraintFilter {
 
 }
