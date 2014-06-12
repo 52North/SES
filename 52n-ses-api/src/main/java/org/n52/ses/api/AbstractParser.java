@@ -36,6 +36,8 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.apache.muse.ws.notification.NotificationMessage;
+import org.n52.epos.transform.EposTransformer;
+import org.n52.epos.transform.TransformationRepository;
 import org.n52.ses.api.event.MapEvent;
 import org.w3c.dom.Element;
 
@@ -48,7 +50,7 @@ import org.w3c.dom.Element;
  * by the {@link IFilterEngine} implementation.
  * 
  * @author Matthes Rieke <m.rieke@uni-muenster.de>
- * @deprecated replaced by EPOS
+ * @deprecated replaced by EPOS; see {@link TransformationRepository} and {@link EposTransformer}
  */
 @Deprecated
 public abstract class AbstractParser {

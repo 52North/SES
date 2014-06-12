@@ -48,8 +48,9 @@ import org.xml.sax.SAXException;
  * This is the wrapper class for Level-2/3-Filtering.
  * 
  * @author Matthes Rieke <m.rieke@uni-muenster.de>
- *
+ * @deprecated replaced by EPOS
  */
+@Deprecated
 public class SESConstraintFilter implements Filter, IConstraintFilter {
 
 	private static final Logger logger = LoggerFactory

@@ -70,7 +70,6 @@ import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.n52.ses.api.common.GlobalConstants;
 import org.n52.ses.api.ws.INotificationMessage;
 import org.n52.ses.api.ws.ISubscriptionManager;
-import org.n52.ses.api.ws.SESFilterCollection;
 import org.n52.ses.common.SESResourceIdFactory;
 import org.n52.ses.common.environment.SESSoapClient;
 import org.n52.ses.common.https.AcceptAllSocketFactory;
@@ -114,11 +113,6 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 	private static Object FIRST_RUN_MUTEX = new Object();
 
 
-	/**
-	 * Flag is true if the SESSubscriptionManager has a
-	 * SESConstraintFilter. 
-	 */
-	private boolean hasConstraintFilter = false;
 
 	private AbstractDisseminationMethod disseminationMethod;
 
@@ -127,16 +121,6 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 	private List<MessageContentFiler> messageContentFilters = new ArrayList<MessageContentFiler>();
 
 	private boolean hasEngineCoveredFilter;
-
-
-	/**
-	 * Flag is true if the SESSubscriptionManager has a
-	 * SESConstraintFilter. 
-	 * @return <code>true</code> if there is a constraint filter available
-	 */
-	public boolean isHasConstraintFilter() {
-		return this.hasConstraintFilter || hasEngineCoveredFilter;
-	}
 
 
 
@@ -359,13 +343,6 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 
 	@Override
 	public void setFilter(Filter filter) {
-		if (filter instanceof SESFilterCollection) {
-			SESFilterCollection filterColl = (SESFilterCollection) filter;
-			if (filterColl.getConstraintFilter() != null || filterColl.hasEPLFilter()) {
-				this.hasConstraintFilter = true;
-			}
-		}
-		
 		lookupMessageContentFilters(filter);
 		
 		super.setFilter(filter);
@@ -377,9 +354,6 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		Collection<Filter> collection;
 		if (filter instanceof FilterCollection) {
 			collection = ((FilterCollection) filter).getFilters();
-		}
-		else if (filter instanceof SESFilterCollection) {
-			collection = ((SESFilterCollection) filter).getFilters();
 		}
 		else {
 			return;

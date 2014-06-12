@@ -147,7 +147,7 @@ public class SESNotificationProducer extends SimpleNotificationProducer
 
 		while (i.hasNext()) {
 			SESSubscriptionManager sub = (SESSubscriptionManager) i.next();
-			if (!sub.isHasConstraintFilter()) {
+			if (!sub.isHasEngineCoveredFilter()) {
 				sub.publish(message);
 			}
 		}
