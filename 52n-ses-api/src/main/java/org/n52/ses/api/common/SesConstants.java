@@ -72,28 +72,28 @@ public interface SesConstants {
 	 * TODO: should be replaced by FES namespace and not be fixed in the code
 	 * TODO: replace filter levels by a set of different available dialects
 	 */
-	public static final String SES_FILTER_LEVEL_2_DIALECT = "http://www.opengis.net/ses/filter/level2";
+	String SES_FILTER_LEVEL_2_DIALECT = "http://www.opengis.net/ses/filter/level2";
 	
 	/**
 	 * Identifier of the filter level 3 dialect (EML)
 	 * 
 	 * TODO: see level 2
 	 */
-	public static final String SES_FILTER_LEVEL_3_DIALECT = "http://www.opengis.net/ses/filter/level3";
+	String SES_FILTER_LEVEL_3_DIALECT = "http://www.opengis.net/ses/filter/level3";
 	
 	/**
 	 * Code for unspecified exceptions
 	 */
-	public static final String EXCEPTION_CODE_UNSPECIFIED = "Unspecified";
+	String EXCEPTION_CODE_UNSPECIFIED = "Unspecified";
 	
 	/**
 	 * Code for subscription failed exceptions
 	 */
-	public static final String EXCEPTION_CODE_SUBSCRIBE_FAILED = "SubscribeFailure";
+	String EXCEPTION_CODE_SUBSCRIBE_FAILED = "SubscribeFailure";
 
 	/*
 	 * Filter dialect for pure EPL subscriptions
 	 */
-	public static final String EPL_PURE_DIALECT = "http://esper.codehaus.org/epl";
+	String EPL_PURE_DIALECT = "http://esper.codehaus.org/epl";
 	
 }

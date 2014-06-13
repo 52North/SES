@@ -153,9 +153,7 @@ public class SESSoapClient extends SimpleSoapClient {
 	}
 	
 	public void initialize() {
-		this.httpClient.initialize();
+//		this.httpClient.initialize();
 	}
-
-
 
 }

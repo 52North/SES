@@ -26,29 +26,16 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  */
-package org.n52.ses.api.common;
+package org.n52.ses.api;
 
-public interface GlobalConstants {
+import org.junit.Test;
+import org.n52.ses.api.common.SesConstants;
+
+public class SesConstantsTest {
+
+	@Test
+	public void testParameterInit() {
+		SesConstants.DESTROY_REGISTRATION_RESPONSE.toString();
+	}
 	
-	/**
-	 *  the global Port Type 
-	 */
-	String NOTIFICATION_PRODUCER_CONTEXT_PATH = "Broker";
-	
-	/**
-	 *  the global port type for subscription managers
-	 */
-	String SUBSCRIPTION_MANAGER_CONTEXT_PATH = "SubscriptionManager";
-
-	/**
-	 * the global port type for register publisher managers
-	 */
-	String PUBLISHER_REGISTRATION_MANAGER_CONTEXT_PATH = "PublisherRegistrationManager";
-	
-	/**
-	 * gloabel temporal interval separator
-	 */
-	String TEMPORAL_INTERVAL_SEPARATOR = "until";
-
-
 }

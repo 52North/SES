@@ -26,29 +26,23 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  */
-package org.n52.ses.api.common;
+package org.n52.ses.util.test;
 
-public interface GlobalConstants {
-	
-	/**
-	 *  the global Port Type 
-	 */
-	String NOTIFICATION_PRODUCER_CONTEXT_PATH = "Broker";
-	
-	/**
-	 *  the global port type for subscription managers
-	 */
-	String SUBSCRIPTION_MANAGER_CONTEXT_PATH = "SubscriptionManager";
+import org.junit.Assert;
+import org.junit.Test;
+import org.n52.ses.util.common.NamedThreadFactory;
 
-	/**
-	 * the global port type for register publisher managers
-	 */
-	String PUBLISHER_REGISTRATION_MANAGER_CONTEXT_PATH = "PublisherRegistrationManager";
-	
-	/**
-	 * gloabel temporal interval separator
-	 */
-	String TEMPORAL_INTERVAL_SEPARATOR = "until";
+public class NamedThreadFactoryTest {
 
-
+	@Test
+	public void testInstantiation() {
+		NamedThreadFactory tf = new NamedThreadFactory("myfac");
+		Thread thread = tf.newThread(null);
+		
+		Assert.assertTrue(thread.getPriority() == Thread.NORM_PRIORITY);
+		
+		Assert.assertTrue(thread.isDaemon() == false);
+		
+		Assert.assertTrue(thread.getName().startsWith("myfac"));
+	}
 }

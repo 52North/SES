@@ -34,7 +34,6 @@ import org.apache.muse.ws.addressing.EndpointReference;
 import org.apache.muse.ws.notification.impl.FilterCollection;
 import org.apache.xmlbeans.XmlException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.n52.ses.api.IFilterEngine;
 import org.n52.ses.api.ISESFilePersistence;
@@ -45,14 +44,23 @@ import org.n52.ses.util.common.ConfigurationRegistry;
 
 public class ConfigurationRegistryTest {
 
-	@Before
-	public void initRegistry() {
-		ConfigurationRegistry.init(getClass().getResourceAsStream("ses_config_test.xml"), new EnvironmentMockup());
-	}
 	
-	
+	protected ConfigurationRegistry concurrentInstance;
+
 	@Test
-	public void testProperties() {
+	public void testProperties() throws InterruptedException {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				ConfigurationRegistry inst = ConfigurationRegistry.getInstance();
+				concurrentInstance = inst;
+			}
+		}).start();
+		
+		Thread.sleep(500);
+		
+		ConfigurationRegistry.init(getClass().getResourceAsStream("ses_config_test.xml"), new EnvironmentMockup());
+		
 		ConfigurationRegistry conf = ConfigurationRegistry.getInstance();
 		Assert.assertNull(conf.getPropertyForKey("testttt"));
 		Assert.assertTrue(conf.getPropertyForKey(ConfigurationRegistry.TIME_TO_WAKEUP).equals("1000"));
@@ -100,6 +108,12 @@ public class ConfigurationRegistryTest {
 		
 		conf.setFilterEngine(fe);
 		Assert.assertTrue(conf.getFilterEngine().equals(fe));
+		
+		Thread.sleep(200);
+		
+		Assert.assertNotNull(concurrentInstance);
+		
+		conf.waitForAllPersistentPublishers();
 	}
 	
 }

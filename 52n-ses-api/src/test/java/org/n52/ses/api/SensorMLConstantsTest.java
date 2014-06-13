@@ -26,32 +26,16 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details.
  */
-package org.n52.ses.util.test;
+package org.n52.ses.api;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import org.junit.Assert;
 import org.junit.Test;
-import org.n52.ses.util.common.SESProperties;
+import org.n52.ses.api.common.SensorMLConstants;
 
-public class ConfigurationParsingTest {
+public class SensorMLConstantsTest {
 
 	@Test
-	public void testConfigParsingAndWriting() throws IOException {
-		SESProperties props = new SESProperties();
-		props.load(getClass().getResourceAsStream("ses_config_test.xml"));
-		Assert.assertTrue("No parsers found", props.getRegisteredParsers() != null && props.getRegisteredParsers().size() > 0);
-		
-		props.setProperty("testWriter", "works");
-		
-		File tmp = File.createTempFile("config", ".tmp");
-		tmp.deleteOnExit();
-		FileWriter fw = new FileWriter(tmp);
-		
-		props.store(fw, null);
-		Assert.assertTrue("Could not write Configuration!", tmp.exists() && tmp.length() >= 0);
+	public void testParameterInit() {
+		SensorMLConstants.SYSTEM.toString();
 	}
 	
 }

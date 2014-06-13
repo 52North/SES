@@ -41,62 +41,62 @@ public interface WsbrConstants {
 	/**
 	 * URI of the namespace
 	 */
-	public static final String NAMESPACE_URI = "http://docs.oasis-open.org/wsn/br-2";
+	String NAMESPACE_URI = "http://docs.oasis-open.org/wsn/br-2";
 
 	/**
 	 * standard namespace prefix
 	 */
-	public static final String PREFIX = "wsnt";
+	String PREFIX = "wsnt";
 
 	/**
 	 * QName for the CreationTime
 	 */
-	public static final QName CREATION_QNAME = new QName(NAMESPACE_URI, "CreationTime", PREFIX);
+	QName CREATION_QNAME = new QName(NAMESPACE_URI, "CreationTime", PREFIX);
 
-	//public static final QName CURRENT_TIME_QNAME = new QName(NAMESPACE_URI, "CurrentTime", PREFIX);
+	//QName CURRENT_TIME_QNAME = new QName(NAMESPACE_URI, "CurrentTime", PREFIX);
 
 	/**
 	 * URI for the publisher reference
 	 */
-	public static final String PUBLISHER_REFERENCE_URI = NAMESPACE_URI+"/PublisherReference";
+	String PUBLISHER_REFERENCE_URI = NAMESPACE_URI+"/PublisherReference";
 	
 	/**
 	 * QName of the publisher reference
 	 */
-	public static final QName PUBLISHER_REFERENCE_QNAME = new QName(NAMESPACE_URI, "PublisherReference", PREFIX);
+	QName PUBLISHER_REFERENCE_QNAME = new QName(NAMESPACE_URI, "PublisherReference", PREFIX);
 	
 	/**
 	 * Qname of the Demand element
 	 */
-	public static final QName DEMAND = new QName(NAMESPACE_URI, "Demand", PREFIX);
+	QName DEMAND = new QName(NAMESPACE_URI, "Demand", PREFIX);
 	
 	/**
 	 * QName of the topic
 	 */
-	public static final QName TOPIC = new QName(NAMESPACE_URI, "Topic", PREFIX);
+	QName TOPIC = new QName(NAMESPACE_URI, "Topic", PREFIX);
 
 	/**
 	 * QName of the register publisher
 	 */
-	public static final QName REGISTER_PUBLISHER = new QName(NAMESPACE_URI,"RegisterPublisher");
+	QName REGISTER_PUBLISHER = new QName(NAMESPACE_URI,"RegisterPublisher");
 	
 	/**
 	 * the register publisher URI
 	 */
-	public static final String REGISTER_PUBLISHER_URI = NAMESPACE_URI + "/RegisterPublisher";
+	String REGISTER_PUBLISHER_URI = NAMESPACE_URI + "/RegisterPublisher";
 
 	/**
 	 * the publisher endpoint URI
 	 */
-	public static final String PUBLISHER_ENDPOINT_URI = NAMESPACE_URI+"/PublisherEndpoint";
+	String PUBLISHER_ENDPOINT_URI = NAMESPACE_URI+"/PublisherEndpoint";
 	
 	/**
 	 * QName of the publisher registration reference
 	 */
-	public static final QName PUBLISHER_REGISTRATION_REFERENCE = new QName(NAMESPACE_URI,"PublisherRegistrationReference");
+	QName PUBLISHER_REGISTRATION_REFERENCE = new QName(NAMESPACE_URI,"PublisherRegistrationReference");
 	
 	/**
 	 * QName of the consumer reference
 	 */
-	public static final QName CONSUMER_REFERENCE_QNAME = new QName(NAMESPACE_URI,"ConsumerReference");
+	QName CONSUMER_REFERENCE_QNAME = new QName(NAMESPACE_URI,"ConsumerReference");
 }
