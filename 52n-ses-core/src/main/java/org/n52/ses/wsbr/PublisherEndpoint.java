@@ -366,7 +366,7 @@ public class PublisherEndpoint extends AbstractWsResourceCapability implements I
 	 * @param topic the topic
 	 */
 	public void setTopic(QName[] topic) {
-		this.topics = topic;
+		this.topics = Arrays.copyOf(topic, topic.length);
 	}
 
 	@Override
