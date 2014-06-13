@@ -408,11 +408,7 @@ public class ConfigurationRegistry {
 	 * @return the corresponding value
 	 */
 	public String getPropertyForKey(String key) {
-		if (this.parameters != null) {
-			return this.parameters.getProperty(key);
-		}
-		
-		return null;
+		return this.parameters.getProperty(key);
 	}
 	
 

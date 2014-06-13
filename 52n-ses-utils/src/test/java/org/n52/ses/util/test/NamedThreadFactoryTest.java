@@ -28,30 +28,21 @@
  */
 package org.n52.ses.util.test;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.junit.Assert;
 import org.junit.Test;
-import org.n52.ses.util.common.SESProperties;
+import org.n52.ses.util.common.NamedThreadFactory;
 
-public class ConfigurationParsingTest {
+public class NamedThreadFactoryTest {
 
 	@Test
-	public void testConfigParsingAndWriting() throws IOException {
-		SESProperties props = new SESProperties();
-		props.load(getClass().getResourceAsStream("ses_config_test.xml"));
-		Assert.assertTrue("No parsers found", props.getRegisteredParsers() != null && props.getRegisteredParsers().size() > 0);
+	public void testInstantiation() {
+		NamedThreadFactory tf = new NamedThreadFactory("myfac");
+		Thread thread = tf.newThread(null);
 		
-		props.setProperty("testWriter", "works");
+		Assert.assertTrue(thread.getPriority() == Thread.NORM_PRIORITY);
 		
-		File tmp = File.createTempFile("config", ".tmp");
-		tmp.deleteOnExit();
-		FileWriter fw = new FileWriter(tmp);
+		Assert.assertTrue(thread.isDaemon() == false);
 		
-		props.store(fw, null);
-		Assert.assertTrue("Could not write Configuration!", tmp.exists() && tmp.length() >= 0);
+		Assert.assertTrue(thread.getName().startsWith("myfac"));
 	}
-	
 }

@@ -28,8 +28,10 @@
  */
 package org.n52.ses.util.http;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.apache.http.HttpHost;
@@ -39,6 +41,7 @@ import org.apache.http.entity.ContentType;
 import org.n52.oxf.util.web.BasicAuthenticationHttpClient;
 import org.n52.oxf.util.web.GzipEnabledHttpClient;
 import org.n52.oxf.util.web.HttpClient;
+import org.n52.oxf.util.web.HttpClientException;
 import org.n52.oxf.util.web.PoolingConnectionManagerHttpClient;
 import org.n52.oxf.util.web.PreemptiveBasicAuthenticationHttpClient;
 import org.n52.ses.util.common.ConfigurationRegistry;
@@ -55,7 +58,7 @@ public class SESHttpClient {
 	}
 
 
-	public SESHttpResponse sendPost(URL destination, String content, ContentType contentType) throws Exception {
+	public SESHttpResponse sendPost(URL destination, String content, ContentType contentType) throws URISyntaxException, HttpClientException, IllegalStateException, IOException {
 		BasicAuthenticationHttpClient httpClient = checkSetup();
 		
 		if (this.authenticator != null) {
@@ -131,10 +134,6 @@ public class SESHttpClient {
 			return contentType;
 		}
 
-	}
-
-	public void initialize() {
-		checkSetup();		
 	}
 
 }
