@@ -28,27 +28,27 @@
  */
 package org.n52.ses.api.common;
 
-public class GlobalConstants {
+public interface GlobalConstants {
 	
 	/**
 	 *  the global Port Type 
 	 */
-	public static final String NOTIFICATION_PRODUCER_CONTEXT_PATH = "Broker";
+	String NOTIFICATION_PRODUCER_CONTEXT_PATH = "Broker";
 	
 	/**
 	 *  the global port type for subscription managers
 	 */
-	public static final String SUBSCRIPTION_MANAGER_CONTEXT_PATH = "SubscriptionManager";
+	String SUBSCRIPTION_MANAGER_CONTEXT_PATH = "SubscriptionManager";
 
 	/**
 	 * the global port type for register publisher managers
 	 */
-	public static final String PUBLISHER_REGISTRATION_MANAGER_CONTEXT_PATH = "PublisherRegistrationManager";
+	String PUBLISHER_REGISTRATION_MANAGER_CONTEXT_PATH = "PublisherRegistrationManager";
 	
 	/**
 	 * gloabel temporal interval separator
 	 */
-	public static final String TEMPORAL_INTERVAL_SEPARATOR = "until";
+	String TEMPORAL_INTERVAL_SEPARATOR = "until";
 
 
 }

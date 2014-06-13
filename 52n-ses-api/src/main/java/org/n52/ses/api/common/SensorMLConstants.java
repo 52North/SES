@@ -43,53 +43,53 @@ public interface SensorMLConstants {
 	/**
 	 * namespace for SensorML 1.0.1
 	 */
-	public static final String NAMESPACE = "http://www.opengis.net/sensorML/1.0.1";
+	String NAMESPACE = "http://www.opengis.net/sensorML/1.0.1";
 	
 	/**
 	 * OName of the SensorML root element
 	 */
-	public static final QName SENSORML = new QName(NAMESPACE,"SensorML");
+	QName SENSORML = new QName(NAMESPACE,"SensorML");
 	
 	/**
 	 * QName of the SensorML member element
 	 */
-	public static final QName MEMBER = new QName(NAMESPACE,"member");
+	QName MEMBER = new QName(NAMESPACE,"member");
 	
 	/**
 	 * QName of the SensorML System element
 	 */
-	public static final QName SYSTEM = new QName(NAMESPACE,"System");
+	QName SYSTEM = new QName(NAMESPACE,"System");
 	
 	/**
 	 * QName of the SensorML identification element
 	 */
-	public static final QName IDENTIFICATION = new QName(NAMESPACE,"identification");
+	QName IDENTIFICATION = new QName(NAMESPACE,"identification");
 	
 	/**
 	 * QName of the SensorML Term element
 	 */
-	public static final QName TERM = new QName(NAMESPACE,"Term");
+	QName TERM = new QName(NAMESPACE,"Term");
 	
 	/**
 	 * QName of the SensorML value element
 	 */
-	public static final QName VALUE = new QName(NAMESPACE,"value");
+	QName VALUE = new QName(NAMESPACE,"value");
 	
 	/**
 	 * URN for unique sensor ID attributes
 	 */
-	public static final String SENSOR_ID_ATTRIBUTE = "urn:ogc:def:identifier:OGC:1.0:uniqueID";
+	String SENSOR_ID_ATTRIBUTE = "urn:ogc:def:identifier:OGC:1.0:uniqueID";
 	
 	//TODO: workaround. should be done with RegEx
 	/**
 	 * different representations of the unique sensor ID URN
 	 */
-	public static final String[] SENSOR_ID_UNIQUEIDS_ARRAY = {"urn:ogc:def:identifier:OGC:1.0:uniqueID",
+	String[] SENSOR_ID_UNIQUEIDS_ARRAY = {"urn:ogc:def:identifier:OGC:1.0:uniqueID",
 		"urn:ogc:def:identifier:OGC:1.0.1:uniqueID", "urn:ogc:def:identifier:OGC:uniqueID", "urn:ogc:def:identifier:OGC::uniqueID"};
 	
 	/**
 	 * set including different representations of the unique sensor ID URN
 	 */
-	public static final Set<String> SENSOR_ID_UNIQUEIDS = 
+	Set<String> SENSOR_ID_UNIQUEIDS = 
 		new HashSet<String>(Arrays.asList(SENSOR_ID_UNIQUEIDS_ARRAY));
 }
