@@ -2,3 +2,5 @@ target
 .classpath
 .project
 .settings
+ses.logfile.name_IS_UNDEFINED*
+
