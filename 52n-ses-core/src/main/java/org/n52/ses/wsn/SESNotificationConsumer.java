@@ -29,6 +29,7 @@
 package org.n52.ses.wsn;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
@@ -61,7 +62,7 @@ public class SESNotificationConsumer extends SimpleNotificationConsumer implemen
 	
 	@Override
 	public void notify(NotificationMessage[] messages) {
-        NotifyThread thread = new NotifyThread(messages);
+        NotifyThread thread = new NotifyThread(Arrays.copyOf(messages, messages.length));
         
         //use executors instead of always creating a new Thread (muse default)
         executors.submit(thread);
@@ -108,7 +109,7 @@ public class SESNotificationConsumer extends SimpleNotificationConsumer implemen
             method = getClass().getMethod("notify", new Class[]{ NotificationMessage[].class });
         }
         
-        catch (Throwable error)
+        catch (Exception error)
         {
             throw new RuntimeException(error.getMessage(), error);
         }
@@ -149,7 +150,7 @@ public class SESNotificationConsumer extends SimpleNotificationConsumer implemen
                         listener.process(message);
                 }
                 
-                catch (Throwable error)
+                catch (Exception error)
                 {
                     LoggingUtils.logError(getLog(), error);
                 }
@@ -175,7 +176,7 @@ public class SESNotificationConsumer extends SimpleNotificationConsumer implemen
                     listener.process(message);
                 }
                 
-                catch (Throwable error)
+                catch (Exception error)
                 {
                     LoggingUtils.logError(getLog(), error);
                 }

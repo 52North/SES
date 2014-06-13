@@ -91,7 +91,7 @@ public class SESFilterCollection extends FilterCollection {
 	 * Adds a filter to this {@link SESFilterCollection}
 	 * 
 	 * @param filter a valid {@link Filter}
-	 * @throws Throwable if more than one {@link IConstraintFilter} is added.
+	 * @throws RuntimeException if more than one {@link IConstraintFilter} is added.
 	 */
 	public void addFilter(Filter filter) {
 		if (filter instanceof IConstraintFilter && this.constraintFilter == null) {

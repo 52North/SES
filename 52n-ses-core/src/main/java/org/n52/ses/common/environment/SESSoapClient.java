@@ -114,7 +114,7 @@ public class SESSoapClient extends SimpleSoapClient {
 				return new Element[0];
 			}
 		}
-		catch (Throwable error) {
+		catch (Exception error) {
 			SoapFault soapFault = new SoapFault(error.getMessage(), error);
 			return new Element[]{ soapFault.toXML() };
 		}

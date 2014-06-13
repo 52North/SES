@@ -77,7 +77,7 @@ public class XMLHelper {
 						
 			return node;
 		}
-		catch (Throwable t) {
+		catch (Exception t) {
 			logger.warn(t.getMessage());
 		}
 		
