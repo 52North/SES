@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import com.espertech.esper.client.EventBean;
 
-public class RemoveViewCountCustomGuard implements CustomStatementEvent {
+public class RemoveViewCountCustomEvent implements CustomStatementEvent {
 	
 	private static final String EML_NAMESPACE = "http://www.opengis.net/eml/0.0.1";
 
@@ -45,7 +45,7 @@ public class RemoveViewCountCustomGuard implements CustomStatementEvent {
 			EML_NAMESPACE + "'; declare namespace fes='" +
 			FES_NAMESPACE + "'; .//eml:SimplePattern/eml:Guard/fes:Filter/fes:PropertyIsEqualTo/fes:ValueReference[text()='VIEW_COUNT']";
 	
-	private static final Logger logger = LoggerFactory.getLogger(RemoveViewCountCustomGuard.class);
+	private static final Logger logger = LoggerFactory.getLogger(RemoveViewCountCustomEvent.class);
 
 	@Override
 	public void eventFired(EventBean[] newEvents, ISubscriptionManager subMgr) {
