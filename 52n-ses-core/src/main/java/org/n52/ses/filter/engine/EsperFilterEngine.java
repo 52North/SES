@@ -93,6 +93,11 @@ public class EsperFilterEngine implements IFilterEngine, IPollListener {
 	private boolean performanceTesting = false;
 	private boolean testingSimulateLatency = true;
 	private boolean testingThrowRandomExceptions = false;
+	private static List<String> blacklistedStreamNames = new ArrayList<String>();
+	
+	static {
+		blacklistedStreamNames.add("BAW_META");
+	}
 
 	/**
 	 * 
@@ -386,7 +391,9 @@ public class EsperFilterEngine implements IFilterEngine, IPollListener {
 				if (!streamName.equals("") && !streamName.equals(val.getInputName())) {
 					logger.warn("Multiple external input streams for one EML document! Currently only one external input stream per subscription supported. This could lead to dismissing of incoming data.");
 				}
-				streamName = val.getInputName();
+				if (!blacklistedStreamNames.contains(val.getInputName())) {
+					streamName = val.getInputName();
+				}
 			}
 		}
 

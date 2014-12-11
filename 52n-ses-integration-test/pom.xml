@@ -162,6 +162,9 @@
 						</goals>
 						<configuration>
 							<skip>false</skip>
+<!-- 							<includes> -->
+<!-- 								<include>**/*/OvershootUndershootSubscriptionIT.java</include> -->
+<!-- 							</includes> -->
 						</configuration>
 					</execution>
 					<execution>
