@@ -1107,16 +1107,16 @@ public class EsperController implements ILogicController {
 
 	@Override
 	public void pauseAllStatements() {
-		for (EPStatement eps : this.epStatements.values()) {
-			eps.stop();
+		for (StatementListener eps : this.listeners.values()) {
+			eps.pause();
 		}
 	}
 
 
 	@Override
 	public void resumeAllStatements() {
-		for (EPStatement eps : this.epStatements.values()) {
-			eps.start();
+		for (StatementListener eps : this.listeners.values()) {
+			eps.resume();
 		}		
 	}
 }
