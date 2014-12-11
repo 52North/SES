@@ -31,6 +31,8 @@ package org.n52.ses.eml.v001.util;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.n52.ses.api.common.FreeResourceListener;
+import org.n52.ses.util.common.ConfigurationRegistry;
 import org.n52.ses.util.concurrent.NamedThreadFactory;
 
 /**
@@ -40,7 +42,7 @@ import org.n52.ses.util.concurrent.NamedThreadFactory;
  * @author Thomas Everding
  *
  */
-public class ThreadPool {
+public class ThreadPool implements FreeResourceListener {
 	
 	private static ThreadPool instance = null;
 	
@@ -53,6 +55,7 @@ public class ThreadPool {
 	 */
 	private ThreadPool() {
 		this.executor = Executors.newSingleThreadExecutor(new NamedThreadFactory("EML-UpdateHandlerPool"));
+		ConfigurationRegistry.getInstance().registerFreeResourceListener(this);
 	}
 	
 	
@@ -77,5 +80,15 @@ public class ThreadPool {
 	 */
 	public synchronized void execute(Runnable runnable) {
 		this.executor.submit(runnable);
+	}
+	
+	public void shutdown () {
+		this.executor.shutdown();
+	}
+
+
+	@Override
+	public void freeResources() {
+		shutdown();
 	}
 }
