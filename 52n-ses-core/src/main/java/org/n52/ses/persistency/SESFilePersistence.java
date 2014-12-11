@@ -446,12 +446,27 @@ public class SESFilePersistence extends AbstractFilePersistence implements Route
         
         Map<?, ?> fileNumbersByEPR = (Map<?, ?>) getFileNumberTables().get(contextPath);
         Integer fileNumber = (Integer) fileNumbersByEPR.get(epr);
+        
+        if (fileNumber == null) {
+        	return null;
+        }
+        
         FileNumberFilter filter = new FileNumberFilter(fileNumber);
         
         File resourceTypeDir = getResourceTypeDirectory(contextPath);
         File[] results = resourceTypeDir.listFiles(filter);
         
 		return (results == null || results.length == 0) ? null : results[0];
+	}
+	
+	public String getFileName(EndpointReference endpointReference) {
+		File f = findResourceFile(endpointReference);
+		
+		return f.getName();
+	}
+	
+	public File getBasePersistenceDirectory() {
+		return getPersistenceDirectory();
 	}
 
     /**
@@ -473,5 +488,6 @@ public class SESFilePersistence extends AbstractFilePersistence implements Route
             return file.getName().indexOf("-" + _fileNumber + ".xml") >= 0;
         }
     }
+
 
 }

@@ -48,6 +48,7 @@ import org.n52.ses.api.IUnitConverter;
 import org.n52.ses.api.eml.ILogicController;
 import org.n52.ses.api.eml.IPatternSimple;
 import org.n52.ses.api.event.MapEvent;
+import org.n52.ses.api.event.PersistedEvent;
 import org.n52.ses.api.ws.IConstraintFilter;
 import org.n52.ses.api.ws.ISubscriptionManager;
 import org.n52.ses.api.ws.SESConstraintFilter;
@@ -67,6 +68,8 @@ import org.n52.ses.wsn.SESSubscriptionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
+
+import com.espertech.esper.event.EventAdapterException;
 
 
 /**
@@ -331,6 +334,7 @@ public class EsperFilterEngine implements IFilterEngine, IPollListener {
 
 		if (subMgr instanceof SESSubscriptionManager) {
 			sesSub = (SESSubscriptionManager) subMgr;
+			sesSub.initializeStreamPersistence();
 		} else {
 			throw new Exception("SESSubscriptionManager needed for registering a Filter.");
 		}
@@ -396,9 +400,29 @@ public class EsperFilterEngine implements IFilterEngine, IPollListener {
 
 		logger.info("Registering EML Controller for external input stream '"+ streamName +"'");
 		this.esperControllers.put(controller, streamName);
+		
+		if (ism.isStreamPersistenceEnabled()) {
+			reinsertPersistedEvents(controller, ism);
+		}
 
 	}
 
+	private void reinsertPersistedEvents(ILogicController controller,
+			ISubscriptionManager ism) {
+		controller.pauseAllStatements();
+		
+		for (PersistedEvent me : ism.getPersistedEvents()) {
+			logger.info("Re-insert to stream '"+me.getStreamName()+"': "+me.getEvent());
+			try {
+				controller.sendEvent(me.getStreamName(), me.getEvent(), false);
+			}
+			catch (EventAdapterException e) {
+				logger.info("Re-insertion skipped, a stream might have been unregistered meanwhile: " + e.getMessage());
+			}
+		}
+		
+		controller.resumeAllStatements();
+	}
 
 
 	/* (non-Javadoc)

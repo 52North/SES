@@ -23,10 +23,13 @@
  */
 package org.n52.ses.api.ws;
 
+import java.util.List;
+
 import org.apache.muse.ws.addressing.EndpointReference;
 import org.apache.muse.ws.notification.Filter;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.ses.api.event.MapEvent;
+import org.n52.ses.api.event.PersistedEvent;
 
 public interface ISubscriptionManager {
 
@@ -41,5 +44,13 @@ public interface ISubscriptionManager {
 	void reRegister();
 	
 	EndpointReference getEndpointReference();
+
+	boolean isStreamPersistenceEnabled();
+
+	List<PersistedEvent> getPersistedEvents();
+
+	void persistEvent(MapEvent event, String streamName);
+
+	String getUniqueID();
 
 }

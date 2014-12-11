@@ -49,13 +49,24 @@ public interface ILogicController {
 	void initialize(IEML eml, IUnitConverter unitConverter) throws Exception;
 
 	/**
-	 * send a new event to the engine
+	 * send a new event to the engine. an implementation shall
+	 * delegate to {@link #sendEvent(String, MapEvent, boolean)}
+	 * with persist=true.
 	 * 
 	 * @param inputName the name of the event type
 	 * @param event the new event
 	 */
 	void sendEvent(String inputName, MapEvent event);
 
+	/**
+	 * send a new event to the engine
+	 * 
+	 * @param inputName the name of the event type
+	 * @param event the new event
+	 * @param persist if the event should be persisted (for re-insert on restart of the service)
+	 */
+	void sendEvent(String inputName, MapEvent event, boolean persist);
+	
 	/**
 	 * registers a new event type
 	 * 
@@ -102,4 +113,8 @@ public interface ILogicController {
 	ISubscriptionManager getSubMgr();
 
 	void removeFromEngine();
+
+	void pauseAllStatements();
+
+	void resumeAllStatements();
 }
