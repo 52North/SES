@@ -567,5 +567,9 @@ public class ConfigurationRegistry {
 		return this.parameters.getRegisteredParsers();
 	}
 
+	public static boolean isAvailable() {
+		return _instance != null;
+	}
+
 
 }

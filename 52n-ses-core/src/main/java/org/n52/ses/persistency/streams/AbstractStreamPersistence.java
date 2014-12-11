@@ -47,7 +47,9 @@ public abstract class AbstractStreamPersistence implements FreeResourceListener 
 		 */
 		for (AbstractStreamPersistence abstractStreamPersistence : asps) {
 			abstractStreamPersistence.initialize(subMgr, baseLocation);
-			ConfigurationRegistry.getInstance().registerFreeResourceListener(abstractStreamPersistence);
+			if (ConfigurationRegistry.isAvailable()) {
+				ConfigurationRegistry.getInstance().registerFreeResourceListener(abstractStreamPersistence);
+			}
 			return abstractStreamPersistence;
 		}
 		
