@@ -27,11 +27,13 @@ import java.io.File;
 import java.util.List;
 import java.util.ServiceLoader;
 
+import org.n52.ses.api.common.FreeResourceListener;
 import org.n52.ses.api.event.MapEvent;
 import org.n52.ses.api.event.PersistedEvent;
 import org.n52.ses.api.ws.ISubscriptionManager;
+import org.n52.ses.util.common.ConfigurationRegistry;
 
-public abstract class AbstractStreamPersistence {
+public abstract class AbstractStreamPersistence implements FreeResourceListener {
 
 	public static AbstractStreamPersistence newInstance(ISubscriptionManager subMgr, File baseLocation) throws Exception {
 		ServiceLoader<AbstractStreamPersistence> asps = ServiceLoader.load(AbstractStreamPersistence.class);
@@ -45,6 +47,7 @@ public abstract class AbstractStreamPersistence {
 		 */
 		for (AbstractStreamPersistence abstractStreamPersistence : asps) {
 			abstractStreamPersistence.initialize(subMgr, baseLocation);
+			ConfigurationRegistry.getInstance().registerFreeResourceListener(abstractStreamPersistence);
 			return abstractStreamPersistence;
 		}
 		

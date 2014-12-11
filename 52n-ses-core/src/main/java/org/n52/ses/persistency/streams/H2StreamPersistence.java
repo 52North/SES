@@ -197,6 +197,10 @@ public class H2StreamPersistence extends AbstractStreamPersistence {
 	public void shutdown() throws Exception {
 		if (this.connection != null) {
 			this.connection.close();
+			logger.info("Connection closed.");
+		}
+		else {
+			logger.info("Connection was already null.");
 		}
 	}
 	
@@ -215,6 +219,15 @@ public class H2StreamPersistence extends AbstractStreamPersistence {
 	@Override
 	public int getMaximumEventCount() {
 		return MAX_COUNT;
+	}
+
+	@Override
+	public void freeResources() {
+		try {
+			shutdown();
+		} catch (Exception e) {
+			logger.warn("error while freeing resources!", e);
+		}
 	}
 	
 }

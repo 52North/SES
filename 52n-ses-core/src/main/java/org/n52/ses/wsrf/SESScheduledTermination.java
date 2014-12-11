@@ -101,6 +101,7 @@ public class SESScheduledTermination extends AbstractWsResourceCapability implem
 			this.scheduledTerminations = new HashMap<ScheduledTermination, Date>();
 			Thread t = new Thread(this);
 			t.setName("SES-ScheduledTermination-Worker-Thread");
+			t.setDaemon(true);
 			t.start();
 			ConfigurationRegistry.getInstance().registerFreeResourceListener(this);
 		}
