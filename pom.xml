@@ -9,7 +9,7 @@
 	<groupId>org.n52.sensorweb.ses</groupId>
 	<artifactId>52n-ses</artifactId>
 	<packaging>pom</packaging>
-	<version>1.3.0-SNAPSHOT</version>
+	<version>1.2.1</version>
 
 	<name>${targetPublicName}</name>
 	<description>52°North Sensor Event Service - for details see
@@ -49,7 +49,7 @@
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 		<buildDate>${maven.build.timestamp}</buildDate>
 		<svnRevision>${buildNumber}</svnRevision>
-		<oxf.version>2.0.0-alpha.4-SNAPSHOT</oxf.version>
+		<oxf.version>2.0.0-alpha.3</oxf.version>
 		<n52.xml.version>1.1.5</n52.xml.version>
 	</properties>
 
@@ -261,6 +261,12 @@
 				<groupId>net.sf.saxon</groupId>
 				<artifactId>saxon</artifactId>
 				<version>8.7</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>1.4.182</version>
 			</dependency>
 
 			<dependency>
@@ -496,6 +502,22 @@
 				<groupId>org.n52.wps</groupId>
 				<artifactId>52n-wps-xml</artifactId>
 				<version>1.0.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>1.9.5</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-core</artifactId>
+				<version>1.3</version>
+			</dependency>
+			<dependency>
+				<groupId>xmlunit</groupId>
+				<artifactId>xmlunit</artifactId>
+				<version>1.5</version>
 			</dependency>
 
 		</dependencies>

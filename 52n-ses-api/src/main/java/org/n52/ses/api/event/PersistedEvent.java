@@ -21,36 +21,26 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.ses.api.ws;
+package org.n52.ses.api.event;
 
-import java.util.List;
-
-import org.apache.muse.ws.addressing.EndpointReference;
-import org.apache.muse.ws.notification.Filter;
-import org.apache.xmlbeans.XmlObject;
 import org.n52.ses.api.event.MapEvent;
-import org.n52.ses.api.event.PersistedEvent;
 
-public interface ISubscriptionManager {
-
-	void publish(INotificationMessage origMessage);
-
-	XmlObject generateSESEvent(MapEvent resultEvent);
-
-	boolean sendSESNotificationMessge(XmlObject eventDoc);
-
-	Filter getFilter();
-
-	void reRegister();
+public class PersistedEvent {
 	
-	EndpointReference getEndpointReference();
+	private String streamName;
+	private MapEvent event;
+	
+	public PersistedEvent(String streamName, MapEvent event) {
+		this.streamName = streamName;
+		this.event = event;
+	}
+	
+	public String getStreamName() {
+		return streamName;
+	}
 
-	boolean isStreamPersistenceEnabled();
-
-	List<PersistedEvent> getPersistedEvents();
-
-	void persistEvent(MapEvent event, String streamName);
-
-	String getUniqueID();
+	public MapEvent getEvent() {
+		return event;
+	}
 
 }

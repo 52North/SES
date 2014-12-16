@@ -113,8 +113,8 @@
 		<ComplexPattern patternID="wasserstand_initial_overshoot_count">
 			<SelectFunctions>
 				<SelectFunction createCausality="true"
-					newEventName="Wasserstand_Opladen_u55cm_overshoot_notification"
-					outputName="Wasserstand_Opladen_u55cm_enter">
+					newEventName="wasserstand_initial_overshoot_count_notification"
+					outputName="wasserstand_initial_overshoot_count_enter">
 					<NotifyOnSelect>
 						<Message>Einstiegsklausel</Message>
 					</NotifyOnSelect>

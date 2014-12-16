@@ -28,6 +28,12 @@
 
 package org.n52.ses.api.event;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +42,8 @@ import java.util.Vector;
 
 import org.n52.ses.api.common.GlobalConstants;
 import org.n52.ses.api.ws.INotificationMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -44,9 +52,16 @@ import org.n52.ses.api.ws.INotificationMessage;
  * @author Thomas Everding, Matthes Rieke
  * 
  */
-public class MapEvent implements Map<String, Object> {
+public class MapEvent implements Map<String, Object>, Serializable {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -887256612214404797L;
+
+	private static final Logger logger = LoggerFactory.getLogger(MapEvent.class);
+	
 	/*
 	 * Logger instance for this class
 	 */
@@ -500,6 +515,25 @@ public class MapEvent implements Map<String, Object> {
 		}
 		
 		return sb.toString();
+	}
+	
+	public byte[] serialize() throws IOException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(bos);
+		oos.writeObject(this);
+		return bos.toByteArray();
+	}
+	
+	public static MapEvent deserialize(InputStream is) throws IOException {
+		ObjectInputStream ois = new ObjectInputStream(is);
+		Object o;
+		try {
+			o = ois.readObject();
+			return (MapEvent) o;
+		} catch (ClassNotFoundException e) {
+			logger.warn("Could not deserialize MapEvent object", e);
+			throw new IOException(e);
+		}
 	}
 
 }

@@ -109,6 +109,7 @@ public class SESProperties extends Properties {
 		this.defaults.setProperty(ConfigurationRegistry.MINIMUM_GZIP_SIZE, "50000");
 		this.defaults.setProperty(ConfigurationRegistry.BASIC_AUTH_USER, "");
 		this.defaults.setProperty(ConfigurationRegistry.BASIC_AUTH_PASSWORD, "");
+		this.defaults.setProperty(ConfigurationRegistry.MAX_PERSISTED_EVENTS, "10");
 		this.defaults.setProperty(ICreateBuffer.class.getName(), PostGisBuffer.class.getName());
 	}
 

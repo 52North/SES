@@ -48,6 +48,7 @@ import org.n52.ses.api.eml.IPatternSimple;
 import org.n52.ses.api.event.DataTypesMap;
 import org.n52.ses.api.event.MapEvent;
 import org.n52.ses.api.ws.ISubscriptionManager;
+import org.n52.ses.eml.v002.filterlogic.esper.StatementListener;
 import org.n52.ses.eml.v002.Constants;
 import org.n52.ses.eml.v002.filterlogic.EMLParser;
 import org.n52.ses.eml.v002.pattern.APattern;
@@ -597,6 +598,10 @@ public class EsperController implements ILogicController {
 	 */
 	@Override
 	public synchronized void sendEvent(String name, MapEvent event) {
+		sendEvent(name, event, true);
+	}
+	
+	public synchronized void sendEvent(String name, MapEvent event, boolean persist) {
 		
 //		this.logger.info("event is " + ((event != null) ? "not " : "") + "null!");
 		
@@ -614,6 +619,10 @@ public class EsperController implements ILogicController {
 		EsperController.logger.debug(sb.toString());
 		
 		this.epService.getEPRuntime().sendEvent(event, name);
+		
+		if (persist && this.subMgr.isStreamPersistenceEnabled()) {
+			this.subMgr.persistEvent(event, name);
+		}
 	}
 	
 
@@ -1108,7 +1117,21 @@ public class EsperController implements ILogicController {
 		
 		return simplePatterns;
 	}
+	
+	@Override
+	public void pauseAllStatements() {
+//		for (StatementListener eps : this.listeners.values()) {
+//			eps.pause();
+//		}
+	}
 
+
+	@Override
+	public void resumeAllStatements() {
+//		for (StatementListener eps : this.listeners.values()) {
+//			eps.resume();
+//		}		
+	}
 	
 	/**
 	 * replaces phenomenon Strings containing ":" to "__" and

@@ -23,15 +23,17 @@
  */
 package org.n52.ses.wsn;
 
-
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -64,8 +66,10 @@ import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.n52.ses.api.IClassProvider;
 import org.n52.ses.api.IFilterEngine;
+import org.n52.ses.api.ISESFilePersistence;
 import org.n52.ses.api.common.GlobalConstants;
 import org.n52.ses.api.event.MapEvent;
+import org.n52.ses.api.event.PersistedEvent;
 import org.n52.ses.api.ws.INotificationMessage;
 import org.n52.ses.api.ws.ISubscriptionManager;
 import org.n52.ses.api.ws.SESFilterCollection;
@@ -77,6 +81,7 @@ import org.n52.ses.filter.SESConstraintFilterHandler;
 import org.n52.ses.filter.dialects.SelectiveMetadataFilter;
 import org.n52.ses.filter.epl.EPLFilterHandler;
 import org.n52.ses.persistency.SESFilePersistence;
+import org.n52.ses.persistency.streams.AbstractStreamPersistence;
 import org.n52.ses.storedfilters.StoredFilterHandler;
 import org.n52.ses.util.common.ConfigurationRegistry;
 import org.n52.ses.util.unitconversion.SESUnitConverter;
@@ -127,6 +132,8 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 	private Policy policy;
 
 	private List<MessageContentFiler> messageContentFilters = new ArrayList<MessageContentFiler>();
+
+	private AbstractStreamPersistence streamPersistence;
 
 
 	/**
@@ -399,7 +406,6 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 	}
 
 
-
 	@Override
 	public void setFilter(Filter filter) {
 		if (filter instanceof SESFilterCollection) {
@@ -520,7 +526,6 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 	}
 
 
-
 	@Override
 	public void reRegister() {
 
@@ -554,9 +559,16 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 		
 		this.disseminationMethod.shutdown();
 
+		if (this.streamPersistence != null) {
+			try {
+				this.streamPersistence.destroy();
+			} catch (Exception e) {
+				throw new SoapFault(e);
+			}
+		}
+		
 		super.prepareShutdown();
 	}
-
 
 
 	@Override
@@ -612,6 +624,63 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 	}
 
 
+
+	@Override
+	public boolean isStreamPersistenceEnabled() {
+		if (ConfigurationRegistry.isAvailable()) {
+			Integer max = ConfigurationRegistry.getInstance().getIntegerProperty(ConfigurationRegistry.MAX_PERSISTED_EVENTS);
+			if (max != null) {
+				return max.intValue() > 0;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public List<PersistedEvent> getPersistedEvents() {
+		if (streamPersistence == null) {
+			return Collections.emptyList();
+		}
+		return this.streamPersistence.getPersistedEvents();
+	}
+
+
+	@Override
+	public void persistEvent(MapEvent event, String streamName) {
+		if (this.streamPersistence != null) {
+			this.streamPersistence.persistEvent(event, streamName);
+		}
+	}
+
+
+
+	@Override
+	public String getUniqueID() {
+		ISESFilePersistence pers = ConfigurationRegistry.getInstance().getFilePersistence();
+		if (pers instanceof SESFilePersistence) {
+			SESFilePersistence sfp = (SESFilePersistence) pers;
+			return sfp.getFileName(this.getEndpointReference());
+		}
+		return UUID.randomUUID().toString();
+	}
+
+
+
+	public void initializeStreamPersistence() {
+		if (this.isStreamPersistenceEnabled()) {
+			try {
+				ISESFilePersistence pers = ConfigurationRegistry.getInstance().getFilePersistence();
+				File baseLocation = null;
+				if (pers instanceof SESFilePersistence) {
+					baseLocation = ((SESFilePersistence) pers).getBasePersistenceDirectory();
+				}
+				
+				this.streamPersistence = AbstractStreamPersistence.newInstance(this, baseLocation);
+			} catch (Exception e) {
+				logger.warn("Could not initialize stream persistence, it will not be available.", e);
+			}
+		}		
+	}
 
 
 }

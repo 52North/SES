@@ -538,6 +538,10 @@ public class EsperController implements ILogicController {
 	 */
 	@Override
 	public synchronized void sendEvent(String name, MapEvent event) {
+		sendEvent(name, event, true);
+	}
+	
+	public synchronized void sendEvent(String name, MapEvent event, boolean persist) {
 		
 //		this.logger.info("event is " + ((event != null) ? "not " : "") + "null!");
 		
@@ -556,8 +560,11 @@ public class EsperController implements ILogicController {
 			EsperController.logger.debug(sb.toString());	
 		}
 		
-		
 		this.epService.getEPRuntime().sendEvent(event, name);
+		
+		if (persist && this.subMgr.isStreamPersistenceEnabled()) {
+			this.subMgr.persistEvent(event, name);
+		}
 	}
 	
 
@@ -1095,5 +1102,21 @@ public class EsperController implements ILogicController {
 
 		}
 
+	}
+
+
+	@Override
+	public void pauseAllStatements() {
+		for (StatementListener eps : this.listeners.values()) {
+			eps.pause();
+		}
+	}
+
+
+	@Override
+	public void resumeAllStatements() {
+		for (StatementListener eps : this.listeners.values()) {
+			eps.resume();
+		}		
 	}
 }

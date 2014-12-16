@@ -33,6 +33,7 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.GZIPOutputStream;
 
@@ -83,9 +84,27 @@ public class SESMiniServlet extends MiniServlet {
 	private static final AtomicBoolean firstResponsePrint = new AtomicBoolean(true);
 
 	public SESMiniServlet() {
+		logger.info(readFileContents("/ses_version_info.txt"));
 		this.getRequestHandlers.add(new GetCapabilitiesHandler());
 		this.getRequestHandlers.add(new WSDLProvisionHandler());
 		this.getRequestHandlers.add(new XSDProvisionHandler());
+	}
+
+	private String readFileContents(String string) {
+		InputStream is = getClass().getResourceAsStream(string);
+		
+		if (is != null) {
+			Scanner sc = new Scanner(is);
+			StringBuilder sb = new StringBuilder();
+			while (sc.hasNext()) {
+				sb.append(sc.nextLine());
+				sb.append(System.getProperty("line.separator"));
+			}
+			sb.deleteCharAt(sb.length()-1);
+			sc.close();
+			return sb.toString();
+		}
+		return null;
 	}
 
 	@Override

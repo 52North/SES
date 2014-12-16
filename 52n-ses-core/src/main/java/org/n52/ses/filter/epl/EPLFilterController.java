@@ -140,12 +140,20 @@ public class EPLFilterController implements ILogicController {
 
 	@Override
 	public void sendEvent(String name, MapEvent event) {
+		sendEvent(name, event, true);
+	}
+	
+	public void sendEvent(String name, MapEvent event, boolean persist) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("posting new event (" + new Date().getTime() + "):");
 		sb.append("\n\tname:  " + name);
 		logger.debug(sb.toString());
 
 		this.epService.getEPRuntime().sendEvent(event, name);
+		
+		if (persist && subMgr.isStreamPersistenceEnabled()) {
+			subMgr.persistEvent(event, name);
+		}
 	}
 
 
@@ -241,6 +249,20 @@ public class EPLFilterController implements ILogicController {
 	
 	public static void main(String[] args) {
 		System.out.println(AbstractFeatureType.class.isAssignableFrom(SamplingPointType.class));
+	}
+
+	@Override
+	public void pauseAllStatements() {
+		for (EPStatement eps : this.epStatements.values()) {
+			eps.stop();
+		}
+	}
+
+	@Override
+	public void resumeAllStatements() {
+		for (EPStatement eps : this.epStatements.values()) {
+			eps.start();
+		}		
 	}
 
 }

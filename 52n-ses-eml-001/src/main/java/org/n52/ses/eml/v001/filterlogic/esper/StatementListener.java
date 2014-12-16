@@ -71,6 +71,8 @@ public class StatementListener implements UpdateListener{
 	
 	private int instanceNumber;
 
+	private boolean paused = false;
+
 	private static final Logger logger = LoggerFactory
 			.getLogger(StatementListener.class);
 
@@ -183,6 +185,10 @@ public class StatementListener implements UpdateListener{
 
 	@Override
 	public void update(EventBean[] newEvents, EventBean[] oldEvents) {
+		if (paused) {
+			return;
+		}
+		
 		/*
 		 * new matches for the pattern received
 		 * 
@@ -379,5 +385,13 @@ public class StatementListener implements UpdateListener{
 	 */
 	public int getInstanceNumber() {
 		return this.instanceNumber;
+	}
+
+	public void pause() {
+		this.paused = true;
+	}
+
+	public void resume() {
+		this.paused = false;
 	}
 }

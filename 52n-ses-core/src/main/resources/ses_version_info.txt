@@ -1,0 +1,2 @@
+${parent.name} - Version ${project.version} [hash: ${buildNumber}]
+${parent.description}

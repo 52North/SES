@@ -90,10 +90,14 @@ public abstract class AbstractSubscriptionWorkflow {
 			
 			adapter.doOperation(op, parameter);
 			
-			Thread.sleep(1000);
+			Thread.sleep(getSleepBetweenNotifications());
 		}
 	}
 	
+
+	protected long getSleepBetweenNotifications() {
+		return 1000;
+	}
 
 	protected void unsubscribe(Subscription subscription) throws OXFException, ExceptionReport, XmlException, IOException {
 		SESAdapter adapter = new SESAdapter("0.0.0");
