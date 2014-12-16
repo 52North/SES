@@ -262,6 +262,11 @@ public class ConfigurationRegistry {
 	 */
 	public static final String BASIC_AUTH_USER = "BASIC_AUTH_USER";
 	public static final String BASIC_AUTH_PASSWORD = "BASIC_AUTH_PASSWORD";
+	
+	/**
+	 * the number of persisted events. if > 0, persistence of events will be activated
+	 */
+	public static final String MAX_PERSISTED_EVENTS = "MAX_PERSISTED_EVENTS";
 
 	
 	private static ConfigurationRegistry _instance;
@@ -569,6 +574,21 @@ public class ConfigurationRegistry {
 
 	public static boolean isAvailable() {
 		return _instance != null;
+	}
+
+	/**
+	 * @param key the property key
+	 * @return the integer value or null if not a well-formed integer number
+	 */
+	public Integer getIntegerProperty(String key) {
+		String v = getPropertyForKey(key);
+		try {
+			return Integer.parseInt(v);
+		}
+		catch (NumberFormatException e) {
+			logger.warn("Could not parse integer property: "+v);
+		}
+		return null;
 	}
 
 

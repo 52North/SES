@@ -35,6 +35,8 @@ import org.n52.ses.util.common.ConfigurationRegistry;
 
 public abstract class AbstractStreamPersistence implements FreeResourceListener {
 
+	private static final int MAX_EVENTS_DEFAULT = 5;
+
 	public static AbstractStreamPersistence newInstance(ISubscriptionManager subMgr, File baseLocation) throws Exception {
 		ServiceLoader<AbstractStreamPersistence> asps = ServiceLoader.load(AbstractStreamPersistence.class);
 		
@@ -46,17 +48,24 @@ public abstract class AbstractStreamPersistence implements FreeResourceListener 
 		 * return the first available
 		 */
 		for (AbstractStreamPersistence abstractStreamPersistence : asps) {
-			abstractStreamPersistence.initialize(subMgr, baseLocation);
+			int maxEvents = MAX_EVENTS_DEFAULT;
 			if (ConfigurationRegistry.isAvailable()) {
 				ConfigurationRegistry.getInstance().registerFreeResourceListener(abstractStreamPersistence);
+				Integer confEvents = ConfigurationRegistry.getInstance().getIntegerProperty(ConfigurationRegistry.MAX_PERSISTED_EVENTS);
+				if (confEvents != null) {
+					maxEvents = confEvents.intValue();
+				}
 			}
+			
+			abstractStreamPersistence.initialize(subMgr, baseLocation, maxEvents);
+
 			return abstractStreamPersistence;
 		}
 		
 		return null;
 	}
 
-	protected abstract void initialize(ISubscriptionManager subMgr, File baseLocation) throws Exception;
+	protected abstract void initialize(ISubscriptionManager subMgr, File baseLocation, int maxEvents) throws Exception;
 	
 	/**
 	 * An implementation shall return the persisted events (count

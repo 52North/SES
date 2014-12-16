@@ -59,10 +59,12 @@ public class H2StreamPersistence extends AbstractStreamPersistence {
 	private static final String STREAM_NAME_COLUMN_TYPE = "VARCHAR(255)";
 	private static final String ID_COLUMN = "ID";
 
-	private static final int MAX_COUNT = 10;
+	private int maxEventCount = 10;
 
 	@Override
-	protected void initialize(ISubscriptionManager subMgr, File baseLocation) throws Exception {
+	protected void initialize(ISubscriptionManager subMgr, File baseLocation, int maxEvents) throws Exception {
+		this.maxEventCount = maxEvents;
+		
 		Class.forName("org.h2.Driver");
 		
 		String connString = "jdbc:h2:"+baseLocation.getAbsolutePath()+"/streamPersistence/"+subMgr.getUniqueID();
@@ -182,7 +184,7 @@ public class H2StreamPersistence extends AbstractStreamPersistence {
 		
 		if (rs.next()) {
 			int count = rs.getInt(1);
-			return count - MAX_COUNT;
+			return count - maxEventCount;
 		}
 		
 		return 0;
@@ -218,7 +220,7 @@ public class H2StreamPersistence extends AbstractStreamPersistence {
 	
 	@Override
 	public int getMaximumEventCount() {
-		return MAX_COUNT;
+		return maxEventCount;
 	}
 
 	@Override
