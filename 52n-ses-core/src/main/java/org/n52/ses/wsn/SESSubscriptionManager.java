@@ -627,8 +627,13 @@ public class SESSubscriptionManager extends SimpleSubscriptionManager implements
 
 	@Override
 	public boolean isStreamPersistenceEnabled() {
-		//TODO decide based on a config param?
-		return true;
+		if (ConfigurationRegistry.isAvailable()) {
+			Integer max = ConfigurationRegistry.getInstance().getIntegerProperty(ConfigurationRegistry.MAX_PERSISTED_EVENTS);
+			if (max != null) {
+				return max.intValue() > 0;
+			}
+		}
+		return false;
 	}
 
 	@Override
