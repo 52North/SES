@@ -92,7 +92,7 @@
 					</licenseMapping>
 					<generateChildNotices>false</generateChildNotices>
 				</configuration>
-				<executions>
+				<!--<executions>
 					<execution>
 						<id>check-licenses</id>
 						<phase>initialize</phase>
@@ -100,7 +100,7 @@
 							<goal>check</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions>-->
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
