@@ -1,0 +1,139 @@
+Copyright (C) 2008 - 2014 52°North Initiative for Geospatial Open Source
+Software GmbH
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License version 2 as published
+by the Free Software Foundation.
+
+If the program is linked with libraries which are licensed under one of
+the following licenses, the combination of the program with the linked
+library is not considered a "derivative work" of the program:
+
+      • Apache License, version 2.0
+      • Apache Software License, version 1.0
+      • GNU Lesser General Public License, version 3
+      • Mozilla Public License, versions 1.0, 1.1 and 2.0
+      • Common Development and Distribution License (CDDL), version 1.0
+
+Therefore the distribution of the program linked with libraries licensed
+under the aforementioned licenses, is permitted by the copyright holders
+if the distribution is compliant with both the GNU General Public
+License version 2 and the aforementioned licenses.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+Public License for more details.
+
+This project includes:
+  52n-ses-api under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52n-ses-bindings under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52n-ses-core under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52n-ses-eml-001 under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52n-ses-eml-002 under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52n-ses-io under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52n-ses-service-access under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52n-ses-tests under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52n-ses-utils under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52n-wps-xml under GNU General Public License (GPL), version 2
+  52North OxFramework Common under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52North OxFramework Xmlbeans Handling under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52North Sensor Event Service under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  52°North OXF Conversion module under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  AIXM 5.1 schemas (adjusted to support metadata by reference) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  amused - Deployment Engine and Core API under Apache License 2.0
+  amused - Mini Platform Deployment under Apache License 2.0
+  amused - Miscellaneous Utilities under Apache License 2.0
+  amused - QName for JDK 1.4.x under Apache License 2.0
+  amused - WS-Addressing 1.0 and SOAP 1.2 APIs under Apache License 2.0
+  amused - WS-Notification 1.3 API under Apache License 2.0
+  amused - WS-Notification 1.3 Default Implementation under Apache License 2.0
+  amused - WS-ResourceFramework 1.2 API under Apache License 2.0
+  amused - WS-ResourceFramework 1.2 Default Implementation under Apache License 2.0
+  amused - XML Utilities under Apache License 2.0
+  Antlr 3 Runtime under BSD License
+  AntLR Parser Generator under BSD License
+  ANTLR StringTemplate under BSD licence
+  Apache Log4j under The Apache Software License, Version 2.0
+  Code Generation Library under ASF 2.0
+  Commons Codec under The Apache Software License, Version 2.0
+  Commons IO under The Apache Software License, Version 2.0
+  Commons Lang under The Apache Software License, Version 2.0
+  Commons Logging under The Apache Software License, Version 2.0
+  Disruptor Framework under The Apache Software License, Version 2.0
+  Esper under GNU General Public License Version 2
+  Event Model schema version 0.2.0 under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  FindBugs-jsr305 under The Apache Software License, Version 2.0
+  GRDC schema binding under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
+  H2 Database Engine under MPL 2.0, and EPL 1.0
+  Hamcrest Core under New BSD License
+  HttpClient under Apache License
+  HttpCore under Apache License
+  isorelax under MIT license
+  jai_codec under Java Advanced Imaging Distribution License, http://download.java.net/media/jai/builds/release/1_1_3/LICENSE-jai.txt
+  Java Advanced Imaging under Java Advanced Imaging Distribution License, http://download.java.net/media/jai/builds/release/1_1_3/LICENSE-jai.txt
+  JCL 1.1.1 implemented over SLF4J under MIT License
+  jcommon under GNU Lesser General Public Licence
+  jfreechart under GNU Lesser General Public Licence
+  Joda time under Apache 2
+  JTS Topology Suite under Lesser General Public License (LGPL)
+  JUL to SLF4J bridge under MIT License
+  JUnit under Common Public License Version 1.0
+  Log4j Implemented Over SLF4J under Apache Software Licenses
+  Logback Classic Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
+  Logback Core Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
+  Mockito under The MIT License
+  OASIS WS-N specification schemas - including WS-BrokeredNotification (v1.3) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OASIS WS-Resources specification schemas v1.2 under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC Context schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC EML schema 0.0.1 (OGC Discussion Paper 08-132) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC EML schema 0.0.2 (OGC Discussion Paper 08-132) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC Filter schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC Filter schema (spec. v1.1.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC Filter schema (spec. v2.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC GML schema (spec. v3.1.1) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC GML schema (spec. v3.2.1) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC O&M schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC O&M schema (spec. v2.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC OWS schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC OWS schema (spec. v1.1.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC Sampling schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC Sampling schema (spec. v2.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC SensorML schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC SensorML schema (spec. v1.0.1) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC SES schema 0.3.0 (OGC Discussion Paper 08-133) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC SLD schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC SOS schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC SOS schema (spec. v2.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC SWECommon schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC SWECommon schema (spec. v1.0.1) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC SWECommon schema (spec. v2.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC SWES schema (spec. v2.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC WaterML schema (spec. v2.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC WFS schema (spec. v1.1.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OGC WFS schema (spec. v2.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OxF Features under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OxFramework Adapters API under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  OxFramework SES Adapter under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  PostgreSQL JDBC Driver under BSD License
+  Saxon-HE under Mozilla Public License Version 1.0
+  servlet-api under CDDL 1.1 or GPL2 w/ CPE
+  SES configuration schema bindings under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  SES custom EPL Filter schema bindings under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  SLF4J API Module under MIT License
+  StAX API under The Apache Software License, Version 2.0
+  swe-common-data-framework under Mozilla Public License version 1.1
+  vecmath under GNU General Public License (GPL), version 2, with the CLASSPATH exception
+  W3C SOAP specification recommondation (v1.2 part 1) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  W3C WS-Addressing specification schemas (v1.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  W3C xlink schema (spec. v1.1.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+  WSDL4J under CPL
+  xalan under The Apache Software License, Version 2.0
+  Xerces2 Java Parser under The Apache Software License, Version 2.0
+  xercesImpl under The Apache Software License, Version 2.0
+  xml-apis under The Apache Software License, Version 2.0
+  XmlBeans under The Apache Software License, Version 2.0
+  XmlBeansXPath under The Apache Software License, Version 2.0
+  XMLUnit for Java under BSD License
+
