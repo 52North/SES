@@ -156,7 +156,7 @@
 		<repository>
 			<id>n52-releases</id>
 			<name>52n Releases</name>
-			<url>http://52north.org/maven/repo/releases/</url>
+			<url>https://52north.org/maven/repo/releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -167,7 +167,7 @@
 		<repository>
 			<id>n52-snapshots</id>
 			<name>52n Snapshots</name>
-			<url>http://52north.org/maven/repo/snapshots/</url>
+			<url>https://52north.org/maven/repo/snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -184,7 +184,7 @@
 			</snapshots>
 			<id>opengeo</id>
 			<name>repository of opengeo</name>
-			<url>http://repo.opengeo.org/</url>
+			<url>https://repo.opengeo.org/</url>
 		</repository>
 	</repositories>
 
@@ -192,7 +192,7 @@
 		<pluginRepository>
 			<id>mc-release</id>
 			<name>Local Maven repository of releases</name>
-			<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+			<url>https://mc-repo.googlecode.com/svn/maven2/releases</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
@@ -203,7 +203,7 @@
 		<pluginRepository>
 			<id>n52-releases</id>
 			<name>52n Releases</name>
-			<url>http://52north.org/maven/repo/releases/</url>
+			<url>https://52north.org/maven/repo/releases/</url>
 		</pluginRepository>
 	</pluginRepositories>
 
