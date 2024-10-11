@@ -1,17 +1,15 @@
-# 52°North Sensor Event Service [![Build Status](https://travis-ci.org/52North/SES.png?branch=master)](https://travis-ci.org/52North/SES)
+# ARCHIVED
 
-The Sensor Event Service (SES) is used to provide a publish/subscribe
-based access to not only sensor measurements but several other data
-formats (e.g. aviation-specific data). It also provides methods to
-dynamically register new data publishers and send notifications to
-the service. The SES specification is currently available as an OGC
-discussion paper (OGC 08-133).
+This project is no longer maintained and will not receive any further updates. If you plan to continue using it, please be aware that future security issues will not be addressed.
+
+# 52°North Sensor Event Service
+
+The Sensor Event Service (SES) is used to provide a publish/subscribe based access to not only sensor measurements but several other data formats (e.g. aviation-specific data). It also provides methods to dynamically register new data publishers and send notifications to the service.
+The SES specification is currently available as an OGC discussion paper (OGC 08-133).
 
 ## Code Compilation
 
-This project is managed with Maven3. Simply run `mvn clean install`
-to create a deployable .WAR file. `mvn clean install -P integration-test`
-additionally enables integration tests.
+This project is managed with Maven3. Simply run `mvn clean install` to create a deployable .WAR file. `mvn clean install -P integration-test` additionally enables integration tests.
 
 ## Branches
 
@@ -20,11 +18,5 @@ Ongoing development is done in branch [develop](../../tree/develop) and dedicate
 
 ## Deployment Hints
 
-If you need UTF-8 capabilities (e.g. special characters in subscriptions
-and messages) you must ensure that the `file.encoding` JVM property is
-set to "UTF-8" within your servlet container. E.g. Tomcat accepts it to
-be set in the `CATALINA_OPTS` (-Dfile.encoding="UTF-8").
-
-## More Information
-
-[http://52north.org/ses](http://52north.org/ses)
+If you need UTF-8 capabilities (e.g. special characters in subscriptions and messages) you must ensure that the `file.encoding` JVM property is set to "UTF-8" within your servlet container.
+E.g. Tomcat accepts it to be set in the `CATALINA_OPTS` (-Dfile.encoding="UTF-8").
